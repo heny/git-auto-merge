@@ -1,0 +1,22 @@
+{
+  "name": "git-auto-merge",
+  "version": "0.0.1",
+  "description": "git auto push and merge",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/heny/git-auto-merge.git"
+  },
+  "keywords": [
+    "git"
+  ],
+  "author": "heny",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/heny/git-auto-merge/issues"
+  },
+  "homepage": "https://github.com/heny/git-auto-merge#readme"
+}
