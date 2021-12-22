@@ -1,0 +1,3 @@
+## DOCUMENTATION
+
+自动发布脚本
