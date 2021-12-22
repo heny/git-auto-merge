@@ -18,5 +18,8 @@
   "bugs": {
     "url": "https://github.com/heny/git-auto-merge/issues"
   },
-  "homepage": "https://github.com/heny/git-auto-merge#readme"
+  "homepage": "https://github.com/heny/git-auto-merge#readme",
+  "devDependencies": {
+    "shelljs": "^0.8.4"
+  }
 }
