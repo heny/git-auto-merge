@@ -1,2 +1,2 @@
-const pushCode = require('../lib/push');
-pushCode();
+const { pushHandle } = require('../lib/push');
+pushHandle();
