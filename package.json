@@ -1,11 +1,12 @@
 {
   "name": "git-auto-merge",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "git auto push and merge",
   "main": "lib/index.js",
   "bin": {
     "git-auto-merge": "./bin/git-auto-merge.js",
-    "git-auto-push": "./bin/git-auto-push.js"
+    "git-auto-push": "./bin/git-auto-push.js",
+    "git-auto-init": "./bin/git-auto-init.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
