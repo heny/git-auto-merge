@@ -26,7 +26,7 @@
     "url": "https://github.com/heny/git-auto-merge/issues"
   },
   "homepage": "https://github.com/heny/git-auto-merge#readme",
-  "devDependencies": {
+  "dependencies": {
     "inquirer": "^8.2.0",
     "shelljs": "^0.8.4",
     "dayjs": "^1.10.7"
