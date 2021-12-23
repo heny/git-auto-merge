@@ -1,4 +1,4 @@
 module.exports = {
-	mergeBranch: ['master'],
-	mergeDefault: ['master'],
+	mergeBranch: [],
+	mergeDefault: [],
 };
