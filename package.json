@@ -4,10 +4,13 @@
   "description": "git auto push and merge",
   "main": "lib/index.js",
   "bin": {
-    "git-auto-merge": "./bin/git-auto-merge.js"
+    "git-auto-merge": "./bin/git-auto-merge.js",
+    "git-auto-push": "./bin/git-auto-push.js"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "gm": "npm run git-auto-merge",
+    "gp": "npm run git-auto-push"
   },
   "repository": {
     "type": "git",
@@ -23,6 +26,8 @@
   },
   "homepage": "https://github.com/heny/git-auto-merge#readme",
   "devDependencies": {
-    "shelljs": "^0.8.4"
+    "inquirer": "^8.2.0",
+    "shelljs": "^0.8.4",
+    "dayjs": "^1.10.7"
   }
 }
