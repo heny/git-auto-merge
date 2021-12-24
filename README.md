@@ -24,8 +24,23 @@ Code Merge: `npm run gm` or `npx git-auto-merge`
 Create gm.config.js in the root of the project: 
 ```js
 module.exports = {
-  mergeBranch: [], // Mergeable branches, read all branches if not written by default
-  mergeDefault: [], // Default merged branches
-  callback: () => {}, // Execute the callback after the merge is complete
+  /** Mergeable branches, read all branches if not written by default */
+  mergeBranch: [],
+
+  /** Default merged branches */
+  mergeDefault: [],
+
+  /** Execute the callback after the merge is complete */
+  callback: () => {},
+
+  /** Log prefix */
+  logPrefix: '',
+
+  /** Default commit information */
+  commitDefault: {
+    type: 'feat',
+    module: 'index',
+    message: 'logic',
+  },
 }
 ```
