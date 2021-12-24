@@ -1,24 +1,5 @@
 {
-  "name": "git-auto-merge",
-<<<<<<< HEAD
-  "version": "0.0.1",
-  "description": "git auto push and merge",
-  "main": "lib/index.js",
-=======
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-  "version": "0.0.1",
-  "description": "git auto push and merge",
-  "main": "lib/index.js",
-=======
   "version": "0.0.7",
-=======
-  "version": "0.0.8",
->>>>>>> 4d57e48... feat(src): 调整bin
-=======
-  "version": "0.0.9",
->>>>>>> e03aac7... feat(src): 调整版本
   "description": "git auto push and merge",
   "main": "lib/index.js",
   "bin": {
@@ -26,8 +7,6 @@
     "git-auto-push": "./bin/git-auto-push.js",
     "git-auto-init": "./bin/git-auto-init.js"
   },
->>>>>>> 0d680e6... feat(src): logic
->>>>>>> acff45d... feat(src): 调整bin
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -43,14 +22,10 @@
   "bugs": {
     "url": "https://github.com/heny/git-auto-merge/issues"
   },
-<<<<<<< HEAD
-  "homepage": "https://github.com/heny/git-auto-merge#readme"
-=======
   "homepage": "https://github.com/heny/git-auto-merge#readme",
   "dependencies": {
     "inquirer": "^8.2.0",
     "shelljs": "^0.8.4",
     "dayjs": "^1.10.7"
   }
->>>>>>> d1200b3... feat(src): logic
 }
