@@ -1,6 +1,6 @@
 {
   "name": "git-auto-merge",
-  "version": "0.0.9",
+  "version": "0.0.11",
   "description": "git auto push and merge",
   "main": "lib/index.js",
   "bin": {
@@ -10,8 +10,9 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "gm": "npm run git-auto-merge",
-    "gp": "npm run git-auto-push"
+    "gm": "node ./bin/git-auto-merge.js",
+    "gp": "node ./bin/git-auto-push.js",
+    "deploy": "node ./scripts/publish.js"
   },
   "repository": {
     "type": "git",

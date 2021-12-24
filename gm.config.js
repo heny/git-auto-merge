@@ -1,4 +1,7 @@
 module.exports = {
-	mergeBranch: [],
-	mergeDefault: [],
+  mergeBranch: [],
+  mergeDefault: [],
+  callback: function () {
+    console.log('部署完成');
+  },
 };
