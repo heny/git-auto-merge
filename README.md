@@ -2,7 +2,7 @@
 1. Execute commands to automatically push code to remote servers, no more manual add, commit, push; 
 2. Execute the command to directly select the merge code to other branches and push it to the remote, automatically cutting back to the original branch
 
-中文文档：[README_ZH.md](./README_ZH.md)
+中文文档：[README_zh.md](./README_zh.md)
 
 ## Install
 ```bash
