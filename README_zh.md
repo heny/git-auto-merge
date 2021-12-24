@@ -23,8 +23,23 @@ Code Merge: `npm run gm` or `npx git-auto-merge`
 
 ```js
 module.exports = {
-  mergeBranch: [], // 合并分支，默认读取所有分支
-  mergeDefault: [], // 默认合并的分支
-  callback: () => {}, // 命令完成后执行的回调
+  /** 合并分支，默认读取所有分支 */
+  mergeBranch: [],
+
+  /** 默认合并分支 */
+  mergeDefault: [],
+
+  /** 执行后的回调 */
+  callback: () => {},
+
+  /** 日志前缀 */
+  logPrefix: '',
+
+  /** 默认commit信息 */
+  commitDefault: {
+    type: 'feat',
+    module: 'index',
+    message: 'logic',
+  },
 }
 ```
