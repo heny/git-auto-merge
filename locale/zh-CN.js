@@ -19,5 +19,7 @@ module.exports = function (config) {
     CUR_BRANCH_START_PUSH: '当前分支暂存区有内容，是否现在提交？',
     SELECT_PUBLISH_BRANCH: '请选择发布分支：',
     PUBLISH_SUCCESS: '发布成功🎉🎉🎉',
+    PUBLISH_FAIL_CONFLICT: '合并分支失败，请解决冲突之后，执行以下命令：',
+    NETWORK_FAIL: '网络连接异常，请检查当前网络！'
   };
 };
