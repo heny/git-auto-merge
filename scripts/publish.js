@@ -1,6 +1,6 @@
 const fs = require('fs');
 const merge = require('../lib/merge');
-const { exec, preLog } = require('../lib/utils');
+const { exec, preLog, getExecTool } = require('../lib/utils');
 
 /**
  * patch 0.0.*
@@ -34,6 +34,12 @@ function modifyVersion() {
 }
 
 async function publish() {
+  console.time('Release it');
+  if (getExecTool() !== 'npm') {
+    preLog('请使用 npm 执行该命令', 'red');
+    return;
+  }
+
   await modifyVersion();
   await merge();
 
@@ -45,7 +51,8 @@ async function publish() {
   await exec('git checkout master');
   await exec('npm publish');
   await exec('git checkout ' + curBranch);
-  preLog('发布成功', 'green');
+  preLog('发布成功🎉🎉🎉', 'green');
+  console.timeEnd('Release it');
 }
 
 publish();
