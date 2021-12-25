@@ -1,26 +1,45 @@
+英文文档 | [中文文档](./README_zh.md)
+
+## Example
+### Code Push
+![img](./assets/auto-push.gif)
+
+### Code Merge
+![img](./assets/auto-merge.gif)
+
 ## Introduction
 1. Execute commands to automatically push code to remote servers, no more manual add, commit, push; 
 2. Execute the command to directly select the merge code to other branches and push it to the remote, automatically cutting back to the original branch
 
-中文文档：[README_zh.md](./README_zh.md)
-
 ## Install
+Can be installed locally or global: 
+
 ```bash
 # yarn
 yarn add git-auto-merge
 
-#npm
+# npm
 npm install git-auto-merge
 ```
 
 ## Use
-Perform initialization after installation: `npx git-auto-init`
-
 Code Push: `npm run gp` or `npx git-auto-push`
 
 Code Merge: `npm run gm` or `npx git-auto-merge`
 
 ## Optional
+### Add Command
+Executing the initialization `git-auto-init` will automatically add the following to package.json for you.
+```json
+{
+  "scripts": {
+    "gp": "git-auto-push",
+    "gm": "git-auto-merge"
+  }
+}
+```
+
+### Add Configuration
 Create gm.config.js in the root of the project: 
 ```js
 module.exports = {
