@@ -1,4 +1,4 @@
-英文文档 | [中文文档](./README_zh.md)
+English | [中文文档](./README_zh.md)
 
 ## Example
 ### Code Push

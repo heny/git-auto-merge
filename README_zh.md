@@ -1,4 +1,4 @@
-中文文档 | [英文文档](README.md)
+中文文档 | [English](README.md)
 
 ## 示例
 ### 代码推送
