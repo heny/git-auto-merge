@@ -23,9 +23,9 @@ npm install git-auto-merge
 ```
 
 ## Use
-Code Push: `npm run gp` or `npx git-auto-push`
+Code Push: `npx git-auto-push`
 
-Code Merge: `npm run gm` or `npx git-auto-merge`
+Code Merge: `npx git-auto-merge`
 
 ## Optional
 ### Add Command
