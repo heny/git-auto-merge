@@ -1,4 +1,4 @@
-module.exports = function (config) {
+export default function (config: Record<string, any>) {
   return {
     CUR_PUBLISH_BRANCH: `Current branch: ${config.branch}`,
     CONTENT_IS_UPTODATE: 'Current branch content is up-to-date, no need to push',

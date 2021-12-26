@@ -1,4 +1,4 @@
-const {
+import {
   exec,
   prompt,
   preLog,
@@ -6,13 +6,19 @@ const {
   checkStatus,
   checkHasUpstream,
   getExecTool,
-} = require('./utils');
-const { STATUS } = require('./enum');
-const shelljs = require('shelljs');
-const { pushStart, pushHandle } = require('./push');
-const t = require('../locale');
+} from './utils';
+import { STATUS } from './constant';
+import shelljs from 'shelljs';
+import { pushStart, pushHandle } from './push';
+import t from '../locale';
+import { Config } from './interface';
 
-async function publish(branch, mergeBranch) {
+let config: Partial<Config> = {};
+try {
+  config = require(process.cwd() + '/gm.config.js');
+} catch {}
+
+async function publish(branch: string, mergeBranch: string) {
   preLog(t('CUR_PUBLISH_BRANCH', { branch }));
   await exec(`git checkout ${branch}`);
 
@@ -53,7 +59,7 @@ async function mergeBefore() {
   }
 }
 
-async function _merge(callback) {
+async function _merge(callback = () => {}) {
   if (getExecTool() === 'npm') console.time('Done');
   if (!shelljs.which('git')) {
     shelljs.echo('Sorry, this script requires git');
@@ -64,17 +70,15 @@ async function _merge(callback) {
   const branches = collectBranch
     .split('\n')
     .filter(Boolean)
-    .map((v) => v.trim());
+    .map((v: string) => v.trim());
 
-  const curBranch = branches.find((branch) => branch.startsWith('*')).replace(/\s|\*/g, '');
+  const curBranch =
+    branches.find((branch: string) => branch.startsWith('*'))?.replace(/\s|\*/g, '') || '';
 
   await mergeBefore();
 
-  const config = getConfig();
-
-  const filterBranchs = branches.filter((branch) => !branch.includes(curBranch));
-  const choices =
-    config.mergeBranch && config.mergeBranch.length ? config.mergeBranch : filterBranchs;
+  const filterBranchs = branches.filter((branch: string) => !branch.includes(curBranch));
+  const choices = config.mergeBranch?.length ? config.mergeBranch : filterBranchs;
 
   const publishBranches = await prompt(t('SELECT_PUBLISH_BRANCH'), {
     type: 'checkbox',
@@ -83,7 +87,7 @@ async function _merge(callback) {
   });
 
   await publishBranches.reduce(
-    (promise, branch) => promise.then(() => publish(branch, curBranch)),
+    (promise: Promise<any>, branch: string) => promise.then(() => publish(branch, curBranch)),
     Promise.resolve()
   );
 
@@ -95,4 +99,4 @@ async function _merge(callback) {
   if (getExecTool() === 'npm') console.timeEnd('Done');
 }
 
-module.exports = _merge;
+export default _merge;

@@ -1,2 +1,2 @@
 #!/usr/bin/env node
-require('../src/merge.js')();
+require('../dist/lib/merge.js')();

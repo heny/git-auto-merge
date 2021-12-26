@@ -1,4 +1,4 @@
-const {
+import {
   exec,
   checkPull,
   prompt,
@@ -7,12 +7,18 @@ const {
   checkStatus,
   checkHasUpstream,
   getExecTool,
-  getConfig
-} = require('./utils');
-const { STATUS } = require('./enum');
-const t = require('../locale');
+} from './utils';
+import { STATUS } from './constant';
+import t from '../locale';
+import { Config } from './interface';
+import shelljs from 'shelljs';
 
-async function pushStart() {
+let config: Partial<Config> = {};
+try {
+  config = require(process.cwd() + '/gm.config.js');
+} catch {}
+
+export async function pushStart() {
   const curBranch = await exec('git rev-parse --abbrev-ref HEAD', {
     log: false,
     silent: true,
@@ -41,7 +47,7 @@ async function pushStart() {
   await exec('git push');
 }
 
-async function pushHandle(isMerge) {
+export async function pushHandle(isMerge?: boolean) {
   if (!isMerge && getExecTool() === 'npm') console.time('Done');
   let statusResult = await checkStatus();
 
@@ -56,8 +62,7 @@ async function pushHandle(isMerge) {
 
   await exec('git add .');
 
-  const config = getConfig();
-  const commitDefault = config.commitDefault || {};
+  const commitDefault = config.commitDefault || ({} as Config['commitDefault']);
   const type = await prompt(t('SELECT_CHANGE_TYPE'), {
     type: 'list',
     choices: [
@@ -85,5 +90,3 @@ async function pushHandle(isMerge) {
   await pushStart();
   if (!isMerge && getExecTool() === 'npm') console.timeEnd('Done');
 }
-
-module.exports = { pushStart, pushHandle };

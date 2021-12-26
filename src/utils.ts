@@ -1,31 +1,35 @@
-const inquirer = require('inquirer');
-const shelljs = require('shelljs');
-const dayjs = require('dayjs');
-const fs = require('fs');
-const { STATUS } = require('./enum');
-const t = require('../locale');
+import inquirer from 'inquirer';
+import shelljs, { ExecOutputReturnValue, ShellString } from 'shelljs';
+import dayjs from 'dayjs';
+import { STATUS, Colors } from './constant';
+import { Config } from './interface';
+import { ColorKey, ExecOptions } from './interface';
+import t from '../locale';
 
-function getConfig() {
-  const configPath = process.cwd() + '/gm.config.js';
-  if (!fs.existsSync(configPath)) return {};
-  return require(configPath);
+let config: Partial<Config> = {};
+try {
+  config = require(process.cwd() + '/gm.config.js');
+} catch {}
+
+export function log(str: string, color: ColorKey = 'default') {
+  const num = Colors[color];
+  return `\x1b[${num}m${str}\x1b[0m`;
 }
 
-function preLog(str, color = 'green') {
-  const config = getConfig();
+export function preLog(str: string, color: ColorKey = 'green') {
   const logPrefix = config.logPrefix || `[${log('web')}/${log(dayjs().format('HH:mm:ss'))}]:`;
   console.log(logPrefix, log(str, color));
 }
 
-function getExecTool() {
-  const path = process.env.npm_execpath || '';
+export function getExecTool() {
+  const path: string = process.env.npm_execpath || '';
   if (path.includes('yarn')) return 'yarn';
   return 'npm';
 }
 
-function exec(cmd, options) {
+export function exec(cmd: string, options: ExecOptions = {}): Promise<ShellString> {
   return new Promise((resolve, reject) => {
-    const { errCaptrue = false, log = true, ...rest } = options || {};
+    const { errCaptrue = false, log = true, ...rest } = options;
     if (log) preLog(cmd);
     let result = shelljs.exec(cmd, rest);
     if (errCaptrue) return resolve(result);
@@ -33,12 +37,17 @@ function exec(cmd, options) {
       reject();
       shelljs.exit(1);
     } else {
-      resolve(result.stdout);
+      resolve(result.stdout as ShellString);
     }
   });
 }
 
-async function prompt(message, options) {
+export async function prompt(
+  message: string,
+  options: inquirer.Question & {
+    choices?: any[];
+  } = {}
+) {
   const { commit } = await inquirer.prompt([
     {
       type: 'input',
@@ -50,29 +59,13 @@ async function prompt(message, options) {
   return commit;
 }
 
-function log(str, color) {
-  const colors = {
-    black: '30',
-    red: '31',
-    green: '32',
-    yellow: '33',
-    blue: '34',
-    magenta: '35',
-    cyan: '36',
-    white: '37',
-    default: '36',
-  };
-  const num = colors[color] || colors['default'];
-  return `\x1b[${num}m${str}\x1b[0m`;
-}
-
-function checkPull(str, message) {
+export function checkPull(result: ExecOutputReturnValue, message?: string): Promise<void> {
   return new Promise((resolve, reject) => {
-    if (str.code === 0) return resolve();
+    if (result.code === 0) return resolve();
 
-    let info = str.stdout;
+    let info = result.stdout;
 
-    if (str.stdout.includes('CONFLICT')) {
+    if (result.stdout.includes('CONFLICT')) {
       const errorMsg = `
         ${t('PUBLISH_FAIL_CONFLICT')}
         git add .
@@ -82,7 +75,7 @@ function checkPull(str, message) {
       info = errorMsg;
     }
 
-    if (str.stdout.includes('unable to access')) {
+    if (result.stdout.includes('unable to access')) {
       info = t('NETWORK_FAIL');
     }
 
@@ -92,19 +85,19 @@ function checkPull(str, message) {
   });
 }
 
-async function checkBranchExist(branch) {
+export async function checkBranchExist(branch: string): Promise<Boolean> {
   return new Promise(async (resolve) => {
     const result = await exec(`git rev-parse --verify "origin/${branch}"`, {
       errCaptrue: true,
       silent: true,
-      log: true,
+      log: false,
     });
     if (result.code === 0) return resolve(true);
     resolve(false);
   });
 }
 
-async function checkHasUpstream(branch) {
+export async function checkHasUpstream(branch: string) {
   return new Promise(async (resolve) => {
     const result = await exec(`git rev-parse --abbrev-ref ${branch}@{upstream}`, {
       errCaptrue: true,
@@ -116,9 +109,9 @@ async function checkHasUpstream(branch) {
   });
 }
 
-function checkStatus() {
+export function checkStatus(): Promise<STATUS> {
   return new Promise(async (resolve) => {
-    let result = await exec('git status', { silent: true, log: false });
+    let result: string = await exec('git status', { silent: true, log: false });
     if (result.includes(STATUS.COMMIT)) {
       resolve(STATUS.COMMIT);
     }
@@ -131,15 +124,3 @@ function checkStatus() {
     resolve(STATUS.NONE);
   });
 }
-
-module.exports = {
-  log,
-  preLog,
-  checkPull,
-  exec,
-  prompt,
-  checkBranchExist,
-  checkStatus,
-  checkHasUpstream,
-  getExecTool,
-};

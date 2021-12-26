@@ -1,4 +1,4 @@
-module.exports = function (config) {
+export default function (config: Record<string, any>) {
   return {
     CUR_PUBLISH_BRANCH: `当前发布分支: ${config.branch}`,
     CONTENT_IS_UPTODATE: '当前分支内容是最新的，无需推送',

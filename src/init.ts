@@ -1,8 +1,8 @@
-const fs = require("fs")
+import { readFileSync, writeFileSync } from 'fs';
 
-function addScripts(packageJsonPath) {
-  const json = JSON.parse(fs.readFileSync(packageJsonPath))
-  fs.writeFileSync(
+function addScripts(packageJsonPath: string) {
+  const json = JSON.parse(readFileSync(packageJsonPath, 'utf-8'));
+  writeFileSync(
     packageJsonPath,
     JSON.stringify(
       {
@@ -18,4 +18,5 @@ function addScripts(packageJsonPath) {
     )
   );
 }
+
 addScripts(process.cwd() + '/package.json');

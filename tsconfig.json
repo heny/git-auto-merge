@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "module": "CommonJS",
+    "target": "ES3",
+    "moduleResolution": "node",
+    "strict": true,
+    "declaration": true,
+    "noUnusedLocals": true,
+    "esModuleInterop": true,
+    "lib": ["ESNext", "DOM"],
+    "outDir": "./dist",
+    "types": ["node"],
+    "paths": {
+      "src/*": ["src/*"]
+    }
+  },
+  "include": ["lib/**/*.ts", "locale/**/*.ts"]
+}
