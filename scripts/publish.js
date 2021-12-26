@@ -1,6 +1,6 @@
 const fs = require('fs');
-const merge = require('../lib/merge');
-const { exec, preLog, getExecTool } = require('../lib/utils');
+const { default: merge } = require('../dist/lib/merge');
+const { exec, preLog, getExecTool } = require('../dist/lib/utils');
 
 /**
  * patch 0.0.*
