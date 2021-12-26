@@ -1,2 +1,3 @@
 #!/usr/bin/env node
-require('../dist/src/merge.js')();
+const { default: merge } = require('../dist/src/merge.js');
+merge();

@@ -1,6 +1,6 @@
 const fs = require('fs');
-const { default: merge } = require('../dist/lib/merge');
-const { exec, preLog, getExecTool } = require('../dist/lib/utils');
+const { default: merge } = require('../dist/src/merge');
+const { exec, preLog, getExecTool } = require('../dist/src/utils');
 
 /**
  * patch 0.0.*
@@ -12,7 +12,10 @@ async function modifyVersion() {
   const packageJsonPath = process.cwd() + '/package.json';
   const json = JSON.parse(fs.readFileSync(packageJsonPath));
 
-  const isCurrentExist = await exec(`npm view git-auto-merge@${json.version}`);
+  const isCurrentExist = await exec(`npm view git-auto-merge@${json.version}`, {
+    log: false,
+    silent: true,
+  });
   if (isCurrentExist === '') return json.version;
 
   let version = json.version.split('.');
