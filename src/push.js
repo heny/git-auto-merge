@@ -7,14 +7,10 @@ const {
   checkStatus,
   checkHasUpstream,
   getExecTool,
+  getConfig
 } = require('./utils');
 const { STATUS } = require('./enum');
 const t = require('../locale');
-
-let config = {};
-try {
-  config = require(process.cwd() + '/gm.config.js');
-} catch {}
 
 async function pushStart() {
   const curBranch = await exec('git rev-parse --abbrev-ref HEAD', {
@@ -60,6 +56,7 @@ async function pushHandle(isMerge) {
 
   await exec('git add .');
 
+  const config = getConfig();
   const commitDefault = config.commitDefault || {};
   const type = await prompt(t('SELECT_CHANGE_TYPE'), {
     type: 'list',

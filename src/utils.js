@@ -1,15 +1,18 @@
 const inquirer = require('inquirer');
 const shelljs = require('shelljs');
 const dayjs = require('dayjs');
+const fs = require('fs');
 const { STATUS } = require('./enum');
 const t = require('../locale');
 
-let config = {};
-try {
-  config = require(process.cwd() + '/gm.config.js');
-} catch {}
+function getConfig() {
+  const configPath = process.cwd() + '/gm.config.js';
+  if (!fs.existsSync(configPath)) return {};
+  return require(configPath);
+}
 
 function preLog(str, color = 'green') {
+  const config = getConfig();
   const logPrefix = config.logPrefix || `[${log('web')}/${log(dayjs().format('HH:mm:ss'))}]:`;
   console.log(logPrefix, log(str, color));
 }

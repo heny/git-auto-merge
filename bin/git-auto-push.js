@@ -1,3 +1,3 @@
 #!/usr/bin/env node
-const { pushHandle } = require('../lib/push');
+const { pushHandle } = require('../src/push');
 pushHandle();

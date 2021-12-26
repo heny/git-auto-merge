@@ -12,11 +12,6 @@ const shelljs = require('shelljs');
 const { pushStart, pushHandle } = require('./push');
 const t = require('../locale');
 
-let config = {};
-try {
-  config = require(process.cwd() + '/gm.config.js');
-} catch {}
-
 async function publish(branch, mergeBranch) {
   preLog(t('CUR_PUBLISH_BRANCH', { branch }));
   await exec(`git checkout ${branch}`);
@@ -74,6 +69,8 @@ async function _merge(callback) {
   const curBranch = branches.find((branch) => branch.startsWith('*')).replace(/\s|\*/g, '');
 
   await mergeBefore();
+
+  const config = getConfig();
 
   const filterBranchs = branches.filter((branch) => !branch.includes(curBranch));
   const choices =
