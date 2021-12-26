@@ -6,17 +6,19 @@ import { Config } from './interface';
 import { ColorKey, ExecOptions } from './interface';
 import t from '../locale';
 
-let config: Partial<Config> = {};
-try {
-  config = require(process.cwd() + '/gm.config.js');
-} catch {}
+export async function getConfig(): Promise<Config> {
+  const configPath = process.cwd() + '/gm.config.js';
+  const config = await import(configPath);
+  return config;
+}
 
 export function log(str: string, color: ColorKey = 'default') {
   const num = Colors[color];
   return `\x1b[${num}m${str}\x1b[0m`;
 }
 
-export function preLog(str: string, color: ColorKey = 'green') {
+export async function preLog(str: string, color: ColorKey = 'green') {
+  const config = await getConfig();
   const logPrefix = config.logPrefix || `[${log('web')}/${log(dayjs().format('HH:mm:ss'))}]:`;
   console.log(logPrefix, log(str, color));
 }

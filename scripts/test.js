@@ -1,2 +1,6 @@
-const shelljs = require('shelljs');
-console.log(shelljs.exec('npm view git-auto-merge@0.0.21'));
+const { getConfig } = require('../dist/lib/utils');
+
+(async function () {
+  let config = await getConfig();
+  console.log(config, 'config');
+})();
