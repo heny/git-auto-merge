@@ -6,17 +6,12 @@ import {
   checkStatus,
   checkHasUpstream,
   getExecTool,
+  getConfig,
 } from './utils';
 import { STATUS } from './constant';
 import shelljs from 'shelljs';
 import { pushStart, pushHandle } from './push';
 import t from '../locale';
-import { Config } from './interface';
-
-let config: Partial<Config> = {};
-try {
-  config = require(process.cwd() + '/gm.config.js');
-} catch {}
 
 async function publish(branch: string, mergeBranch: string) {
   preLog(t('CUR_PUBLISH_BRANCH', { branch }));
@@ -65,6 +60,8 @@ async function _merge(callback = () => {}) {
     shelljs.echo('Sorry, this script requires git');
     shelljs.exit(1);
   }
+
+  let config = await getConfig();
 
   const collectBranch = await exec('git branch', { silent: true, log: false });
   const branches = collectBranch

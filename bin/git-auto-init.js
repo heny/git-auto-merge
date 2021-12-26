@@ -1,2 +1,2 @@
 #!/usr/bin/env node
-require('../dist/lib/init');
+require('../dist/src/init');

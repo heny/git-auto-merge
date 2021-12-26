@@ -1,15 +1,18 @@
 import inquirer from 'inquirer';
 import shelljs, { ExecOutputReturnValue, ShellString } from 'shelljs';
 import dayjs from 'dayjs';
+import { existsSync } from 'fs';
 import { STATUS, Colors } from './constant';
 import { Config } from './interface';
 import { ColorKey, ExecOptions } from './interface';
 import t from '../locale';
 
 export async function getConfig(): Promise<Config> {
-  const configPath = process.cwd() + '/gm.config.js';
-  const config = await import(configPath);
-  return config;
+  return new Promise(async (resolve) => {
+    const configPath = process.cwd() + '/gm.config.js';
+    if (!existsSync(configPath)) return resolve({} as Config);
+    import(configPath).then(resolve);
+  });
 }
 
 export function log(str: string, color: ColorKey = 'default') {

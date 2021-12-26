@@ -7,16 +7,12 @@ import {
   checkStatus,
   checkHasUpstream,
   getExecTool,
+  getConfig
 } from './utils';
 import { STATUS } from './constant';
 import t from '../locale';
 import { Config } from './interface';
 import shelljs from 'shelljs';
-
-let config: Partial<Config> = {};
-try {
-  config = require(process.cwd() + '/gm.config.js');
-} catch {}
 
 export async function pushStart() {
   const curBranch = await exec('git rev-parse --abbrev-ref HEAD', {
@@ -62,6 +58,7 @@ export async function pushHandle(isMerge?: boolean) {
 
   await exec('git add .');
 
+  const config = await getConfig();
   const commitDefault = config.commitDefault || ({} as Config['commitDefault']);
   const type = await prompt(t('SELECT_CHANGE_TYPE'), {
     type: 'list',

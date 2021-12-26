@@ -11,7 +11,8 @@
   "scripts": {
     "gm": "node ./bin/git-auto-merge.js",
     "gp": "node ./bin/git-auto-push.js",
-    "deploy": "rm -rf dist && tsc && node ./scripts/publish.js"
+    "deploy": "rm -rf dist && tsc && node ./scripts/publish.js",
+    "rebuild": "rm -rf dist && tsc"
   },
   "engines": {
     "node": ">=10.0.0"

@@ -1,4 +1,4 @@
-const { getConfig } = require('../dist/lib/utils');
+const { getConfig } = require('../dist/src/utils');
 
 (async function () {
   let config = await getConfig();

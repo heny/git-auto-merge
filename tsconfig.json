@@ -12,6 +12,6 @@
     "outDir": "./dist",
     "types": ["node"]
   },
-  "include": ["lib/*.ts", "locale/*.ts"],
+  "include": ["src/*.ts", "locale/*.ts"],
   "exclude": ["node_modules", "./dist"]
 }
