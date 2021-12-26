@@ -1,6 +1,7 @@
 English | [中文文档](./README_zh.md)
 
 ## Example
+
 ### Code Push
 ![img](./assets/auto-push.gif)
 

@@ -8,9 +8,12 @@ const { exec, preLog, getExecTool } = require('../dist/lib/utils');
  * major *.0.0
  */
 
-function modifyVersion() {
+async function modifyVersion() {
   const packageJsonPath = process.cwd() + '/package.json';
   const json = JSON.parse(fs.readFileSync(packageJsonPath));
+
+  const isCurrentExist = await exec(`npm view git-auto-merge@${json.version}`);
+  if (isCurrentExist === '') return json.version;
 
   let version = json.version.split('.');
   let versionType = process.argv.slice(2)[0];
