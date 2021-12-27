@@ -24,9 +24,9 @@ npm install git-auto-merge
 ```
 
 ## Use
-Code Push: `npx git-auto-push`
+Code Push: `git-auto-push`
 
-Code Merge: `npx git-auto-merge`
+Code Merge: `git-auto-merge`
 
 ## Optional
 ### Add Command

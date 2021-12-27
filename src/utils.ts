@@ -3,7 +3,7 @@ import shelljs, { ExecOutputReturnValue, ShellString } from 'shelljs';
 import dayjs from 'dayjs';
 import { existsSync } from 'fs';
 import { STATUS, Colors } from './constant';
-import { Config } from './interface';
+import { Config, Types } from './interface';
 import { ColorKey, ExecOptions } from './interface';
 import t from '../locale';
 
@@ -11,8 +11,16 @@ export async function getConfig(): Promise<Config> {
   return new Promise(async (resolve) => {
     const configPath = process.cwd() + '/gm.config.js';
     if (!existsSync(configPath)) return resolve({} as Config);
-    import(configPath).then(resolve);
+
+    import(configPath).then(config => {
+      const isObj = types(config) === 'Object';
+      isObj ? resolve(config) : resolve({} as Config);
+    }).catch(() => resolve({} as Config));
   });
+}
+
+export function types(key: any): Types {
+  return Object.prototype.toString.call(key).slice(8, -1) as Types;
 }
 
 export function log(str: string, color: ColorKey = 'default') {
@@ -33,9 +41,9 @@ export function getExecTool() {
 }
 
 export function exec(cmd: string, options: ExecOptions = {}): Promise<ShellString> {
+  const { errCaptrue = false, log = true, ...rest } = options;
+  if (log) preLog(cmd);
   return new Promise((resolve, reject) => {
-    const { errCaptrue = false, log = true, ...rest } = options;
-    if (log) preLog(cmd);
     let result = shelljs.exec(cmd, rest);
     if (errCaptrue) return resolve(result);
     if (result.code !== 0) {

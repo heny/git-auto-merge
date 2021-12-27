@@ -28,3 +28,17 @@ export interface ExecOptions {
   log?: boolean;
   [key: string]: any;
 }
+
+export type Types =
+  | 'Object'
+  | 'Array'
+  | 'String'
+  | 'Number'
+  | 'Boolean'
+  | 'Function'
+  | 'RegExp'
+  | 'Date'
+  | 'Error'
+  | 'Symbol'
+  | 'Null'
+  | 'Undefined';
