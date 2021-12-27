@@ -12,6 +12,7 @@ export function getConfig(): Config {
   if (!existsSync(configPath)) return {} as Config;
 
   try {
+    // No import is used here, and logging should not use asynchronous
     const config = require(configPath);
     const isObj = types(config) === 'Object';
     return isObj ? config : {} as Config;

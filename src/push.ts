@@ -58,7 +58,7 @@ export async function pushHandle(isMerge?: boolean) {
 
   await exec('git add .');
 
-  const config = await getConfig();
+  const config = getConfig();
   const commitDefault = config.commitDefault || ({} as Config['commitDefault']);
   const type = await prompt(t('SELECT_CHANGE_TYPE'), {
     type: 'list',

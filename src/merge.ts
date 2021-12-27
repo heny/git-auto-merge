@@ -61,7 +61,7 @@ async function _merge(callback = () => {}) {
     shelljs.exit(1);
   }
 
-  let config = await getConfig();
+  let config = getConfig();
 
   const collectBranch = await exec('git branch', { silent: true, log: false });
   const branches = collectBranch

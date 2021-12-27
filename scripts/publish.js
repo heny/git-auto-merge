@@ -8,18 +8,8 @@ const { exec, preLog, getExecTool } = require('../dist/src/utils');
  * major *.0.0
  */
 
-async function modifyVersion() {
-  const packageJsonPath = process.cwd() + '/package.json';
-  const json = JSON.parse(fs.readFileSync(packageJsonPath));
-
-  const isCurrentExist = await exec(`npm view git-auto-merge@${json.version}`, {
-    log: false,
-    silent: true,
-  });
-  if (isCurrentExist === '') return json.version;
-
-  let version = json.version.split('.');
-  let versionType = process.argv.slice(2)[0];
+function byTypeGetVersion(version, versionType) {
+  version = version.split('.');
   switch (versionType) {
     case 'minor':
       version[1] = ++version[1];
@@ -31,11 +21,53 @@ async function modifyVersion() {
     default:
       version[2] = ++version[2];
   }
+  return version.join('.');
+}
 
-  fs.writeFileSync(
-    packageJsonPath,
-    JSON.stringify(Object.assign(json, { version: version.join('.') }), null, 2)
-  );
+async function recursionVersion(version, versionType, resolve) {
+  preLog(`当前检测版本：${version}`);
+  const isCurrentExist = await exec(`npm view git-auto-merge@${version}`, {
+    log: false,
+    silent: true,
+  });
+  if (isCurrentExist !== '') {
+    recursionVersion(byTypeGetVersion(version, versionType), versionType, resolve);
+  } else {
+    resolve(version);
+  }
+}
+
+async function getVersionAble(version, versionType) {
+  return new Promise(async (resolve) => {
+    recursionVersion(version, versionType, resolve);
+  });
+}
+
+async function getLatestVersion() {
+  const originInfo = await exec(`npm view git-auto-merge --registry https://registry.npmjs.org/ -- 
+  json`);
+  return originInfo['dist-tags'].latest;
+}
+
+async function modifyVersion() {
+  const packageJsonPath = process.cwd() + '/package.json';
+  const json = JSON.parse(fs.readFileSync(packageJsonPath));
+
+  let args = process.argv.slice(2);
+  let version = '';
+
+  if (args.includes('--latest')) {
+    const latestVersion = await getLatestVersion();
+    version = byTypeGetVersion(latestVersion);
+  } else {
+    let versionTypeIndex = args.findIndex((s) => s.includes('-p'));
+    versionType = versionTypeIndex === -1 ? 'patch' : args[++versionTypeIndex];
+
+    version = await getVersionAble(json.version, versionType);
+  }
+
+  fs.writeFileSync(packageJsonPath, JSON.stringify(Object.assign(json, { version }), null, 2));
+  preLog(`当前发布版本：${version}`);
   return Promise.resolve();
 }
 
