@@ -3,10 +3,10 @@ English | [中文文档](./README_zh.md)
 ## Example
 
 ### Code Push
-![img](./assets/auto-push.gif)
+![img](https://s4.ax1x.com/2021/12/27/TBRXFO.gif)
 
 ### Code Merge
-![img](./assets/auto-merge.gif)
+![img](https://s4.ax1x.com/2021/12/27/TBRol9.gif)
 
 ## Introduction
 1. Execute commands to automatically push code to remote servers, no more manual add, commit, push; 
@@ -27,6 +27,10 @@ npm install git-auto-merge
 Code Push: `git-auto-push`
 
 Code Merge: `git-auto-merge`
+
+Fully automated push: `git-auto-push -m 'feat(src): logic'`;
+
+Fully automated merge: `git-auto-merge -m 'feat(src): logic' -b master`;
 
 ## Optional
 ### Add Command

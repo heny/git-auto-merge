@@ -1,12 +1,12 @@
 module.exports = {
   mergeBranch: [],
-  mergeDefault: [],
+  mergeDefault: ['master'],
   callback: function () {
     console.log('部署成功');
   },
   commitDefault: {
     type: 'feat',
-    module: 'index',
+    module: 'src',
     message: 'logic',
   },
 };

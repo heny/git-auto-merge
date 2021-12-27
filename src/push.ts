@@ -7,14 +7,14 @@ import {
   checkStatus,
   checkHasUpstream,
   getExecTool,
-  getConfig
+  getConfig,
 } from './utils';
 import { STATUS } from './constant';
 import t from '../locale';
-import { Config } from './interface';
+import { Config, PushOptions } from './interface';
 import shelljs from 'shelljs';
 
-export async function pushStart() {
+export async function pushStart(options: PushOptions = {}) {
   const curBranch = await exec('git rev-parse --abbrev-ref HEAD', {
     log: false,
     silent: true,
@@ -22,10 +22,12 @@ export async function pushStart() {
   let checkFlag = await checkBranchExist(curBranch);
 
   if (!checkFlag) {
-    let isCreateBranch = await prompt(t('CUR_BRANCH_NOT_EXIST'), {
-      type: 'confirm',
-    });
-    if (!isCreateBranch) shelljs.exit(1);
+    if (!options.force) {
+      let isCreateBranch = await prompt(t('CUR_BRANCH_NOT_EXIST'), {
+        type: 'confirm',
+      });
+      if (!isCreateBranch) shelljs.exit(1);
+    }
     await exec(`git push --set-upstream origin ${curBranch}`);
     return Promise.resolve();
   }
@@ -43,8 +45,8 @@ export async function pushStart() {
   await exec('git push');
 }
 
-export async function pushHandle(isMerge?: boolean) {
-  if (!isMerge && getExecTool() === 'npm') console.time('Done');
+export async function pushHandle(options: PushOptions = {}) {
+  if (!options.isMerge && getExecTool() === 'npm') console.time('Done');
   let statusResult = await checkStatus();
 
   if (statusResult === STATUS.UPDATED) {
@@ -53,37 +55,41 @@ export async function pushHandle(isMerge?: boolean) {
   }
 
   if (statusResult === STATUS.PUSH || statusResult === STATUS.NONE) {
-    return pushStart();
+    return pushStart(options);
   }
 
   await exec('git add .');
 
-  const config = getConfig();
-  const commitDefault = config.commitDefault || ({} as Config['commitDefault']);
-  const type = await prompt(t('SELECT_CHANGE_TYPE'), {
-    type: 'list',
-    choices: [
-      { name: t('CHANGE_TYPE_FEAT'), value: 'feat' },
-      { name: t('CHANGE_TYPE_FIX'), value: 'fix' },
-      { name: t('CHANGE_TYPE_DOCS'), value: 'docs' },
-      { name: t('CHANGE_TYPE_STYLE'), value: 'style' },
-      { name: t('CHANGE_TYPE_REFACTOR'), value: 'refactor' },
-      { name: t('CHANGE_TYPE_PERF'), value: 'perf' },
-      { name: t('CHANGE_TYPE_TEST'), value: 'test' },
-      { name: t('CHANGE_TYPE_CHORE'), value: 'chore' },
-      { name: t('CHANGE_TYPE_REVERT'), value: 'revert' },
-    ],
-    default: commitDefault.type || 'feat',
-  });
+  if (!options.commit) {
+    const config = getConfig();
+    const commitDefault = config.commitDefault || ({} as Config['commitDefault']);
+    const type = await prompt(t('SELECT_CHANGE_TYPE'), {
+      type: 'list',
+      choices: [
+        { name: t('CHANGE_TYPE_FEAT'), value: 'feat' },
+        { name: t('CHANGE_TYPE_FIX'), value: 'fix' },
+        { name: t('CHANGE_TYPE_DOCS'), value: 'docs' },
+        { name: t('CHANGE_TYPE_STYLE'), value: 'style' },
+        { name: t('CHANGE_TYPE_REFACTOR'), value: 'refactor' },
+        { name: t('CHANGE_TYPE_PERF'), value: 'perf' },
+        { name: t('CHANGE_TYPE_TEST'), value: 'test' },
+        { name: t('CHANGE_TYPE_CHORE'), value: 'chore' },
+        { name: t('CHANGE_TYPE_REVERT'), value: 'revert' },
+      ],
+      default: commitDefault.type || 'feat',
+    });
 
-  const module = await prompt(t('INPUT_CHANGE_MODULE'), {
-    default: commitDefault.module || 'src',
-  });
-  const message = await prompt(t('INPUT_CHANGE_MESSAGE'), {
-    default: commitDefault.message || 'logic',
-  });
-  await exec(`git commit -m "${type}(${module}): ${message}"`);
+    const module = await prompt(t('INPUT_CHANGE_MODULE'), {
+      default: commitDefault.module || 'src',
+    });
+    const message = await prompt(t('INPUT_CHANGE_MESSAGE'), {
+      default: commitDefault.message || 'logic',
+    });
+    await exec(`git commit -m "${type}(${module}): ${message}"`);
+  } else {
+    await exec(`git commit -m "${options.commit}"`);
+  }
 
-  await pushStart();
-  if (!isMerge && getExecTool() === 'npm') console.timeEnd('Done');
+  await pushStart(options);
+  if (!options.isMerge && getExecTool() === 'npm') console.timeEnd('Done');
 }

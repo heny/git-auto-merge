@@ -29,6 +29,20 @@ export interface ExecOptions {
   [key: string]: any;
 }
 
+export interface ProcessArgv {
+  commit?: string;
+  branch?: string[];
+  /** Branches are not created automatically */
+  force?: boolean;
+}
+
+export interface PushOptions extends ProcessArgv {
+  /** Is it triggered by merge */
+  isMerge?: boolean;
+}
+
+export interface MergeOptions extends ProcessArgv {}
+
 export type Types =
   | 'Object'
   | 'Array'

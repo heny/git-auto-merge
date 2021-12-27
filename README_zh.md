@@ -2,10 +2,10 @@
 
 ## 示例
 ### 代码推送
-![img](./assets/auto-push.gif)
+![img](https://s4.ax1x.com/2021/12/27/TBRXFO.gif)
 
 ### 代码合并
-![img](./assets/auto-merge.gif)
+![img](https://s4.ax1x.com/2021/12/27/TBRol9.gif)
 
 
 ## 简介
@@ -23,9 +23,13 @@ npm install git-auto-merge -g
 ```
 
 ## 使用
-Code Push: `git-auto-push`
+代码推送: `git-auto-push`
 
-Code Merge: `git-auto-merge`
+代码合并: `git-auto-merge`
+
+全自动推送：`git-auto-push -m 'feat(src): logic'`;
+
+全自动合并：`git-auto-merge -m 'feat(src): logic' -b 'master'`;
 
 ## 可选项
 ### 添加命令

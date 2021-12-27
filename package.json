@@ -35,6 +35,7 @@
   },
   "homepage": "https://github.com/heny/git-auto-merge#readme",
   "dependencies": {
+    "commander": "^8.3.0",
     "dayjs": "^1.10.7",
     "inquirer": "^8.2.0",
     "os-locale": "5.0.0",
