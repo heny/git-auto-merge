@@ -7,16 +7,17 @@ import { Config, Types } from './interface';
 import { ColorKey, ExecOptions } from './interface';
 import t from '../locale';
 
-export async function getConfig(): Promise<Config> {
-  return new Promise(async (resolve) => {
-    const configPath = process.cwd() + '/gm.config.js';
-    if (!existsSync(configPath)) return resolve({} as Config);
+export function getConfig(): Config {
+  const configPath = process.cwd() + '/gm.config.js';
+  if (!existsSync(configPath)) return {} as Config;
 
-    import(configPath).then(config => {
-      const isObj = types(config) === 'Object';
-      isObj ? resolve(config) : resolve({} as Config);
-    }).catch(() => resolve({} as Config));
-  });
+  try {
+    const config = require(configPath);
+    const isObj = types(config) === 'Object';
+    return isObj ? config : {} as Config;
+  } catch {
+    return {} as Config;
+  }
 }
 
 export function types(key: any): Types {
@@ -29,7 +30,7 @@ export function log(str: string, color: ColorKey = 'default') {
 }
 
 export async function preLog(str: string, color: ColorKey = 'green') {
-  const config = await getConfig();
+  const config = getConfig();
   const logPrefix = config.logPrefix || `[${log('web')}/${log(dayjs().format('HH:mm:ss'))}]:`;
   console.log(logPrefix, log(str, color));
 }

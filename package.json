@@ -9,10 +9,10 @@
     "git-auto-init": "./bin/git-auto-init.js"
   },
   "scripts": {
-    "gm": "node ./bin/git-auto-merge.js",
-    "gp": "node ./bin/git-auto-push.js",
     "deploy": "rm -rf dist && tsc && node ./scripts/publish.js",
-    "rebuild": "rm -rf dist && tsc"
+    "rebuild": "rm -rf dist && tsc",
+    "gm": "npm run rebuild && node ./bin/git-auto-merge.js",
+    "gp": "npm run rebuild && node ./bin/git-auto-push.js"
   },
   "engines": {
     "node": ">=10.0.0"
