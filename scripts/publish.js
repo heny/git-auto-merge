@@ -1,6 +1,14 @@
 const fs = require('fs');
 const { default: merge } = require('../dist/src/merge');
 const { exec, preLog, getExecTool } = require('../dist/src/utils');
+const { Command } = require('commander');
+
+const program = new Command();
+
+program
+  .option('-l, --latest', '发布最新版本')
+  .option('-v, --version <patch>', '发布 patch 版本', 'patch')
+  .parse(process.argv);
 
 /**
  * patch 0.0.*
@@ -44,26 +52,25 @@ async function getVersionAble(version, versionType) {
 }
 
 async function getLatestVersion() {
-  const originInfo = await exec(`npm view git-auto-merge --registry https://registry.npmjs.org/ -- 
-  json`);
+  const originInfo = await exec(
+    `npm view git-auto-merge --registry https://registry.npmjs.org/ --json`,
+    { log: false, silent: true }
+  );
   return originInfo['dist-tags'].latest;
 }
 
 async function modifyVersion() {
+  const options = program.opts();
   const packageJsonPath = process.cwd() + '/package.json';
   const json = JSON.parse(fs.readFileSync(packageJsonPath));
 
-  let args = process.argv.slice(2);
   let version = '';
 
-  if (args.includes('--latest')) {
+  if (options.latest) {
     const latestVersion = await getLatestVersion();
     version = byTypeGetVersion(latestVersion);
   } else {
-    let versionTypeIndex = args.findIndex((s) => s.includes('-p'));
-    versionType = versionTypeIndex === -1 ? 'patch' : args[++versionTypeIndex];
-
-    version = await getVersionAble(json.version, versionType);
+    version = await getVersionAble(json.version, options.version);
   }
 
   fs.writeFileSync(packageJsonPath, JSON.stringify(Object.assign(json, { version }), null, 2));
