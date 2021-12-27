@@ -8,6 +8,7 @@ program
   .option('-b --branch <branch...>', 'Merge branch')
   .option('-f --force', "Automatically create branches when they don't exist")
   .action((options) => {
-    merge(options);
+    process.env.GM_OPTIONS = JSON.stringify(options);
+    merge();
   })
   .parse(process.argv);

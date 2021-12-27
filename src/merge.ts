@@ -9,7 +9,7 @@ import {
   getConfig,
 } from './utils';
 import { STATUS } from './constant';
-import { MergeOptions, PushOptions } from './interface';
+import { GmOptions } from './interface';
 import shelljs from 'shelljs';
 import { pushStart, pushHandle } from './push';
 import t from '../locale';
@@ -36,7 +36,8 @@ async function publish(branch: string, mergeBranch: string) {
   await exec('git push');
 }
 
-async function mergeBefore(options: PushOptions = {}) {
+async function mergeBefore() {
+  const options: GmOptions = JSON.parse(process.env.GM_OPTIONS || '{}');
   let statusResult = await checkStatus();
 
   if (statusResult === STATUS.COMMIT) {
@@ -46,7 +47,7 @@ async function mergeBefore(options: PushOptions = {}) {
       });
       if (!submitResult) shelljs.exit(1);
     }
-    await pushHandle({ isMerge: true, ...options });
+    await pushHandle({ isMerge: true });
   }
 
   if (statusResult === STATUS.PUSH || statusResult === STATUS.NONE) {
@@ -56,20 +57,21 @@ async function mergeBefore(options: PushOptions = {}) {
       });
       if (!submitResult) return;
     }
-    await pushStart(options);
+    await pushStart();
   }
 }
 
-async function _merge(options: MergeOptions = {}) {
+async function _merge() {
   if (getExecTool() === 'npm') console.time('Done');
   if (!shelljs.which('git')) {
     shelljs.echo('Sorry, this script requires git');
     shelljs.exit(1);
   }
 
-  await mergeBefore(options);
+  await mergeBefore();
 
   let config = getConfig();
+  const options: GmOptions = JSON.parse(process.env.GM_OPTIONS || '{}');
 
   const collectBranch = await exec('git branch', { silent: true, log: false });
   const branches = collectBranch

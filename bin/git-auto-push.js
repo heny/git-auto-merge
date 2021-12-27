@@ -7,6 +7,7 @@ program
   .option('-m --commit <commit>', 'Commit message')
   .option('-f --force', "Automatically create branches when they don't exist")
   .action((options) => {
-    pushHandle(options);
+    process.env.GM_OPTIONS = JSON.stringify(options);
+    pushHandle();
   })
   .parse(process.argv);

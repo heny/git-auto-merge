@@ -11,10 +11,11 @@ import {
 } from './utils';
 import { STATUS } from './constant';
 import t from '../locale';
-import { Config, PushOptions } from './interface';
+import { Config, PushOptions, GmOptions } from './interface';
 import shelljs from 'shelljs';
 
-export async function pushStart(options: PushOptions = {}) {
+export async function pushStart() {
+  const options: GmOptions = JSON.parse(process.env.GM_OPTIONS || '{}');
   const curBranch = await exec('git rev-parse --abbrev-ref HEAD', {
     log: false,
     silent: true,
@@ -45,8 +46,9 @@ export async function pushStart(options: PushOptions = {}) {
   await exec('git push');
 }
 
-export async function pushHandle(options: PushOptions = {}) {
-  if (!options.isMerge && getExecTool() === 'npm') console.time('Done');
+export async function pushHandle({ isMerge }: PushOptions) {
+  const options: GmOptions = JSON.parse(process.env.GM_OPTIONS || '{}');
+  if (!isMerge && getExecTool() === 'npm') console.time('Done');
   let statusResult = await checkStatus();
 
   if (statusResult === STATUS.UPDATED) {
@@ -55,7 +57,7 @@ export async function pushHandle(options: PushOptions = {}) {
   }
 
   if (statusResult === STATUS.PUSH || statusResult === STATUS.NONE) {
-    return pushStart(options);
+    return pushStart();
   }
 
   await exec('git add .');
@@ -90,6 +92,6 @@ export async function pushHandle(options: PushOptions = {}) {
     await exec(`git commit -m "${options.commit}"`);
   }
 
-  await pushStart(options);
-  if (!options.isMerge && getExecTool() === 'npm') console.timeEnd('Done');
+  await pushStart();
+  if (!isMerge && getExecTool() === 'npm') console.timeEnd('Done');
 }
