@@ -97,5 +97,5 @@ export async function pushHandle({ isMerge }: PushOptions = {}) {
   if (!isMerge && getExecTool() === 'npm') console.timeEnd('Done');
   const endTime = Date.now();
   const time = (endTime - startTime) / 1000;
-  console.log('Release it in %s seconds', time);
+  console.log('Release it in %ss', time);
 }
