@@ -98,9 +98,7 @@ async function mergeBranch(config: Config) {
 async function _merge() {
   const isUseNpm = getExecTool() === 'npm';
   let startTime = 0;
-  if (isUseNpm) {
-    startTime = Date.now();
-  }
+  if (isUseNpm) startTime = Date.now();
 
   if (!shelljs.which('git')) {
     shelljs.echo('Sorry, this script requires git');
@@ -119,8 +117,7 @@ async function _merge() {
   callback();
 
   if (isUseNpm) {
-    const endTime = Date.now();
-    const time = (endTime - startTime) / 1000;
+    const time = (Date.now() - startTime) / 1000;
     console.log('Done in %ss.', time.toFixed(2));
   }
 }

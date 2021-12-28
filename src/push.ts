@@ -8,7 +8,6 @@ import {
   checkHasUpstream,
   getExecTool,
   getConfig,
-  measureTimeHandle,
 } from './utils';
 import { STATUS } from './constant';
 import t from '../locale';
@@ -49,52 +48,57 @@ export async function pushStart() {
 
 export async function pushHandle({ isMerge }: PushOptions = {}) {
   const isMeasureTime = !isMerge && getExecTool() === 'npm';
+  let startTime = 0;
+  if (isMeasureTime) startTime = Date.now();
 
-  measureTimeHandle(async () => {
-    const options: GmOptions = JSON.parse(process.env.GM_OPTIONS || '{}');
-    let statusResult = await checkStatus();
+  const options: GmOptions = JSON.parse(process.env.GM_OPTIONS || '{}');
+  let statusResult = await checkStatus();
 
-    if (statusResult === STATUS.UPDATED) {
-      preLog(t('CONTENT_IS_UPTODATE'), 'redBright');
-      return Promise.resolve();
-    }
+  if (statusResult === STATUS.UPDATED) {
+    preLog(t('CONTENT_IS_UPTODATE'), 'redBright');
+    return Promise.resolve();
+  }
 
-    if (statusResult === STATUS.PUSH || statusResult === STATUS.NONE) {
-      return pushStart();
-    }
+  if (statusResult === STATUS.PUSH || statusResult === STATUS.NONE) {
+    return pushStart();
+  }
 
-    await exec('git add .');
+  await exec('git add .');
 
-    if (!options.commit) {
-      const config = getConfig();
-      const commitDefault = config.commitDefault || ({} as Config['commitDefault']);
-      const type = await prompt(t('SELECT_CHANGE_TYPE'), {
-        type: 'list',
-        choices: [
-          { name: t('CHANGE_TYPE_FEAT'), value: 'feat' },
-          { name: t('CHANGE_TYPE_FIX'), value: 'fix' },
-          { name: t('CHANGE_TYPE_DOCS'), value: 'docs' },
-          { name: t('CHANGE_TYPE_STYLE'), value: 'style' },
-          { name: t('CHANGE_TYPE_REFACTOR'), value: 'refactor' },
-          { name: t('CHANGE_TYPE_PERF'), value: 'perf' },
-          { name: t('CHANGE_TYPE_TEST'), value: 'test' },
-          { name: t('CHANGE_TYPE_CHORE'), value: 'chore' },
-          { name: t('CHANGE_TYPE_REVERT'), value: 'revert' },
-        ],
-        default: commitDefault.type || 'feat',
-      });
+  if (!options.commit) {
+    const config = getConfig();
+    const commitDefault = config.commitDefault || ({} as Config['commitDefault']);
+    const type = await prompt(t('SELECT_CHANGE_TYPE'), {
+      type: 'list',
+      choices: [
+        { name: t('CHANGE_TYPE_FEAT'), value: 'feat' },
+        { name: t('CHANGE_TYPE_FIX'), value: 'fix' },
+        { name: t('CHANGE_TYPE_DOCS'), value: 'docs' },
+        { name: t('CHANGE_TYPE_STYLE'), value: 'style' },
+        { name: t('CHANGE_TYPE_REFACTOR'), value: 'refactor' },
+        { name: t('CHANGE_TYPE_PERF'), value: 'perf' },
+        { name: t('CHANGE_TYPE_TEST'), value: 'test' },
+        { name: t('CHANGE_TYPE_CHORE'), value: 'chore' },
+        { name: t('CHANGE_TYPE_REVERT'), value: 'revert' },
+      ],
+      default: commitDefault.type || 'feat',
+    });
 
-      const module = await prompt(t('INPUT_CHANGE_MODULE'), {
-        default: commitDefault.module || 'src',
-      });
-      const message = await prompt(t('INPUT_CHANGE_MESSAGE'), {
-        default: commitDefault.message || 'logic',
-      });
-      await exec(`git commit -m "${type}(${module}): ${message}"`);
-    } else {
-      await exec(`git commit -m "${options.commit}"`);
-    }
+    const module = await prompt(t('INPUT_CHANGE_MODULE'), {
+      default: commitDefault.module || 'src',
+    });
+    const message = await prompt(t('INPUT_CHANGE_MESSAGE'), {
+      default: commitDefault.message || 'logic',
+    });
+    await exec(`git commit -m "${type}(${module}): ${message}"`);
+  } else {
+    await exec(`git commit -m "${options.commit}"`);
+  }
 
-    await pushStart();
-  }, isMeasureTime);
+  await pushStart();
+
+  if (isMeasureTime) {
+    const time = (Date.now() - startTime) / 1000;
+    console.log('Done in %ss.', time.toFixed(2));
+  }
 }

@@ -56,7 +56,8 @@ async function getLatestVersion() {
     `npm view git-auto-merge --registry https://registry.npmjs.org/ --json`,
     { log: false, silent: true }
   );
-  return originInfo['dist-tags'].latest;
+  const info = JSON.parse(originInfo);
+  return info['dist-tags'].latest;
 }
 
 async function modifyVersion() {
@@ -65,7 +66,6 @@ async function modifyVersion() {
   const json = JSON.parse(fs.readFileSync(packageJsonPath));
 
   let version = '';
-
   if (options.latest) {
     const latestVersion = await getLatestVersion();
     version = byTypeGetVersion(latestVersion);
