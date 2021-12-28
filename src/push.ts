@@ -46,7 +46,7 @@ export async function pushStart() {
   await exec('git push');
 }
 
-export async function pushHandle({ isMerge }: PushOptions) {
+export async function pushHandle({ isMerge }: PushOptions = {}) {
   const options: GmOptions = JSON.parse(process.env.GM_OPTIONS || '{}');
   if (!isMerge && getExecTool() === 'npm') console.time('Done');
   let statusResult = await checkStatus();
