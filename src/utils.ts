@@ -7,6 +7,15 @@ import { Config, Types } from './interface';
 import { ColorKey, ExecOptions } from './interface';
 import t from '../locale';
 
+export async function measureTimeHandle(func: () => void, flag: boolean) {
+  if (!flag) func;
+  let startTime = Date.now();
+  await func();
+  const endTime = Date.now();
+  const time = (endTime - startTime) / 1000;
+  console.log('Done in %ss.', time.toFixed(2));
+}
+
 export function getConfig(): Config {
   const configPath = process.cwd() + '/gm.config.js';
   if (!existsSync(configPath)) return {} as Config;
