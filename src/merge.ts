@@ -96,7 +96,12 @@ async function mergeBranch(config: Config) {
 }
 
 async function _merge() {
-  if (getExecTool() === 'npm') console.time('Done');
+  const isUseNpm = getExecTool() === 'npm';
+  let startTime = 0;
+  if (isUseNpm) {
+    startTime = Date.now();
+  }
+
   if (!shelljs.which('git')) {
     shelljs.echo('Sorry, this script requires git');
     shelljs.exit(1);
@@ -112,7 +117,12 @@ async function _merge() {
 
   let callback = config.callback || function () {};
   callback();
-  if (getExecTool() === 'npm') console.timeEnd('Done');
+
+  if (isUseNpm) {
+    const endTime = Date.now();
+    const time = (endTime - startTime) / 1000;
+    console.log('Done in %ss.', time.toFixed(2));
+  }
 }
 
 export default _merge;
