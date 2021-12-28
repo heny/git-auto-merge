@@ -1,6 +1,6 @@
 export default function (config: Record<string, any>) {
   return {
-    CUR_PUBLISH_BRANCH: `Current branch: ${config.branch}`,
+    CUR_MERGE_BRANCH: `Current branch: ${config.branch}`,
     CONTENT_IS_UPTODATE: 'Current branch content is up-to-date, no need to push',
     SELECT_CHANGE_TYPE: 'Please select the type of change:',
     INPUT_CHANGE_MODULE: 'Please input the module you want to change:',
@@ -19,11 +19,11 @@ export default function (config: Record<string, any>) {
     CUR_BRANCH_HAS_CHANGE: 'Current branch has new content, do you want to commit it?',
     CUR_BRANCH_START_PUSH:
       'There is content in the current branch staging area. Would you like to submit it now?',
-    SELECT_PUBLISH_BRANCH: 'Please select the branch you want to publish:',
-    PUBLISH_SUCCESS: 'Publish success🎉🎉🎉',
-    PUBLISH_FAIL_CONFLICT:
+    SELECT_MERGE_BRANCH: 'Please select the branch you want to merge:',
+    MERGE_SUCCESS: 'Merge successfully🎉🎉🎉',
+    MERGE_FAIL_CONFLICT:
       'The merge branch failed. After resolving the conflict, execute the following command:',
     NETWORK_FAIL:
       'There is a problem with the network connection, please check the current network!',
-  }
+  };
 }

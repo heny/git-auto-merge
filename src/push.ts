@@ -47,12 +47,13 @@ export async function pushStart() {
 }
 
 export async function pushHandle({ isMerge }: PushOptions = {}) {
+  const startTime = Date.now();
   const options: GmOptions = JSON.parse(process.env.GM_OPTIONS || '{}');
   if (!isMerge && getExecTool() === 'npm') console.time('Done');
   let statusResult = await checkStatus();
 
   if (statusResult === STATUS.UPDATED) {
-    preLog(t('CONTENT_IS_UPTODATE'), 'red');
+    preLog(t('CONTENT_IS_UPTODATE'), 'redBright');
     return Promise.resolve();
   }
 
@@ -94,4 +95,7 @@ export async function pushHandle({ isMerge }: PushOptions = {}) {
 
   await pushStart();
   if (!isMerge && getExecTool() === 'npm') console.timeEnd('Done');
+  const endTime = Date.now();
+  const time = (endTime - startTime) / 1000;
+  console.log('Release it in %s seconds', time);
 }

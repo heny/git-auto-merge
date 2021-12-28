@@ -9,13 +9,13 @@ import {
   getConfig,
 } from './utils';
 import { STATUS } from './constant';
-import { GmOptions } from './interface';
+import { GmOptions, Config } from './interface';
 import shelljs from 'shelljs';
 import { pushStart, pushHandle } from './push';
 import t from '../locale';
 
 async function publish(branch: string, mergeBranch: string) {
-  preLog(t('CUR_PUBLISH_BRANCH', { branch }));
+  preLog(t('CUR_MERGE_BRANCH', { branch }));
   await exec(`git checkout ${branch}`);
 
   let hasUpstream = await checkHasUpstream(branch);
@@ -61,16 +61,7 @@ async function mergeBefore() {
   }
 }
 
-async function _merge() {
-  if (getExecTool() === 'npm') console.time('Done');
-  if (!shelljs.which('git')) {
-    shelljs.echo('Sorry, this script requires git');
-    shelljs.exit(1);
-  }
-
-  await mergeBefore();
-
-  let config = getConfig();
+async function mergeBranch(config: Config) {
   const options: GmOptions = JSON.parse(process.env.GM_OPTIONS || '{}');
 
   const collectBranch = await exec('git branch', { silent: true, log: false });
@@ -89,7 +80,7 @@ async function _merge() {
 
     const choices = config.mergeBranch?.length ? config.mergeBranch : filterBranchs;
 
-    publishBranches = await prompt(t('SELECT_PUBLISH_BRANCH'), {
+    publishBranches = await prompt(t('SELECT_MERGE_BRANCH'), {
       type: 'checkbox',
       choices,
       default: config.mergeDefault || [],
@@ -102,7 +93,22 @@ async function _merge() {
   );
 
   await exec(`git checkout ${curBranch}`);
-  preLog(t('PUBLISH_SUCCESS'), 'green');
+}
+
+async function _merge() {
+  if (getExecTool() === 'npm') console.time('Done');
+  if (!shelljs.which('git')) {
+    shelljs.echo('Sorry, this script requires git');
+    shelljs.exit(1);
+  }
+
+  let config = getConfig();
+
+  await mergeBefore();
+
+  await mergeBranch(config);
+
+  preLog(t('MERGE_SUCCESS'), 'green');
 
   let callback = config.callback || function () {};
   callback();

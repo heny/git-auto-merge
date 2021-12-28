@@ -15,7 +15,7 @@ export function getConfig(): Config {
     // No import is used here, and logging should not use asynchronous
     const config = require(configPath);
     const isObj = types(config) === 'Object';
-    return isObj ? config : {} as Config;
+    return isObj ? config : ({} as Config);
   } catch {
     return {} as Config;
   }
@@ -82,7 +82,7 @@ export function checkPull(result: ExecOutputReturnValue, message?: string): Prom
 
     if (result.stdout.includes('CONFLICT')) {
       const errorMsg = `
-        ${t('PUBLISH_FAIL_CONFLICT')}
+        ${t('MERGE_FAIL_CONFLICT')}
         git add .
         git merge --continue
         git push
@@ -94,7 +94,7 @@ export function checkPull(result: ExecOutputReturnValue, message?: string): Prom
       info = t('NETWORK_FAIL');
     }
 
-    preLog(message || info, 'red');
+    preLog(message || info, 'redBright');
     reject();
     shelljs.exit(1);
   });
