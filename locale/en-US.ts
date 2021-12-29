@@ -25,5 +25,11 @@ export default function (config: Record<string, any>) {
       'The merge branch failed. After resolving the conflict, execute the following command:',
     NETWORK_FAIL:
       'There is a problem with the network connection, please check the current network!',
+    CLI_INIT_DESC: 'Add the script command under package.json',
+    CLI_PUSH_DESC: 'Push the current branch to remote',
+    CLI_MERGE_DESC: 'Merge the current branch to another remote branch',
+    CLI_COMMIT_DESC: 'Add commit information',
+    CLI_BRANCH_DESC: 'Branches to be merged, multiple separated by spaces',
+    CLI_FORCE_DESC: 'Automatically created when branch does not exist',
   };
 }

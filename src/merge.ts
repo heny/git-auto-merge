@@ -10,13 +10,13 @@ import {
   getOriginBranches,
   getCurrentBranch,
 } from './utils';
-import { STATUS } from './constant';
-import { GmOptions, Config } from './interface';
+import { STATUS } from './common/constant';
+import { GmOptions, Config } from './common/interface';
 import shelljs from 'shelljs';
 import { pushStart, pushHandle } from './push';
 import t from '../locale';
 
-async function publish(branch: string, mergeBranch: string) {
+async function mergeStart(branch: string, mergeBranch: string) {
   preLog(t('CUR_MERGE_BRANCH', { branch }));
   await exec(`git checkout ${branch}`);
 
@@ -83,7 +83,7 @@ async function mergeBranch(config: Config) {
   }
 
   await publishBranches.reduce(
-    (promise: Promise<any>, branch: string) => promise.then(() => publish(branch, curBranch)),
+    (promise: Promise<any>, branch: string) => promise.then(() => mergeStart(branch, curBranch)),
     Promise.resolve()
   );
 

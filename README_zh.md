@@ -23,23 +23,25 @@ npm install git-auto-merge -g
 ```
 
 ## 使用
-代码推送: `git-auto-push`
+代码推送: `git-auto push`
 
-代码合并: `git-auto-merge`
+代码合并: `git-auto merge`
 
-全自动推送：`git-auto-push -m 'feat(src): logic'`;
+全自动推送: `git-auto push -m 'feat(src): logic'`;
 
-全自动合并：`git-auto-merge -m 'feat(src): logic' -b 'master'`;
+全自动合并: `git-auto merge -m 'feat(src): logic' -b 'master'`;
+
+查看帮助: `git-auto -h`
 
 ## 可选项
 ### 添加命令
-执行初始化 `git-auto-init` 会自动帮你在package.json添加以下内容：
+执行初始化 `git-auto init` 会自动帮你在package.json添加以下内容：
 
 ```json
 {
   "scripts": {
-    "gp": "git-auto-push",
-    "gm": "git-auto-merge"
+    "gp": "git-auto push",
+    "gm": "git-auto merge"
   }
 }
 ```

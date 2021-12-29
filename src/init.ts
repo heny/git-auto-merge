@@ -9,8 +9,8 @@ function addScripts(packageJsonPath: string) {
         ...json,
         scripts: {
           ...json.scripts,
-          gm: 'git-auto-merge',
-          gp: 'git-auto-push',
+          gm: 'git-auto merge',
+          gp: 'git-auto push',
         },
       },
       null,

@@ -4,9 +4,7 @@
   "description": "git auto push and merge",
   "main": "src/index.js",
   "bin": {
-    "git-auto-merge": "./bin/git-auto-merge.js",
-    "git-auto-push": "./bin/git-auto-push.js",
-    "git-auto-init": "./bin/git-auto-init.js"
+    "git-auto": "./bin/git-auto.js"
   },
   "scripts": {
     "rebuild": "rm -rf dist && tsc",

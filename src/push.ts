@@ -10,9 +10,9 @@ import {
   getConfig,
   getCurrentBranch,
 } from './utils';
-import { STATUS, COMMIT_OPTS } from './constant';
+import { STATUS, COMMIT_OPTS } from './common/constant';
 import t from '../locale';
-import { Config, PushOptions, GmOptions } from './interface';
+import { Config, PushOptions, GmOptions } from './common/interface';
 import shelljs from 'shelljs';
 
 export async function pushStart() {

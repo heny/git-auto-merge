@@ -2,10 +2,10 @@ import inquirer from 'inquirer';
 import shelljs, { ExecOutputReturnValue, ShellString } from 'shelljs';
 import dayjs from 'dayjs';
 import { existsSync } from 'fs';
-import { STATUS, Colors } from './constant';
-import { Config, Types } from './interface';
-import { ColorKey, ExecOptions } from './interface';
-import t from '../locale';
+import { STATUS, Colors } from '../common/constant';
+import { Config, Types } from '../common/interface';
+import { ColorKey, ExecOptions } from '../common/interface';
+import t from '../../locale';
 
 export function getConfig(): Config {
   const configPath = process.cwd() + '/gm.config.js';
