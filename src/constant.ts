@@ -1,3 +1,5 @@
+import t from '../locale';
+
 export enum STATUS {
   /** Need to add commit */
   COMMIT = 'Changes',
@@ -11,6 +13,18 @@ export enum STATUS {
   /** Current branch distal does not exist */
   NONE = 'none',
 }
+
+export const COMMIT_OPTS = [
+  { name: t('CHANGE_TYPE_FEAT'), value: 'feat' },
+  { name: t('CHANGE_TYPE_FIX'), value: 'fix' },
+  { name: t('CHANGE_TYPE_DOCS'), value: 'docs' },
+  { name: t('CHANGE_TYPE_STYLE'), value: 'style' },
+  { name: t('CHANGE_TYPE_REFACTOR'), value: 'refactor' },
+  { name: t('CHANGE_TYPE_PERF'), value: 'perf' },
+  { name: t('CHANGE_TYPE_TEST'), value: 'test' },
+  { name: t('CHANGE_TYPE_CHORE'), value: 'chore' },
+  { name: t('CHANGE_TYPE_REVERT'), value: 'revert' },
+];
 
 export enum Colors {
   black = '30',

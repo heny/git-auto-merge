@@ -74,6 +74,26 @@ export async function prompt(
   return commit;
 }
 
+export async function getCurrentBranch() {
+  const curBranch = await exec('git rev-parse --abbrev-ref HEAD', {
+    log: false,
+    silent: true,
+  });
+  return curBranch;
+}
+
+export async function getOriginBranches() {
+  const branches = await exec('git branch -r', {
+    log: false,
+    silent: true,
+  });
+  return branches
+    .split('\n')
+    .slice(1)
+    .map((v) => v.replace('origin/', '').trim())
+    .filter(Boolean);
+}
+
 export function checkPull(result: ExecOutputReturnValue, message?: string): Promise<void> {
   return new Promise((resolve, reject) => {
     if (result.code === 0) return resolve();

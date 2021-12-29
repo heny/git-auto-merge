@@ -7,6 +7,8 @@ import {
   checkHasUpstream,
   getExecTool,
   getConfig,
+  getOriginBranches,
+  getCurrentBranch,
 } from './utils';
 import { STATUS } from './constant';
 import { GmOptions, Config } from './interface';
@@ -64,26 +66,19 @@ async function mergeBefore() {
 async function mergeBranch(config: Config) {
   const options: GmOptions = JSON.parse(process.env.GM_OPTIONS || '{}');
 
-  const collectBranch = await exec('git branch', { silent: true, log: false });
-  const branches = collectBranch
-    .split('\n')
-    .filter(Boolean)
-    .map((v: string) => v.trim());
+  const branches = await getOriginBranches();
+  const curBranch = await getCurrentBranch();
 
-  const curBranch =
-    branches.find((branch: string) => branch.startsWith('*'))?.replace(/\s|\*/g, '') || '';
-
-  let publishBranches = options.branch || [];
+  let publishBranches = options.branch || config.mergeDefault || [];
 
   if (!publishBranches.length) {
-    const filterBranchs = branches.filter((branch: string) => !branch.includes(curBranch));
+    const filterBranchs = branches.filter((branch: string) => branch !== curBranch);
 
     const choices = config.mergeBranch?.length ? config.mergeBranch : filterBranchs;
 
     publishBranches = await prompt(t('SELECT_MERGE_BRANCH'), {
       type: 'checkbox',
       choices,
-      default: config.mergeDefault || [],
     });
   }
 

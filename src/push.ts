@@ -8,18 +8,16 @@ import {
   checkHasUpstream,
   getExecTool,
   getConfig,
+  getCurrentBranch,
 } from './utils';
-import { STATUS } from './constant';
+import { STATUS, COMMIT_OPTS } from './constant';
 import t from '../locale';
 import { Config, PushOptions, GmOptions } from './interface';
 import shelljs from 'shelljs';
 
 export async function pushStart() {
   const options: GmOptions = JSON.parse(process.env.GM_OPTIONS || '{}');
-  const curBranch = await exec('git rev-parse --abbrev-ref HEAD', {
-    log: false,
-    silent: true,
-  });
+  const curBranch = await getCurrentBranch();
   let checkFlag = await checkBranchExist(curBranch);
 
   if (!checkFlag) {
@@ -70,17 +68,7 @@ export async function pushHandle({ isMerge }: PushOptions = {}) {
     const commitDefault = config.commitDefault || ({} as Config['commitDefault']);
     const type = await prompt(t('SELECT_CHANGE_TYPE'), {
       type: 'list',
-      choices: [
-        { name: t('CHANGE_TYPE_FEAT'), value: 'feat' },
-        { name: t('CHANGE_TYPE_FIX'), value: 'fix' },
-        { name: t('CHANGE_TYPE_DOCS'), value: 'docs' },
-        { name: t('CHANGE_TYPE_STYLE'), value: 'style' },
-        { name: t('CHANGE_TYPE_REFACTOR'), value: 'refactor' },
-        { name: t('CHANGE_TYPE_PERF'), value: 'perf' },
-        { name: t('CHANGE_TYPE_TEST'), value: 'test' },
-        { name: t('CHANGE_TYPE_CHORE'), value: 'chore' },
-        { name: t('CHANGE_TYPE_REVERT'), value: 'revert' },
-      ],
+      choices: COMMIT_OPTS,
       default: commitDefault.type || 'feat',
     });
 

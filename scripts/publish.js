@@ -1,14 +1,11 @@
 const fs = require('fs');
 const { default: merge } = require('../dist/src/merge');
-const { exec, preLog, getExecTool } = require('../dist/src/utils');
+const { exec, preLog, getExecTool, prompt } = require('../dist/src/utils');
 const { Command } = require('commander');
 
 const program = new Command();
 
-program
-  .option('-l, --latest', '发布最新版本')
-  .option('-v, --version <patch>', '发布 patch 版本', 'patch')
-  .parse(process.argv);
+program.option('-l, --latest', '发布最新版本').parse(process.argv);
 
 /**
  * patch 0.0.*
@@ -18,7 +15,7 @@ program
 
 function byTypeGetVersion(version, versionType) {
   version = version.split('.');
-  switch (versionType) {
+  switch (versionType.toLowerCase()) {
     case 'minor':
       version[1] = ++version[1];
       break;
@@ -30,25 +27,6 @@ function byTypeGetVersion(version, versionType) {
       version[2] = ++version[2];
   }
   return version.join('.');
-}
-
-async function recursionVersion(version, versionType, resolve) {
-  preLog(`当前检测版本：${version}`);
-  const isCurrentExist = await exec(`npm view git-auto-merge@${version}`, {
-    log: false,
-    silent: true,
-  });
-  if (isCurrentExist !== '') {
-    recursionVersion(byTypeGetVersion(version, versionType), versionType, resolve);
-  } else {
-    resolve(version);
-  }
-}
-
-async function getVersionAble(version, versionType) {
-  return new Promise(async (resolve) => {
-    recursionVersion(version, versionType, resolve);
-  });
 }
 
 async function getLatestVersion() {
@@ -65,15 +43,26 @@ async function modifyVersion() {
   const packageJsonPath = process.cwd() + '/package.json';
   const json = JSON.parse(fs.readFileSync(packageJsonPath));
 
-  let version = '';
+  const latestVersion = await getLatestVersion();
   if (options.latest) {
-    const latestVersion = await getLatestVersion();
-    version = byTypeGetVersion(latestVersion);
+    json.version = byTypeGetVersion(latestVersion, 'patch');
   } else {
-    version = await getVersionAble(json.version, options.version);
+    const versionType = ['Patch', 'Minor', 'Major'];
+    const choices = versionType
+      .map((item) => byTypeGetVersion(latestVersion, item))
+      .map((value, i) => ({ name: `${versionType[i]} (${value})`, value }));
+
+    json.version = await prompt('请选择发布版本：', {
+      type: 'list',
+      choices: choices.concat({ name: 'Custom Version', value: 'custom' }),
+    });
+
+    if (version === 'custom') {
+      json.version = await prompt('请输入版本号：');
+    }
   }
 
-  fs.writeFileSync(packageJsonPath, JSON.stringify(Object.assign(json, { version }), null, 2));
+  fs.writeFileSync(packageJsonPath, JSON.stringify(json, null, 2));
   preLog(`当前发布版本：${version}`);
   return Promise.resolve();
 }
