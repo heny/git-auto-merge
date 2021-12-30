@@ -12,8 +12,6 @@ program
   .option('-f --force', t('CLI_FORCE_DESC'))
   .option('-l, --latest', t('CLI_PUBLISH_LATEST_DESC'));
 
-process.env.GM_OPTIONS = JSON.stringify(program.opts());
-
 program
   .command('init')
   .description(t('CLI_INIT_DESC'))

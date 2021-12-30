@@ -28,7 +28,7 @@ Code Push: `git-auto push` or `git-auto push -m 'feat(src): logic'`
 
 Code Merge: `git-auto merge` or `git-auto merge -m 'feat(src): logic' -b uat sit`
 
-Code Publish: `git-auto publish`
+Code Publish: `git-auto publish` or `git-auto publish -m 'feat(src): logic' -b uat sit -l`
 
 View help: `git-auto -h`
 

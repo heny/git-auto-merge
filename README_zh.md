@@ -27,6 +27,8 @@ npm install git-auto-merge -g
 
 代码合并: `git-auto merge` or `git-auto merge -m 'feat(src): logic' -b uat sit`
 
+代码发布: `git-auto publish` or `git-auto publish -m 'feat(src): logic' -b uat sit -l`
+
 查看帮助: `git-auto -h`
 
 ## 可选项
