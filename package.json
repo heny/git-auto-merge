@@ -9,8 +9,8 @@
   "scripts": {
     "rebuild": "rm -rf dist && tsc",
     "deploy": "rm -rf dist && tsc && node ./scripts/publish.js",
-    "gm": "npm run rebuild && node ./bin/git-auto-merge.js",
-    "gp": "npm run rebuild && node ./bin/git-auto-push.js"
+    "gm": "npm run rebuild && node ./bin/git-auto merge",
+    "gp": "npm run rebuild && node ./bin/git-auto push"
   },
   "engines": {
     "node": ">=10.0.0"

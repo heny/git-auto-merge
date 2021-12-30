@@ -54,3 +54,5 @@ export type Types =
   | 'Symbol'
   | 'Null'
   | 'Undefined';
+
+export type VersionType = 'patch' | 'minor' | 'major';

@@ -1,15 +1,11 @@
+import { exec, prompt, preLog, getExecTool, getConfig } from './utils';
 import {
-  exec,
-  prompt,
-  preLog,
   checkPull,
   checkStatus,
   checkHasUpstream,
-  getExecTool,
-  getConfig,
   getOriginBranches,
   getCurrentBranch,
-} from './utils';
+} from './utils/git';
 import { STATUS } from './common/constant';
 import { GmOptions, Config } from './common/interface';
 import shelljs from 'shelljs';

@@ -1,15 +1,11 @@
+import { exec, prompt, preLog, getExecTool, getConfig } from './utils';
 import {
-  exec,
   checkPull,
-  prompt,
   checkBranchExist,
-  preLog,
   checkStatus,
   checkHasUpstream,
-  getExecTool,
-  getConfig,
   getCurrentBranch,
-} from './utils';
+} from './utils/git';
 import { STATUS, COMMIT_OPTS } from './common/constant';
 import t from '../locale';
 import { Config, PushOptions, GmOptions } from './common/interface';
@@ -44,28 +40,12 @@ export async function pushStart() {
   await exec('git push');
 }
 
-export async function pushHandle({ isMerge }: PushOptions = {}) {
-  const isMeasureTime = !isMerge && getExecTool() === 'npm';
-  let startTime = 0;
-  if (isMeasureTime) startTime = Date.now();
-
+async function addCommit() {
   const options: GmOptions = JSON.parse(process.env.GM_OPTIONS || '{}');
-  let statusResult = await checkStatus();
-
-  if (statusResult === STATUS.UPDATED) {
-    preLog(t('CONTENT_IS_UPTODATE'), 'redBright');
-    return Promise.resolve();
-  }
-
-  if (statusResult === STATUS.PUSH || statusResult === STATUS.NONE) {
-    return pushStart();
-  }
-
-  await exec('git add .');
-
   if (!options.commit) {
     const config = getConfig();
     const commitDefault = config.commitDefault || ({} as Config['commitDefault']);
+
     const type = await prompt(t('SELECT_CHANGE_TYPE'), {
       type: 'list',
       choices: COMMIT_OPTS,
@@ -82,6 +62,27 @@ export async function pushHandle({ isMerge }: PushOptions = {}) {
   } else {
     await exec(`git commit -m "${options.commit}"`);
   }
+}
+
+export async function pushHandle({ isMerge }: PushOptions = {}) {
+  const isMeasureTime = !isMerge && getExecTool() === 'npm';
+  let startTime = 0;
+  if (isMeasureTime) startTime = Date.now();
+
+  let statusResult = await checkStatus();
+
+  if (statusResult === STATUS.UPDATED) {
+    preLog(t('CONTENT_IS_UPTODATE'), 'redBright');
+    return Promise.resolve();
+  }
+
+  if (statusResult === STATUS.PUSH || statusResult === STATUS.NONE) {
+    return pushStart();
+  }
+
+  await exec('git add .');
+
+  await addCommit();
 
   await pushStart();
 
