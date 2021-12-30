@@ -2,22 +2,25 @@ import { Colors } from './constant';
 
 export interface Config {
   /** Mergeable branches, read all branches if not written by default */
-  mergeBranch: string[];
+  mergeBranch?: string[];
 
   /** Default merged branches */
-  mergeDefault: string[];
+  mergeDefault?: string[];
 
   /** Execute the callback after the merge is complete */
-  callback: () => any;
+  callback?: () => any;
 
   /** Log prefix */
-  logPrefix: string;
+  logPrefix?: string;
+
+  /** Publish branch */
+  publishBranch?: string;
 
   /** Default commit information */
-  commitDefault: {
-    type: string;
-    module: string;
-    message: string;
+  commitDefault?: {
+    type?: string;
+    module?: string;
+    message?: string;
   };
 }
 
@@ -35,6 +38,7 @@ export interface GmOptions {
   /** Branches are not created automatically */
   force?: boolean;
   latest?: boolean;
+  publishBranch?: string;
 }
 
 export interface PushOptions {

@@ -1,7 +1,16 @@
 import { writeFileSync } from 'fs';
 import merge from './merge';
-import { exec, preLog, getExecTool, prompt, getGmOptions, getPackageJson } from './utils';
-import { getCurrentBranch } from './utils/git';
+import { pushHandle } from './push';
+import {
+  exec,
+  preLog,
+  getExecTool,
+  prompt,
+  getGmOptions,
+  getPackageJson,
+  getConfig,
+} from './utils';
+import { getCurrentBranch, getOriginBranches } from './utils/git';
 import { VersionType } from './common/interface';
 import { PACKAGE_JSON_PATH } from './common/constant';
 import t from '../locale';
@@ -111,6 +120,38 @@ async function publishBefore() {
   }
 }
 
+async function publishBranch() {
+  const options = getGmOptions();
+  const config = getConfig();
+
+  let publishBranch = options.publishBranch || config.publishBranch || '';
+  const curBranch = await getCurrentBranch();
+
+  if (!publishBranch) {
+    const choices = await getOriginBranches();
+    if (choices.length === 1) {
+      publishBranch = choices[0];
+    } else {
+      publishBranch = await prompt(t('PUBLISH_SELECT_BRANCH'), {
+        type: 'list',
+        choices,
+      });
+    }
+  }
+
+  const isCurrentBranch = curBranch === publishBranch;
+
+  if (isCurrentBranch) {
+    await pushHandle();
+  } else {
+    await merge();
+    await exec(`git checkout ${publishBranch}`);
+  }
+
+  await exec('npm publish');
+  if (!isCurrentBranch) await exec('git checkout ' + curBranch);
+}
+
 async function publish() {
   console.time('Release it');
 
@@ -118,14 +159,7 @@ async function publish() {
 
   await modifyVersion();
 
-  await merge();
-
-  const curBranch = await getCurrentBranch();
-
-  await exec('git checkout master');
-  await exec('npm publish');
-
-  await exec('git checkout ' + curBranch);
+  await publishBranch();
 
   preLog(t('PUBLISH_SUCCESS'), 'green');
   console.timeEnd('Release it');

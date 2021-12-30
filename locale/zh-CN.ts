@@ -29,6 +29,7 @@ export default function (config: Options) {
     CLI_COMMIT_DESC: '添加提交信息',
     CLI_BRANCH_DESC: '要合并的分支，多个用空格分隔',
     CLI_FORCE_DESC: '当分支不存在时自动创建',
+    CLI_PUBLISH_BRANCH_DESC: '填写一个分支名称，发布到npm',
     CLI_PUBLISH_LATEST_DESC: '发布最新的patch版本',
     PUBLISH_SELECT_VERSION: '请选择发布版本：',
     PUBLISH_INPUT_VERSION: '请输入版本号：',
@@ -39,5 +40,6 @@ export default function (config: Options) {
     PUBLISH_SUCCESS: '发布成功🎉🎉🎉',
     PUBLISH_NPM_LOGIN_ERROR: '你还没有登录呢，请执行npm login登录后再尝试',
     PUBLISH_NPM_REGISTRY_ERROR: '当前npm非官方源，请切换到 https://registry.npmjs.org/ 再尝试',
+    PUBLISH_SELECT_BRANCH: '请选择发布分支：',
   };
 }

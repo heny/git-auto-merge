@@ -65,6 +65,8 @@ async function mergeBranch(config: Config) {
   const branches = await getOriginBranches();
   const curBranch = await getCurrentBranch();
 
+  if (branches.length === 1) return Promise.resolve();
+
   let publishBranches = options.branch || config.mergeDefault || [];
 
   if (!publishBranches.length) {
@@ -84,6 +86,8 @@ async function mergeBranch(config: Config) {
   );
 
   await exec(`git checkout ${curBranch}`);
+
+  preLog(t('MERGE_SUCCESS'), 'green');
 }
 
 async function _merge() {
@@ -101,8 +105,6 @@ async function _merge() {
   await mergeBefore();
 
   await mergeBranch(config);
-
-  preLog(t('MERGE_SUCCESS'), 'green');
 
   let callback = config.callback || function () {};
   callback();

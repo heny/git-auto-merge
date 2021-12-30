@@ -8,7 +8,7 @@ import {
 } from './utils/git';
 import { STATUS, COMMIT_OPTS } from './common/constant';
 import t from '../locale';
-import { Config, PushOptions } from './common/interface';
+import { PushOptions } from './common/interface';
 import shelljs from 'shelljs';
 
 export async function pushStart() {
@@ -44,19 +44,19 @@ async function addCommit() {
   const options = getGmOptions();
   if (!options.commit) {
     const config = getConfig();
-    const commitDefault = config.commitDefault || ({} as Config['commitDefault']);
+    const commitDefault = config.commitDefault;
 
     const type = await prompt(t('SELECT_CHANGE_TYPE'), {
       type: 'list',
       choices: COMMIT_OPTS,
-      default: commitDefault.type || 'feat',
+      default: commitDefault?.type || 'feat',
     });
 
     const module = await prompt(t('INPUT_CHANGE_MODULE'), {
-      default: commitDefault.module || 'src',
+      default: commitDefault?.module || 'src',
     });
     const message = await prompt(t('INPUT_CHANGE_MESSAGE'), {
-      default: commitDefault.message || 'logic',
+      default: commitDefault?.message || 'logic',
     });
     await exec(`git commit -m "${type}(${module}): ${message}"`);
   } else {
@@ -72,7 +72,7 @@ export async function pushHandle({ isMerge }: PushOptions = {}) {
   let statusResult = await checkStatus();
 
   if (statusResult === STATUS.UPDATED) {
-    preLog(t('CONTENT_IS_UPTODATE'), 'redBright');
+    preLog(t('CONTENT_IS_UPTODATE'));
     return Promise.resolve();
   }
 

@@ -33,6 +33,7 @@ export default function (config: Options) {
     CLI_COMMIT_DESC: 'Add commit information',
     CLI_BRANCH_DESC: 'Branches to be merged, multiple separated by spaces',
     CLI_FORCE_DESC: 'Automatically created when branch does not exist',
+    CLI_PUBLISH_BRANCH_DESC: 'Fill in a branch name and publish to npm',
     CLI_PUBLISH_LATEST_DESC: 'Publish the latest patch version',
     PUBLISH_SELECT_VERSION: 'Please select the version you want to publish:',
     PUBLISH_INPUT_VERSION: 'Please input the version you want to publish:',
@@ -44,5 +45,6 @@ export default function (config: Options) {
     PUBLISH_NPM_LOGIN_ERROR: "You haven't logged in yet, please execute npm login and try again",
     PUBLISH_NPM_REGISTRY_ERROR:
       'The current npm is not the official source, please switch to https://registry.npmjs.org/ and try again',
+    PUBLISH_SELECT_BRANCH: 'Please select the publish branch: ',
   };
 }
