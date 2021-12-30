@@ -2,10 +2,11 @@ import inquirer from 'inquirer';
 import shelljs, { ShellString } from 'shelljs';
 import dayjs from 'dayjs';
 import { existsSync } from 'fs';
-import { Colors } from '../common/constant';
+import { Colors, PACKAGE_JSON_PATH } from '../common/constant';
 import { Config, Types } from '../common/interface';
 import { ColorKey, ExecOptions, GmOptions } from '../common/interface';
 import path from 'path';
+import { readFileSync } from 'fs';
 
 export function getConfig(): Config {
   const configPath = path.resolve(process.cwd(), 'gm.config.js');
@@ -24,6 +25,14 @@ export function getConfig(): Config {
 export function getGmOptions(): GmOptions {
   try {
     return JSON.parse(process.env.GM_OPTIONS || '{}');
+  } catch {
+    return {};
+  }
+}
+
+export function getPackageJson() {
+  try {
+    return JSON.parse(readFileSync(PACKAGE_JSON_PATH, 'utf-8'));
   } catch {
     return {};
   }

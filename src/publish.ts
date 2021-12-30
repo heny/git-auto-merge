@@ -1,9 +1,9 @@
-import { readFileSync, writeFileSync } from 'fs';
-import path from 'path';
+import { writeFileSync } from 'fs';
 import merge from './merge';
-import { exec, preLog, getExecTool, prompt, getGmOptions } from './utils';
+import { exec, preLog, getExecTool, prompt, getGmOptions, getPackageJson } from './utils';
 import { getCurrentBranch } from './utils/git';
 import { VersionType } from './common/interface';
+import { PACKAGE_JSON_PATH } from './common/constant';
 import t from '../locale';
 
 /**
@@ -30,11 +30,14 @@ function byTypeGetVersion(version: any, versionType: VersionType) {
 
 async function checkVersionExist(version: string) {
   if (!version) return true;
-  const isCurrentExist = await exec(`npm view git-auto-merge@${version}`, {
+  const json = getPackageJson();
+  const isCurrentExist = await exec(`npm view ${json.name}@${version}`, {
     log: false,
     silent: true,
+    errCaptrue: true,
   });
-  return isCurrentExist !== '';
+  if (isCurrentExist.code !== 0) return false;
+  return isCurrentExist.stdout !== '';
 }
 
 async function reacquireVersion() {
@@ -45,18 +48,19 @@ async function reacquireVersion() {
 }
 
 async function getLatestVersion() {
+  const json = getPackageJson();
   const originInfo = await exec(
-    `npm view git-auto-merge --registry https://registry.npmjs.org/ --json`,
-    { log: false, silent: true }
+    `npm view ${json.name} --registry https://registry.npmjs.org/ --json`,
+    { log: false, silent: true, errCaptrue: true }
   );
-  const info = JSON.parse(originInfo);
+  if (originInfo.code !== 0) return '0.0.0';
+  const info = JSON.parse(originInfo.stdout);
   return info['dist-tags'].latest;
 }
 
 async function modifyVersion() {
   const options = getGmOptions();
-  const packageJsonPath = path.resolve(process.cwd(), 'package.json');
-  const json = JSON.parse(readFileSync(packageJsonPath, 'utf-8'));
+  const json = getPackageJson();
 
   const latestVersion = await getLatestVersion();
   if (options.latest) {
@@ -80,7 +84,7 @@ async function modifyVersion() {
     }
   }
 
-  writeFileSync(packageJsonPath, JSON.stringify(json, null, 2));
+  writeFileSync(PACKAGE_JSON_PATH, JSON.stringify(json, null, 2));
   preLog(t('PUBLISH_CURRENT_VERSION', { version: json.version }));
   return Promise.resolve();
 }
@@ -113,7 +117,7 @@ async function publish() {
   await publishBefore();
 
   await modifyVersion();
-  
+
   await merge();
 
   const curBranch = await getCurrentBranch();

@@ -1,11 +1,11 @@
-import { readFileSync, writeFileSync } from 'fs';
-import path from 'path';
+import { writeFileSync } from 'fs';
+import { PACKAGE_JSON_PATH } from './common/constant';
+import { getPackageJson } from './utils';
 
 function addScripts() {
-  const packageJsonPath = path.resolve(process.cwd(), 'package.json');
-  const json = JSON.parse(readFileSync(packageJsonPath, 'utf-8'));
+  const json = getPackageJson();
   writeFileSync(
-    packageJsonPath,
+    PACKAGE_JSON_PATH,
     JSON.stringify(
       {
         ...json,

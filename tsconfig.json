@@ -2,16 +2,16 @@
   "compilerOptions": {
     "baseUrl": ".",
     "module": "CommonJS",
-    "target": "ES3",
+    "target": "ES5",
     "moduleResolution": "node",
     "strict": true,
     "declaration": true,
     "noUnusedLocals": true,
     "esModuleInterop": true,
-    "lib": ["ESNext", "DOM"],
+    "lib": ["ESNext"],
     "outDir": "./dist",
     "types": ["node"]
   },
-  "include": ["src/*.ts", "locale/*.ts", "src/utils/index.ts", "src/common/constant.ts", "src/common/interface.ts"],
+  "include": ["src/**/*.ts", "locale/*.ts"],
   "exclude": ["node_modules", "./dist"]
 }

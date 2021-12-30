@@ -1,4 +1,7 @@
 import t from '../../locale';
+import path from 'path';
+
+export const PACKAGE_JSON_PATH = path.resolve(process.cwd(), 'package.json');
 
 export enum STATUS {
   /** Need to add commit */
