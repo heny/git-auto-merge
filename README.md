@@ -59,6 +59,9 @@ module.exports = {
 
   /** Log prefix */
   logPrefix: '',
+  
+  /** Publish branch */
+  publishBranch: '';
 
   /** Default commit information */
   commitDefault: {

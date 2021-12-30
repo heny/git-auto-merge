@@ -60,6 +60,9 @@ module.exports = {
 
   /** 日志前缀 */
   logPrefix: '',
+    
+  /** Publish branch */
+  publishBranch: '';
 
   /** 默认commit信息 */
   commitDefault: {

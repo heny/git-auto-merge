@@ -12,15 +12,19 @@ export async function getCurrentBranch() {
 }
 
 export async function getOriginBranches() {
-  const branches = await exec('git branch -r', {
+  let branches = await exec('git branch -r', {
     log: false,
     silent: true,
   });
-  return branches
+  let branchesBefore = branches
     .split('\n')
-    .slice(1)
     .map((v) => v.replace('origin/', '').trim())
     .filter(Boolean);
+
+  if (branchesBefore[0]?.includes('HEAD')) {
+    branchesBefore = branchesBefore.slice(1);
+  }
+  return branchesBefore;
 }
 
 export function checkPull(result: ExecOutputReturnValue, message?: string): Promise<void> {

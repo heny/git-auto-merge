@@ -131,6 +131,8 @@ async function publishBranch() {
     const choices = await getOriginBranches();
     if (choices.length === 1) {
       publishBranch = choices[0];
+    } else if (!choices.length) {
+      publishBranch = curBranch;
     } else {
       publishBranch = await prompt(t('PUBLISH_SELECT_BRANCH'), {
         type: 'list',
