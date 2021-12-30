@@ -1,4 +1,5 @@
-export default function (config: Record<string, any>) {
+import { Options } from './';
+export default function (config: Options) {
   return {
     CUR_MERGE_BRANCH: `当前合并分支: ${config.branch}`,
     CONTENT_IS_UPTODATE: '当前分支内容是最新的，无需推送',
@@ -27,5 +28,13 @@ export default function (config: Record<string, any>) {
     CLI_COMMIT_DESC: '添加提交信息',
     CLI_BRANCH_DESC: '要合并的分支，多个用空格分隔',
     CLI_FORCE_DESC: '当分支不存在时自动创建',
+    CLI_PUBLISH_LATEST_DESC: '发布最新的patch版本',
+    PUBLISH_SELECT_VERSION: '请选择发布版本：',
+    PUBLISH_INPUT_VERSION: '请输入版本号：',
+    PUBLISH_CUSTOM_VERSION: '自定义版本号',
+    PUBLISH_VERSION_EXIST: '你输入的版本号存在或为空，请重新输入：',
+    PUBLISH_CURRENT_VERSION: `当前发布版本：${config.version}`,
+    PUBLISH_NOT_NPM: '请使用 npm 执行该命令',
+    PUBLISH_SUCCESS: '发布成功🎉🎉🎉',
   };
 }

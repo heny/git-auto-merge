@@ -1,6 +1,7 @@
-export default function (config: Record<string, any>) {
+import { Options } from './';
+export default function (config: Options) {
   return {
-    CUR_MERGE_BRANCH: `Current branch: ${config.branch}`,
+    CUR_MERGE_BRANCH: `The current merge branch is ${config.branch}`,
     CONTENT_IS_UPTODATE: 'Current branch content is up-to-date, no need to push',
     SELECT_CHANGE_TYPE: 'Please select the type of change:',
     INPUT_CHANGE_MODULE: 'Please input the module you want to change:',
@@ -31,5 +32,13 @@ export default function (config: Record<string, any>) {
     CLI_COMMIT_DESC: 'Add commit information',
     CLI_BRANCH_DESC: 'Branches to be merged, multiple separated by spaces',
     CLI_FORCE_DESC: 'Automatically created when branch does not exist',
+    CLI_PUBLISH_LATEST_DESC: 'Publish the latest patch version',
+    PUBLISH_SELECT_VERSION: 'Please select the version you want to publish:',
+    PUBLISH_INPUT_VERSION: 'Please input the version you want to publish:',
+    PUBLISH_CUSTOM_VERSION: 'Custom version number',
+    PUBLISH_VERSION_EXIST: 'The version number you entered exists or is empty, please re-enter: ',
+    PUBLISH_CURRENT_VERSION: `The current version is: ${config.version}`,
+    PUBLISH_NOT_NPM: 'Please use npm to execute this command',
+    PUBLISH_SUCCESS: 'Publish successfully🎉🎉🎉',
   };
 }

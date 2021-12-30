@@ -1,4 +1,4 @@
-import { exec, prompt, preLog, getExecTool, getConfig } from './utils';
+import { exec, prompt, preLog, getExecTool, getConfig, getGmOptions } from './utils';
 import {
   checkPull,
   checkStatus,
@@ -7,7 +7,7 @@ import {
   getCurrentBranch,
 } from './utils/git';
 import { STATUS } from './common/constant';
-import { GmOptions, Config } from './common/interface';
+import { Config } from './common/interface';
 import shelljs from 'shelljs';
 import { pushStart, pushHandle } from './push';
 import t from '../locale';
@@ -35,7 +35,7 @@ async function mergeStart(branch: string, mergeBranch: string) {
 }
 
 async function mergeBefore() {
-  const options: GmOptions = JSON.parse(process.env.GM_OPTIONS || '{}');
+  const options = getGmOptions();
   let statusResult = await checkStatus();
 
   if (statusResult === STATUS.COMMIT) {
@@ -60,7 +60,7 @@ async function mergeBefore() {
 }
 
 async function mergeBranch(config: Config) {
-  const options: GmOptions = JSON.parse(process.env.GM_OPTIONS || '{}');
+  const options = getGmOptions();
 
   const branches = await getOriginBranches();
   const curBranch = await getCurrentBranch();

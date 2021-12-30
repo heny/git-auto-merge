@@ -8,7 +8,7 @@ export async function getCurrentBranch() {
     log: false,
     silent: true,
   });
-  return curBranch;
+  return curBranch.trim();
 }
 
 export async function getOriginBranches() {

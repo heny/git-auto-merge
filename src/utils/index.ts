@@ -4,7 +4,7 @@ import dayjs from 'dayjs';
 import { existsSync } from 'fs';
 import { Colors } from '../common/constant';
 import { Config, Types } from '../common/interface';
-import { ColorKey, ExecOptions } from '../common/interface';
+import { ColorKey, ExecOptions, GmOptions } from '../common/interface';
 import path from 'path';
 
 export function getConfig(): Config {
@@ -18,6 +18,14 @@ export function getConfig(): Config {
     return isObj ? config : ({} as Config);
   } catch {
     return {} as Config;
+  }
+}
+
+export function getGmOptions(): GmOptions {
+  try {
+    return JSON.parse(process.env.GM_OPTIONS || '{}');
+  } catch {
+    return {};
   }
 }
 

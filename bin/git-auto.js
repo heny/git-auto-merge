@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 const { default: t } = require('../dist/locale');
 const { default: merge } = require('../dist/src/merge.js');
+const { default: publish } = require('../dist/src/publish');
 const { pushHandle } = require('../dist/src/push');
 const { Command } = require('commander');
 const program = new Command();
@@ -31,6 +32,14 @@ program
   .action((options) => {
     process.env.GM_OPTIONS = JSON.stringify(options);
     merge();
+  });
+
+program
+  .command('publish')
+  .option('-l, --latest', t('CLI_PUBLISH_LATEST_DESC'))
+  .action((options) => {
+    process.env.GM_OPTIONS = JSON.stringify(options);
+    publish();
   });
 
 program.parse(process.argv);

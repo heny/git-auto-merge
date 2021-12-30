@@ -34,6 +34,7 @@ export interface GmOptions {
   branch?: string[];
   /** Branches are not created automatically */
   force?: boolean;
+  latest?: boolean;
 }
 
 export interface PushOptions {

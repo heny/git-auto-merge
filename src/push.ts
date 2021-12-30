@@ -1,4 +1,4 @@
-import { exec, prompt, preLog, getExecTool, getConfig } from './utils';
+import { exec, prompt, preLog, getExecTool, getConfig, getGmOptions } from './utils';
 import {
   checkPull,
   checkBranchExist,
@@ -8,11 +8,11 @@ import {
 } from './utils/git';
 import { STATUS, COMMIT_OPTS } from './common/constant';
 import t from '../locale';
-import { Config, PushOptions, GmOptions } from './common/interface';
+import { Config, PushOptions } from './common/interface';
 import shelljs from 'shelljs';
 
 export async function pushStart() {
-  const options: GmOptions = JSON.parse(process.env.GM_OPTIONS || '{}');
+  const options = getGmOptions();
   const curBranch = await getCurrentBranch();
   let checkFlag = await checkBranchExist(curBranch);
 
@@ -41,7 +41,7 @@ export async function pushStart() {
 }
 
 async function addCommit() {
-  const options: GmOptions = JSON.parse(process.env.GM_OPTIONS || '{}');
+  const options = getGmOptions();
   if (!options.commit) {
     const config = getConfig();
     const commitDefault = config.commitDefault || ({} as Config['commitDefault']);
