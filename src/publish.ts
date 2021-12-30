@@ -85,14 +85,35 @@ async function modifyVersion() {
   return Promise.resolve();
 }
 
-async function publish() {
-  console.time('Release it');
+async function publishBefore() {
+  // check command
   if (getExecTool() !== 'npm') {
     preLog(t('PUBLISH_NOT_NPM'), 'red');
-    return;
+    process.exit(0);
   }
 
+  // check registry
+  let npmRegistry = await exec('npm config get registry', { log: false, silent: true });
+  if (npmRegistry.trim() !== 'https://registry.npmjs.org/') {
+    preLog(t('PUBLISH_NPM_REGISTRY_ERROR'), 'red');
+    process.exit(0);
+  }
+
+  // check login
+  let loginStatus = await exec('npm whoami', { log: false, silent: true, errCaptrue: true });
+  if (loginStatus.code !== 0) {
+    preLog(t('PUBLISH_NPM_LOGIN_ERROR'), 'red');
+    process.exit(0);
+  }
+}
+
+async function publish() {
+  console.time('Release it');
+
+  await publishBefore();
+
   await modifyVersion();
+  
   await merge();
 
   const curBranch = await getCurrentBranch();

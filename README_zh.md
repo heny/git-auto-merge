@@ -23,13 +23,9 @@ npm install git-auto-merge -g
 ```
 
 ## 使用
-代码推送: `git-auto push`
+代码推送: `git-auto push` or `git-auto push -m 'feat(src): logic'`
 
-代码合并: `git-auto merge`
-
-全自动推送: `git-auto push -m 'feat(src): logic'`;
-
-全自动合并: `git-auto merge -m 'feat(src): logic' -b 'master'`;
+代码合并: `git-auto merge` or `git-auto merge -m 'feat(src): logic' -b uat sit`
 
 查看帮助: `git-auto -h`
 

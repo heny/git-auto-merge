@@ -7,6 +7,14 @@ const { Command } = require('commander');
 const program = new Command();
 
 program
+  .option('-m --commit <commit>', t('CLI_COMMIT_DESC'))
+  .option('-b --branch <branch...>', t('CLI_BRANCH_DESC'))
+  .option('-f --force', t('CLI_FORCE_DESC'))
+  .option('-l, --latest', t('CLI_PUBLISH_LATEST_DESC'));
+
+process.env.GM_OPTIONS = JSON.stringify(program.opts());
+
+program
   .command('init')
   .description(t('CLI_INIT_DESC'))
   .action(() => {
@@ -16,29 +24,24 @@ program
 program
   .command('push')
   .description(t('CLI_PUSH_DESC'))
-  .option('-m --commit <commit>', t('CLI_COMMIT_DESC'))
-  .option('-f --force', t('CLI_FORCE_DESC'))
-  .action((options) => {
-    process.env.GM_OPTIONS = JSON.stringify(options);
+  .action(() => {
+    process.env.GM_OPTIONS = JSON.stringify(program.opts());
     pushHandle();
   });
 
 program
   .command('merge')
   .description(t('CLI_MERGE_DESC'))
-  .option('-m --commit <commit>', t('CLI_COMMIT_DESC'))
-  .option('-b --branch <branch...>', t('CLI_BRANCH_DESC'))
-  .option('-f --force', t('CLI_FORCE_DESC'))
-  .action((options) => {
-    process.env.GM_OPTIONS = JSON.stringify(options);
+  .action(() => {
+    process.env.GM_OPTIONS = JSON.stringify(program.opts());
     merge();
   });
 
 program
   .command('publish')
-  .option('-l, --latest', t('CLI_PUBLISH_LATEST_DESC'))
-  .action((options) => {
-    process.env.GM_OPTIONS = JSON.stringify(options);
+  .description(t('CLI_PUBLISH_DESC'))
+  .action(() => {
+    process.env.GM_OPTIONS = JSON.stringify(program.opts());
     publish();
   });
 

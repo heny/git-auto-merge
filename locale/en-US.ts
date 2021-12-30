@@ -29,6 +29,7 @@ export default function (config: Options) {
     CLI_INIT_DESC: 'Add the script command under package.json',
     CLI_PUSH_DESC: 'Push the current branch to remote',
     CLI_MERGE_DESC: 'Merge the current branch to another remote branch',
+    CLI_PUBLISH_DESC: 'Publish code to npm',
     CLI_COMMIT_DESC: 'Add commit information',
     CLI_BRANCH_DESC: 'Branches to be merged, multiple separated by spaces',
     CLI_FORCE_DESC: 'Automatically created when branch does not exist',
@@ -40,5 +41,8 @@ export default function (config: Options) {
     PUBLISH_CURRENT_VERSION: `The current version is: ${config.version}`,
     PUBLISH_NOT_NPM: 'Please use npm to execute this command',
     PUBLISH_SUCCESS: 'Publish successfully🎉🎉🎉',
+    PUBLISH_NPM_LOGIN_ERROR: "You haven't logged in yet, please execute npm login and try again",
+    PUBLISH_NPM_REGISTRY_ERROR:
+      'The current npm is not the official source, please switch to https://registry.npmjs.org/ and try again',
   };
 }

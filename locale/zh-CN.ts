@@ -25,6 +25,7 @@ export default function (config: Options) {
     CLI_INIT_DESC: '在package.json下添加脚本命令',
     CLI_PUSH_DESC: '推送当前分支到远程仓库',
     CLI_MERGE_DESC: '合并分支到当前其他分支',
+    CLI_PUBLISH_DESC: '发布代码到npm',
     CLI_COMMIT_DESC: '添加提交信息',
     CLI_BRANCH_DESC: '要合并的分支，多个用空格分隔',
     CLI_FORCE_DESC: '当分支不存在时自动创建',
@@ -36,5 +37,7 @@ export default function (config: Options) {
     PUBLISH_CURRENT_VERSION: `当前发布版本：${config.version}`,
     PUBLISH_NOT_NPM: '请使用 npm 执行该命令',
     PUBLISH_SUCCESS: '发布成功🎉🎉🎉',
+    PUBLISH_NPM_LOGIN_ERROR: '你还没有登录呢，请执行npm login登录后再尝试',
+    PUBLISH_NPM_REGISTRY_ERROR: '当前npm非官方源，请切换到 https://registry.npmjs.org/ 再尝试',
   };
 }

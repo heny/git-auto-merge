@@ -24,13 +24,11 @@ npm install git-auto-merge
 ```
 
 ## Use
-Code Push: `git-auto push`
+Code Push: `git-auto push` or `git-auto push -m 'feat(src): logic'`
 
-Code Merge: `git-auto merge`
+Code Merge: `git-auto merge` or `git-auto merge -m 'feat(src): logic' -b uat sit`
 
-Fully automated push: `git-auto push -m 'feat(src): logic'`;
-
-Fully automated merge: `git-auto merge -m 'feat(src): logic' -b master`;
+Code Publish: `git-auto publish`
 
 View help: `git-auto -h`
 
