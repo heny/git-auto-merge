@@ -23,7 +23,7 @@ yarn add git-auto-merge
 npm install git-auto-merge
 ```
 
-## Use
+## Usage
 Code Push: `git-auto push` or `git-auto push -m 'feat(src): logic'`
 
 Code Merge: `git-auto merge` or `git-auto merge -m 'feat(src): logic' -b uat sit`
