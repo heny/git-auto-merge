@@ -68,12 +68,10 @@ async function mergeBranch(config: Config) {
 
   if (branches.length === 1) return Promise.resolve();
 
-  console.log(process.env.PUBLISH_BRANCH, 'PUBLISH_BRANCH');
-
   let mergeBranches =
     options.branch ||
-    mergeConfig.default ||
     (process.env.PUBLISH_BRANCH && [process.env.PUBLISH_BRANCH]) ||
+    mergeConfig.default ||
     [];
 
   if (!mergeBranches.length) {
