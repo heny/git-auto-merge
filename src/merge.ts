@@ -68,7 +68,11 @@ async function mergeBranch(config: Config) {
 
   if (branches.length === 1) return Promise.resolve();
 
-  let mergeBranches = options.branch || mergeConfig.default || [];
+  let mergeBranches =
+    options.branch ||
+    mergeConfig.default ||
+    (process.env.PUBLISH_BRANCH && [process.env.PUBLISH_BRANCH]) ||
+    [];
 
   if (!mergeBranches.length) {
     const filterBranchs = branches.filter((branch: string) => branch !== curBranch);

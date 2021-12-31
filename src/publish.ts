@@ -146,6 +146,7 @@ async function publishBranch() {
   if (isCurrentBranch) {
     await pushHandle();
   } else {
+    process.env.PUBLISH_BRANCH = publishBranch;
     await merge();
     await exec(`git checkout ${publishBranch}`);
   }

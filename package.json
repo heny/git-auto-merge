@@ -1,6 +1,6 @@
 {
   "name": "git-auto-merge",
-  "version": "0.0.37",
+  "version": "0.0.38",
   "description": "git auto push and merge",
   "main": "src/index.js",
   "bin": {
