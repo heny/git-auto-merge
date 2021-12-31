@@ -1,13 +1,18 @@
 module.exports = {
-  mergeBranch: [],
-  mergeDefault: ['master'],
-  callback: function () {
-    console.log('部署成功');
+  merge: {
+    branch: [],
+    default: [],
   },
-  publishBranch: 'master',
+  publish: {
+    branch: '',
+    autoCreateTag: false,
+  },
   commitDefault: {
     type: 'feat',
     module: 'src',
     message: 'logic',
+  },
+  callback: function () {
+    console.log('部署成功');
   },
 };

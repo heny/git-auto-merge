@@ -48,20 +48,21 @@ Executing the initialization `git-auto init` will automatically add the followin
 Create gm.config.js in the root of the project: 
 ```js
 module.exports = {
-  /** Mergeable branches, read all branches if not written by default */
-  mergeBranch: [],
-
-  /** Default merged branches */
-  mergeDefault: [],
-
-  /** Execute the callback after the merge is complete */
-  callback: () => {},
+  merge: {
+    /** Mergeable branches, read all branches if not written by default */
+    branch: [],
+    /** Default merged branches */
+    default: [],
+  },
+  publish: {
+    /** Publish branch */
+    branch: 'master',
+    /** /** auto create Tag: v1.0.0 */ */
+    autoCreateTag: true,
+  },
 
   /** Log prefix */
   logPrefix: '',
-  
-  /** Publish branch */
-  publishBranch: '';
 
   /** Default commit information */
   commitDefault: {
@@ -69,5 +70,8 @@ module.exports = {
     module: 'index',
     message: 'logic',
   },
+
+  /** Execute the callback after the merge is complete */
+  callback: () => {},
 }
 ```

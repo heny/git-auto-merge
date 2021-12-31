@@ -49,26 +49,30 @@ npm install git-auto-merge -g
 
 ```js
 module.exports = {
-  /** 合并分支，默认读取所有分支 */
-  mergeBranch: [],
-
-  /** 默认合并分支 */
-  mergeDefault: [],
-
-  /** 执行后的回调 */
-  callback: () => {},
+  merge: {
+    /** 合并分支，默认读取所有分支 */
+    branch: [],
+    /** 默认合并分支 */
+    default: [],
+  },
+  publish: {
+    /** 发布的分支 */
+    branch: '',
+    /** 发布分支后自动创建tag */
+    autoCreateTag: true,
+  },
 
   /** 日志前缀 */
   logPrefix: '',
-    
-  /** Publish branch */
-  publishBranch: '';
-
+  
   /** 默认commit信息 */
   commitDefault: {
     type: 'feat',
     module: 'index',
     message: 'logic',
   },
+
+  /** 执行后的回调 */
+  callback: () => {},
 }
 ```

@@ -41,5 +41,8 @@ export default function (config: Options) {
     PUBLISH_NPM_LOGIN_ERROR: '你还没有登录呢，请执行npm login登录后再尝试',
     PUBLISH_NPM_REGISTRY_ERROR: '当前npm非官方源，请切换到 https://registry.npmjs.org/ 再尝试',
     PUBLISH_SELECT_BRANCH: '请选择发布分支：',
+    PUBLISH_CREATE_TAG: '是否创建tag？',
+    PUBLISH_CREATE_NAME: '请输入tag名称：',
+    PUBLISH_CREATE_DESC: '请输入tag描述信息：',
   };
 }

@@ -61,26 +61,27 @@ async function mergeBefore() {
 
 async function mergeBranch(config: Config) {
   const options = getGmOptions();
+  const mergeConfig = config.merge || {};
 
   const branches = await getOriginBranches();
   const curBranch = await getCurrentBranch();
 
   if (branches.length === 1) return Promise.resolve();
 
-  let publishBranches = options.branch || config.mergeDefault || [];
+  let mergeBranches = options.branch || mergeConfig.default || [];
 
-  if (!publishBranches.length) {
+  if (!mergeBranches.length) {
     const filterBranchs = branches.filter((branch: string) => branch !== curBranch);
 
-    const choices = config.mergeBranch?.length ? config.mergeBranch : filterBranchs;
+    const choices = mergeConfig.branch?.length ? mergeConfig.branch : filterBranchs;
 
-    publishBranches = await prompt(t('SELECT_MERGE_BRANCH'), {
+    mergeBranches = await prompt(t('SELECT_MERGE_BRANCH'), {
       type: 'checkbox',
       choices,
     });
   }
 
-  await publishBranches.reduce(
+  await mergeBranches.reduce(
     (promise: Promise<any>, branch: string) => promise.then(() => mergeStart(branch, curBranch)),
     Promise.resolve()
   );

@@ -46,5 +46,8 @@ export default function (config: Options) {
     PUBLISH_NPM_REGISTRY_ERROR:
       'The current npm is not the official source, please switch to https://registry.npmjs.org/ and try again',
     PUBLISH_SELECT_BRANCH: 'Please select the publish branch: ',
+    PUBLISH_CREATE_TAG: 'Whether to create tag?',
+    PUBLISH_CREATE_NAME: 'Please enter the tag name: ',
+    PUBLISH_CREATE_DESC: 'Please enter the tag description: ',
   };
 }

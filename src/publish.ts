@@ -124,7 +124,7 @@ async function publishBranch() {
   const options = getGmOptions();
   const config = getConfig();
 
-  let publishBranch = options.publishBranch || config.publishBranch || '';
+  let publishBranch = options.publishBranch || config?.publish?.branch || '';
   const curBranch = await getCurrentBranch();
 
   if (!publishBranch) {
@@ -154,6 +154,31 @@ async function publishBranch() {
   if (!isCurrentBranch) await exec('git checkout ' + curBranch);
 }
 
+async function createTag() {
+  const curVersion = `v${getPackageJson().version}`;
+  let tagName = curVersion;
+  let desc = curVersion;
+
+  const autoCreateTag = getConfig()?.publish?.autoCreateTag;
+  if (!autoCreateTag) {
+    tagName = await prompt(t('PUBLISH_CREATE_NAME'), { default: curVersion });
+    desc = await prompt(t('PUBLISH_CREATE_DESC'), { default: curVersion });
+  }
+
+  await exec(`git tag -a ${tagName} -m ${desc}`);
+  await exec(`git push origin ${tagName}`);
+}
+
+async function publishAfter() {
+  const autoCreateTag = getConfig()?.publish?.autoCreateTag;
+  if (autoCreateTag) {
+    await createTag();
+  } else {
+    let isCreateTag = await prompt(t('PUBLISH_CREATE_TAG'), { type: 'confirm' });
+    if (isCreateTag) await createTag();
+  }
+}
+
 async function publish() {
   console.time('Release it');
 
@@ -164,6 +189,9 @@ async function publish() {
   await publishBranch();
 
   preLog(t('PUBLISH_SUCCESS'), 'green');
+
+  await publishAfter();
+
   console.timeEnd('Release it');
 }
 
