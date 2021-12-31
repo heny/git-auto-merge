@@ -11,7 +11,7 @@ program
   .option('-b --branch <branch...>', t('CLI_BRANCH_DESC'))
   .option('-f --force', t('CLI_FORCE_DESC'))
   .option('-l, --latest', t('CLI_PUBLISH_LATEST_DESC'))
-  .option('-pb --publishBranch', t('CLI_PUBLISH_BRANCH_DESC'));
+  .option('-pb --publishBranch <publishBranch>', t('CLI_PUBLISH_BRANCH_DESC'));
 
 program
   .command('init')
