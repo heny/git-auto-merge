@@ -48,5 +48,7 @@ export default function (config: Options) {
     CLI_PUBLISH_TAG_DESC: '发布时创建tag，可以空格写名称',
     PUBLISH_CALCULATING: '发布计算中...',
     INIT_SUCCESS: '初始化成功🎉🎉🎉',
+    COMMANDER_ERROR_DESC: '添加 -h 或 --help 查看帮助信息',
+    CLI_HELP_DESC: '查看帮助'
   };
 }

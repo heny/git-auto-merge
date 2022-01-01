@@ -53,5 +53,7 @@ export default function (config: Options) {
     CLI_PUBLISH_TAG_DESC: 'Create a tag when publishing, you can write the name after a space',
     PUBLISH_CALCULATING: 'Publishing calculation...',
     INIT_SUCCESS: 'Initialization successfully🎉🎉🎉',
+    COMMANDER_ERROR_DESC: '(add -h or --help for additional information)',
+    CLI_HELP_DESC: 'Display help information',
   };
 }
