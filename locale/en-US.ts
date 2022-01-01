@@ -49,5 +49,9 @@ export default function (config: Options) {
     PUBLISH_CREATE_TAG: 'Whether to create tag?',
     PUBLISH_CREATE_NAME: 'Please enter the tag name: ',
     PUBLISH_CREATE_DESC: 'Please enter the tag description: ',
+    PUBLISH_CREATE_TAG_SUCCESS: `Create tag ${config.tagName} successfully🎉🎉🎉`,
+    CLI_PUBLISH_TAG_DESC: 'Create a tag when publishing, you can write the name after a space',
+    PUBLISH_CALCULATING: 'Publishing calculation...',
+    INIT_SUCCESS: 'Initialization successfully🎉🎉🎉',
   };
 }

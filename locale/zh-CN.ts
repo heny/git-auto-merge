@@ -44,5 +44,9 @@ export default function (config: Options) {
     PUBLISH_CREATE_TAG: '是否创建tag？',
     PUBLISH_CREATE_NAME: '请输入tag名称：',
     PUBLISH_CREATE_DESC: '请输入tag描述信息：',
+    PUBLISH_CREATE_TAG_SUCCESS: `创建tag ${config.tagName}成功🎉🎉🎉`,
+    CLI_PUBLISH_TAG_DESC: '发布时创建tag，可以空格写名称',
+    PUBLISH_CALCULATING: '发布计算中...',
+    INIT_SUCCESS: '初始化成功🎉🎉🎉',
   };
 }

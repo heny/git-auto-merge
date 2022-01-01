@@ -27,7 +27,7 @@ npm install git-auto-merge -g
 
 代码合并: `git-auto merge` or `git-auto merge -m 'feat(src): logic' -b uat sit`
 
-代码发布: `git-auto publish` or `git-auto publish -m 'feat(src): logic' -b uat sit -l -pb master`
+代码发布: `git-auto publish` or `git-auto publish -m 'feat(src): logic' -b uat sit -p master -lt`
 
 查看帮助: `git-auto -h`
 
@@ -60,6 +60,8 @@ module.exports = {
     branch: '',
     /** 发布分支后自动创建tag */
     autoCreateTag: true,
+    /** 在发布时自动发布最新版本 */
+    latest: true
   },
 
   /** 日志前缀 */

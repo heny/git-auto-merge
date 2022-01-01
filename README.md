@@ -28,7 +28,7 @@ Code Push: `git-auto push` or `git-auto push -m 'feat(src): logic'`
 
 Code Merge: `git-auto merge` or `git-auto merge -m 'feat(src): logic' -b uat sit`
 
-Code Publish: `git-auto publish` or `git-auto publish -m 'feat(src): logic' -b uat sit -l -pb master`
+Code Publish: `git-auto publish` or `git-auto publish -m 'feat(src): logic' -b uat sit -p master -lt`
 
 View help: `git-auto -h`
 
@@ -57,8 +57,10 @@ module.exports = {
   publish: {
     /** Publish branch */
     branch: 'master',
-    /** /** auto create Tag: v1.0.0 */ */
+    /** auto create Tag: v1.0.0 */
     autoCreateTag: true,
+    /** Automatic release of the latest patch version at release time */
+    latest: true
   },
 
   /** Log prefix */

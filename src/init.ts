@@ -1,6 +1,7 @@
 import { writeFileSync } from 'fs';
 import { PACKAGE_JSON_PATH } from './common/constant';
-import { getPackageJson } from './utils';
+import { getPackageJson, preLog } from './utils';
+import t from '../locale';
 
 function addScripts() {
   const json = getPackageJson();
@@ -13,12 +14,14 @@ function addScripts() {
           ...json.scripts,
           gm: 'git-auto merge',
           gp: 'git-auto push',
+          gpb: 'git-auto publish',
         },
       },
       null,
       '  '
     )
   );
+  preLog(t('INIT_SUCCESS'));
 }
 
 addScripts();

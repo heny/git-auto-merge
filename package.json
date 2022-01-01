@@ -1,6 +1,6 @@
 {
   "name": "git-auto-merge",
-  "version": "0.0.39",
+  "version": "0.0.40",
   "description": "git auto push and merge",
   "main": "src/index.js",
   "bin": {
@@ -10,7 +10,8 @@
     "rebuild": "rm -rf dist && tsc",
     "deploy": "rm -rf dist && tsc && node ./bin/git-auto publish",
     "gm": "npm run rebuild && node ./bin/git-auto merge",
-    "gp": "npm run rebuild && node ./bin/git-auto push"
+    "gp": "npm run rebuild && node ./bin/git-auto push",
+    "gpb": "npm run rebuild && node ./bin/git-auto publish"
   },
   "engines": {
     "node": ">=10.0.0"

@@ -4,8 +4,9 @@ module.exports = {
     default: [],
   },
   publish: {
-    branch: '',
-    autoCreateTag: false,
+    branch: 'master',
+    autoCreateTag: true,
+    latest: true,
   },
   commitDefault: {
     type: 'feat',

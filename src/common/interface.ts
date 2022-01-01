@@ -13,6 +13,8 @@ export interface Config {
     branch?: string;
     /** auto create Tag: v1.0.0 */
     autoCreateTag?: boolean;
+    /** Automatic release of the latest patch version at release time */
+    latest?: boolean;
   };
 
   /** Execute the callback after the merge is complete */
@@ -44,6 +46,7 @@ export interface GmOptions {
   force?: boolean;
   latest?: boolean;
   publishBranch?: string;
+  tag?: boolean | string;
 }
 
 export interface PushOptions {

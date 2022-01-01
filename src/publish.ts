@@ -69,10 +69,11 @@ async function getLatestVersion() {
 
 async function modifyVersion() {
   const options = getGmOptions();
+  const config = getConfig();
   const json = getPackageJson();
 
   const latestVersion = await getLatestVersion();
-  if (options.latest) {
+  if (options.latest || config?.publish?.latest) {
     json.version = byTypeGetVersion(latestVersion, 'patch');
   } else {
     const versionType = ['Patch', 'Minor', 'Major'] as const;
@@ -156,18 +157,21 @@ async function publishBranch() {
 }
 
 async function createTag() {
+  const options = getGmOptions();
+
   const curVersion = `v${getPackageJson().version}`;
-  let tagName = curVersion;
+  let tagName = typeof options.tag === 'string' ? options.tag : curVersion;
   let desc = curVersion;
 
   const autoCreateTag = getConfig()?.publish?.autoCreateTag;
-  if (!autoCreateTag) {
+  if (!autoCreateTag && !options.tag) {
     tagName = await prompt(t('PUBLISH_CREATE_NAME'), { default: curVersion });
     desc = await prompt(t('PUBLISH_CREATE_DESC'), { default: curVersion });
   }
 
   await exec(`git tag -a ${tagName} -m ${desc}`);
   await exec(`git push origin ${tagName}`);
+  preLog(t('PUBLISH_CREATE_TAG_SUCCESS', { tagName }));
 }
 
 async function publishAfter() {
@@ -182,11 +186,10 @@ async function publishAfter() {
 
 async function publish() {
   console.time('Release it');
-
+  preLog(t('PUBLISH_CALCULATING'));
   await publishBefore();
 
   await modifyVersion();
-
   await publishBranch();
 
   preLog(t('PUBLISH_SUCCESS'), 'green');
