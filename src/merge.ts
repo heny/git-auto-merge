@@ -97,14 +97,10 @@ async function mergeBranch(config: Config) {
 
 async function _merge() {
   const options = getGmOptions();
-  const isMeasureTime = options.commandName === 'merge' && getExecTool() === 'npm';
+  const isCurrentCommand = options.commandName === 'merge';
+  const isMeasureTime = isCurrentCommand && getExecTool() === 'npm';
   let startTime = 0;
   if (isMeasureTime) startTime = Date.now();
-
-  if (!shelljs.which('git')) {
-    shelljs.echo('Sorry, this script requires git');
-    shelljs.exit(1);
-  }
 
   let config = getConfig();
 
@@ -112,8 +108,7 @@ async function _merge() {
 
   await mergeBranch(config);
 
-  let callback = config.callback || function () {};
-  callback();
+  if (isCurrentCommand) getConfig().callback?.();
 
   if (isMeasureTime) {
     const time = (Date.now() - startTime) / 1000;

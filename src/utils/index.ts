@@ -8,6 +8,23 @@ import { ColorKey, ExecOptions, GmOptions } from '../common/interface';
 import path from 'path';
 import { readFileSync } from 'fs';
 
+export async function wrapHandle(func: () => Promise<any>, command: 'push' | 'merge' | 'publish') {
+  const options = getGmOptions();
+  const isCurrentCommand = options.commandName === command;
+  const isMeasureTime = isCurrentCommand && getExecTool() === 'npm';
+  let startTime = 0;
+  if (isMeasureTime) startTime = Date.now();
+
+  await func();
+
+  if (isCurrentCommand) getConfig().callback?.();
+
+  if (isMeasureTime) {
+    const time = (Date.now() - startTime) / 1000;
+    console.log('Done in %ss.', time.toFixed(2));
+  }
+}
+
 export function getConfig(): Config {
   const configPath = path.resolve(process.cwd(), 'gm.config.js');
   if (!existsSync(configPath)) return {} as Config;

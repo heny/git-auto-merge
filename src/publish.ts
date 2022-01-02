@@ -186,7 +186,8 @@ async function publishAfter() {
 
 async function publish() {
   const options = getGmOptions();
-  const isMeasureTime = options.commandName === 'publish' && getExecTool() === 'npm';
+  const isCurrentCommand = options.commandName === 'publish';
+  const isMeasureTime = isCurrentCommand && getExecTool() === 'npm';
   let startTime = 0;
   if (isMeasureTime) startTime = Date.now();
 
@@ -199,6 +200,8 @@ async function publish() {
   preLog(t('PUBLISH_SUCCESS'), 'green');
 
   await publishAfter();
+
+  if (isCurrentCommand) getConfig().callback?.();
 
   if (isMeasureTime) {
     const time = (Date.now() - startTime) / 1000;

@@ -1,4 +1,4 @@
-import { exec, prompt, preLog, getExecTool, getConfig, getGmOptions } from './utils';
+import { exec, prompt, preLog, getConfig, getGmOptions, wrapHandle } from './utils';
 import {
   checkPull,
   checkBranchExist,
@@ -64,30 +64,35 @@ async function addCommit() {
 }
 
 export async function pushHandle() {
-  const options = getGmOptions();
-  const isMeasureTime = options.commandName === 'push' && getExecTool() === 'npm';
-  let startTime = 0;
-  if (isMeasureTime) startTime = Date.now();
+  // const options = getGmOptions();
+  // const isCurrentCommand = options.commandName === 'push';
+  // const isMeasureTime = isCurrentCommand && getExecTool() === 'npm';
+  // let startTime = 0;
+  // if (isMeasureTime) startTime = Date.now();
 
-  let statusResult = await checkStatus();
+  wrapHandle(async function () {
+    let statusResult = await checkStatus();
 
-  if (statusResult === STATUS.UPDATED) {
-    preLog(t('CONTENT_IS_UPTODATE'));
-    return Promise.resolve();
-  }
+    if (statusResult === STATUS.UPDATED) {
+      preLog(t('CONTENT_IS_UPTODATE'));
+      return Promise.resolve();
+    }
 
-  if (statusResult === STATUS.PUSH || statusResult === STATUS.NONE) {
-    return pushStart();
-  }
+    if (statusResult === STATUS.PUSH || statusResult === STATUS.NONE) {
+      return pushStart();
+    }
 
-  await exec('git add .');
+    await exec('git add .');
 
-  await addCommit();
+    await addCommit();
 
-  await pushStart();
+    await pushStart();
+  }, 'push');
 
-  if (isMeasureTime) {
-    const time = (Date.now() - startTime) / 1000;
-    console.log('Done in %ss.', time.toFixed(2));
-  }
+  // if (isCurrentCommand) getConfig().callback?.();
+
+  // if (isMeasureTime) {
+  //   const time = (Date.now() - startTime) / 1000;
+  //   console.log('Done in %ss.', time.toFixed(2));
+  // }
 }
