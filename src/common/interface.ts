@@ -18,7 +18,7 @@ export interface Config {
   };
 
   /** Execute the callback after the merge is complete */
-  callback?: () => any;
+  callback?: (command: CommandName) => any;
 
   /** Log prefix */
   logPrefix?: string;

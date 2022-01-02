@@ -20,7 +20,7 @@ export async function wrapHandle(func: () => Promise<any>, command: CommandName)
 
   await func();
 
-  if (isCurrentCommand) getConfig().callback?.();
+  if (isCurrentCommand) getConfig().callback?.(command);
 
   if (isMeasureTime) {
     const time = (Date.now() - startTime) / 1000;

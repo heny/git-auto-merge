@@ -13,7 +13,7 @@ module.exports = {
     module: 'src',
     message: 'logic',
   },
-  callback: function () {
-    console.log('部署成功');
+  callback: function (command) {
+    console.log('部署成功, 当前执行命令为：', command);
   },
 };

@@ -46,7 +46,7 @@ Executing the initialization `git-auto init` will automatically add the followin
 
 ### Add Configuration
 Create gm.config.js in the root of the project: 
-```js
+```ts
 module.exports = {
   merge: {
     /** Mergeable branches, read all branches if not written by default */
@@ -74,6 +74,6 @@ module.exports = {
   },
 
   /** Execute the callback after the merge is complete */
-  callback: () => {},
+  callback: (commandName: 'push' | 'merge' | 'publish') => {},
 }
 ```

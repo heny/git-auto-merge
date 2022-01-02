@@ -74,7 +74,7 @@ module.exports = {
     message: 'logic',
   },
 
-  /** 执行后的回调 */
-  callback: () => {},
+  /** 执行后的回调，可以通过不同的命令做不同的事 */
+  callback: (commandName: 'push' | 'merge' | 'publish') => {},
 }
 ```
