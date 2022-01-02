@@ -9,6 +9,7 @@ import {
   getGmOptions,
   getPackageJson,
   getConfig,
+  wrapHandle,
 } from './utils';
 import { getCurrentBranch, getOriginBranches } from './utils/git';
 import { VersionType } from './common/interface';
@@ -185,28 +186,17 @@ async function publishAfter() {
 }
 
 async function publish() {
-  const options = getGmOptions();
-  const isCurrentCommand = options.commandName === 'publish';
-  const isMeasureTime = isCurrentCommand && getExecTool() === 'npm';
-  let startTime = 0;
-  if (isMeasureTime) startTime = Date.now();
+  await wrapHandle(async function () {
+    preLog(t('PUBLISH_CALCULATING'));
+    await publishBefore();
 
-  preLog(t('PUBLISH_CALCULATING'));
-  await publishBefore();
+    await modifyVersion();
+    await publishBranch();
 
-  await modifyVersion();
-  await publishBranch();
+    preLog(t('PUBLISH_SUCCESS'), 'green');
 
-  preLog(t('PUBLISH_SUCCESS'), 'green');
-
-  await publishAfter();
-
-  if (isCurrentCommand) getConfig().callback?.();
-
-  if (isMeasureTime) {
-    const time = (Date.now() - startTime) / 1000;
-    console.log('Done in %ss.', time.toFixed(2));
-  }
+    await publishAfter();
+  }, 'publish');
 }
 
 export default publish;

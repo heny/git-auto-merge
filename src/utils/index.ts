@@ -4,11 +4,11 @@ import dayjs from 'dayjs';
 import { existsSync } from 'fs';
 import { Colors, PACKAGE_JSON_PATH } from '../common/constant';
 import { Config, Types } from '../common/interface';
-import { ColorKey, ExecOptions, GmOptions } from '../common/interface';
+import { ColorKey, ExecOptions, GmOptions, CommandName } from '../common/interface';
 import path from 'path';
 import { readFileSync } from 'fs';
 
-export async function wrapHandle(func: () => Promise<any>, command: 'push' | 'merge' | 'publish') {
+export async function wrapHandle(func: () => Promise<any>, command: CommandName) {
   const options = getGmOptions();
   const isCurrentCommand = options.commandName === command;
   const isMeasureTime = isCurrentCommand && getExecTool() === 'npm';

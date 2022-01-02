@@ -39,6 +39,8 @@ export interface ExecOptions {
   [key: string]: any;
 }
 
+export type CommandName = 'push' | 'merge' | 'publish';
+
 export interface GmOptions {
   commit?: string;
   branch?: string[];
@@ -47,7 +49,7 @@ export interface GmOptions {
   latest?: boolean;
   publishBranch?: string;
   tag?: boolean | string;
-  commandName?: 'push' | 'merge' | 'publish';
+  commandName?: CommandName;
 }
 
 export type Types =

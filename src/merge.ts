@@ -1,4 +1,4 @@
-import { exec, prompt, preLog, getExecTool, getConfig, getGmOptions } from './utils';
+import { exec, prompt, preLog, getConfig, getGmOptions, wrapHandle } from './utils';
 import {
   checkPull,
   checkStatus,
@@ -7,7 +7,6 @@ import {
   getCurrentBranch,
 } from './utils/git';
 import { STATUS } from './common/constant';
-import { Config } from './common/interface';
 import shelljs from 'shelljs';
 import { pushStart, pushHandle } from './push';
 import t from '../locale';
@@ -59,7 +58,8 @@ async function mergeBefore() {
   }
 }
 
-async function mergeBranch(config: Config) {
+async function mergeBranch() {
+  let config = getConfig();
   const options = getGmOptions();
   const mergeConfig = config.merge || {};
 
@@ -96,24 +96,11 @@ async function mergeBranch(config: Config) {
 }
 
 async function _merge() {
-  const options = getGmOptions();
-  const isCurrentCommand = options.commandName === 'merge';
-  const isMeasureTime = isCurrentCommand && getExecTool() === 'npm';
-  let startTime = 0;
-  if (isMeasureTime) startTime = Date.now();
+  await wrapHandle(async function () {
+    await mergeBefore();
 
-  let config = getConfig();
-
-  await mergeBefore();
-
-  await mergeBranch(config);
-
-  if (isCurrentCommand) getConfig().callback?.();
-
-  if (isMeasureTime) {
-    const time = (Date.now() - startTime) / 1000;
-    console.log('Done in %ss.', time.toFixed(2));
-  }
+    await mergeBranch();
+  }, 'merge');
 }
 
 export default _merge;

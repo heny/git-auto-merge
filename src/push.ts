@@ -64,13 +64,7 @@ async function addCommit() {
 }
 
 export async function pushHandle() {
-  // const options = getGmOptions();
-  // const isCurrentCommand = options.commandName === 'push';
-  // const isMeasureTime = isCurrentCommand && getExecTool() === 'npm';
-  // let startTime = 0;
-  // if (isMeasureTime) startTime = Date.now();
-
-  wrapHandle(async function () {
+  await wrapHandle(async function () {
     let statusResult = await checkStatus();
 
     if (statusResult === STATUS.UPDATED) {
@@ -88,11 +82,4 @@ export async function pushHandle() {
 
     await pushStart();
   }, 'push');
-
-  // if (isCurrentCommand) getConfig().callback?.();
-
-  // if (isMeasureTime) {
-  //   const time = (Date.now() - startTime) / 1000;
-  //   console.log('Done in %ss.', time.toFixed(2));
-  // }
 }
