@@ -1,3 +1,4 @@
+const shelljs = require('shelljs');
 module.exports = {
   merge: {
     branch: [],
@@ -15,5 +16,8 @@ module.exports = {
   },
   callback: function (command) {
     console.log('部署成功, 当前执行命令为：', command);
+    if (command === 'publish') {
+      shelljs.exec('npm -g i git-auto-merge');
+    }
   },
 };
