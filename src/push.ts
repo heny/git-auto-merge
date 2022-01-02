@@ -8,7 +8,6 @@ import {
 } from './utils/git';
 import { STATUS, COMMIT_OPTS } from './common/constant';
 import t from '../locale';
-import { PushOptions } from './common/interface';
 import shelljs from 'shelljs';
 
 export async function pushStart() {
@@ -64,8 +63,9 @@ async function addCommit() {
   }
 }
 
-export async function pushHandle({ isMerge }: PushOptions = {}) {
-  const isMeasureTime = !isMerge && getExecTool() === 'npm';
+export async function pushHandle() {
+  const options = getGmOptions();
+  const isMeasureTime = options.commandName === 'push' && getExecTool() === 'npm';
   let startTime = 0;
   if (isMeasureTime) startTime = Date.now();
 

@@ -47,11 +47,7 @@ export interface GmOptions {
   latest?: boolean;
   publishBranch?: string;
   tag?: boolean | string;
-}
-
-export interface PushOptions {
-  /** Is it triggered by merge */
-  isMerge?: boolean;
+  commandName?: 'push' | 'merge' | 'publish';
 }
 
 export type Types =

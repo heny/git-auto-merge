@@ -45,7 +45,7 @@ async function mergeBefore() {
       });
       if (!submitResult) shelljs.exit(1);
     }
-    await pushHandle({ isMerge: true });
+    await pushHandle();
   }
 
   if (statusResult === STATUS.PUSH || statusResult === STATUS.NONE) {
@@ -96,9 +96,10 @@ async function mergeBranch(config: Config) {
 }
 
 async function _merge() {
-  const isUseNpm = getExecTool() === 'npm';
+  const options = getGmOptions();
+  const isMeasureTime = options.commandName === 'merge' && getExecTool() === 'npm';
   let startTime = 0;
-  if (isUseNpm) startTime = Date.now();
+  if (isMeasureTime) startTime = Date.now();
 
   if (!shelljs.which('git')) {
     shelljs.echo('Sorry, this script requires git');
@@ -114,7 +115,7 @@ async function _merge() {
   let callback = config.callback || function () {};
   callback();
 
-  if (isUseNpm) {
+  if (isMeasureTime) {
     const time = (Date.now() - startTime) / 1000;
     console.log('Done in %ss.', time.toFixed(2));
   }

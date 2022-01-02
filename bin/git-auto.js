@@ -28,7 +28,7 @@ program
   .command('push')
   .description(t('CLI_PUSH_DESC'))
   .action(() => {
-    process.env.GM_OPTIONS = JSON.stringify(program.opts());
+    process.env.GM_OPTIONS = JSON.stringify({ ...program.opts(), commandName: 'push' });
     pushHandle();
   });
 
@@ -36,7 +36,7 @@ program
   .command('merge')
   .description(t('CLI_MERGE_DESC'))
   .action(() => {
-    process.env.GM_OPTIONS = JSON.stringify(program.opts());
+    process.env.GM_OPTIONS = JSON.stringify({ ...program.opts(), commandName: 'merge' });
     merge();
   });
 
@@ -44,7 +44,7 @@ program
   .command('publish')
   .description(t('CLI_PUBLISH_DESC'))
   .action(() => {
-    process.env.GM_OPTIONS = JSON.stringify(program.opts());
+    process.env.GM_OPTIONS = JSON.stringify({ ...program.opts(), commandName: 'publish' });
     publish();
   });
 

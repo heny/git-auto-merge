@@ -185,7 +185,11 @@ async function publishAfter() {
 }
 
 async function publish() {
-  console.time('Release it');
+  const options = getGmOptions();
+  const isMeasureTime = options.commandName === 'publish' && getExecTool() === 'npm';
+  let startTime = 0;
+  if (isMeasureTime) startTime = Date.now();
+
   preLog(t('PUBLISH_CALCULATING'));
   await publishBefore();
 
@@ -196,7 +200,10 @@ async function publish() {
 
   await publishAfter();
 
-  console.timeEnd('Release it');
+  if (isMeasureTime) {
+    const time = (Date.now() - startTime) / 1000;
+    console.log('Done in %ss.', time.toFixed(2));
+  }
 }
 
 export default publish;
