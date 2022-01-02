@@ -8,7 +8,10 @@ import { ColorKey, ExecOptions, GmOptions, CommandName } from '../common/interfa
 import path from 'path';
 import { readFileSync } from 'fs';
 
-export async function wrapHandle(func: () => Promise<any>, command: CommandName) {
+/**
+ * warn: wrapHandle must await, Nested functions with one less await will no longer wait
+ */
+export async function wrapHandle(func: () => Promise<any>, command: CommandName): Promise<any> {
   const options = getGmOptions();
   const isCurrentCommand = options.commandName === command;
   const isMeasureTime = isCurrentCommand && getExecTool() === 'npm';
