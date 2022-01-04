@@ -19,6 +19,7 @@ export async function pushStart() {
     if (!options.force) {
       let isCreateBranch = await prompt(t('CUR_BRANCH_NOT_EXIST'), {
         type: 'confirm',
+        initial: true,
       });
       if (!isCreateBranch) shelljs.exit(1);
     }
@@ -46,16 +47,16 @@ async function addCommit() {
     const commitDefault = config.commitDefault;
 
     const type = await prompt(t('SELECT_CHANGE_TYPE'), {
-      type: 'list',
+      type: 'autocomplete',
       choices: COMMIT_OPTS,
-      default: commitDefault?.type || 'feat',
+      initial: commitDefault?.type || 'feat',
     });
 
     const module = await prompt(t('INPUT_CHANGE_MODULE'), {
-      default: commitDefault?.module || 'src',
+      initial: commitDefault?.module || 'src',
     });
     const message = await prompt(t('INPUT_CHANGE_MESSAGE'), {
-      default: commitDefault?.message || 'logic',
+      initial: commitDefault?.message || 'logic',
     });
     await exec(`git commit -m "${type}(${module}): ${message}"`);
   } else {

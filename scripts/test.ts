@@ -1,16 +1,12 @@
-import inquirer from 'inquirer';
+import { COMMIT_OPTS } from '../src/common/constant';
+import { prompt } from '../src/utils';
 
 (async () => {
-  const answer = await inquirer.prompt([
-    {
-      type: 'list',
-      name: 'type',
-      message: 'Please select the type of change:',
-      choices: [
-        { name: 'hhhhh', value: 'h', description: 'hello' },
-        { name: 'nnnnn', value: 'n' },
-      ],
-    },
-  ]);
-  console.log(answer, 'answer');
+  let commit = await prompt('请选择提交类型', {
+    type: 'autocomplete',
+    name: 'commit',
+    choices: COMMIT_OPTS,
+  });
+  let demo = await prompt('请输入commit信息');
+  console.log(commit, demo);
 })();

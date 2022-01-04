@@ -41,6 +41,7 @@ async function mergeBefore() {
     if (!options.commit) {
       let submitResult = await prompt(t('CUR_BRANCH_HAS_CHANGE'), {
         type: 'confirm',
+        initial: true,
       });
       if (!submitResult) shelljs.exit(1);
     }
@@ -51,6 +52,7 @@ async function mergeBefore() {
     if (!options.commit) {
       let submitResult = await prompt(t('CUR_BRANCH_START_PUSH'), {
         type: 'confirm',
+        initial: true,
       });
       if (!submitResult) return;
     }
@@ -80,8 +82,8 @@ async function mergeBranch() {
     const choices = mergeConfig.branch?.length ? mergeConfig.branch : filterBranchs;
 
     mergeBranches = await prompt(t('SELECT_MERGE_BRANCH'), {
-      type: 'checkbox',
-      choices,
+      type: 'multiselect',
+      choices: choices.map((value) => ({ title: value, value })),
     });
   }
 

@@ -80,11 +80,11 @@ async function modifyVersion() {
     const versionType = ['Patch', 'Minor', 'Major'] as const;
     const choices = versionType
       .map((item) => byTypeGetVersion(latestVersion, item.toLowerCase() as VersionType))
-      .map((value, i) => ({ name: `${versionType[i]} (${value})`, value }));
+      .map((value, i) => ({ title: `${versionType[i]} (${value})`, value }));
 
     json.version = await prompt(t('PUBLISH_SELECT_VERSION'), {
       type: 'list',
-      choices: choices.concat({ name: t('PUBLISH_CUSTOM_VERSION'), value: 'custom' }),
+      choices: choices.concat({ title: t('PUBLISH_CUSTOM_VERSION'), value: 'custom' }),
     });
 
     if (json.version === 'custom') {
@@ -137,8 +137,8 @@ async function publishBranch() {
       publishBranch = curBranch;
     } else {
       publishBranch = await prompt(t('PUBLISH_SELECT_BRANCH'), {
-        type: 'list',
-        choices,
+        type: 'select',
+        choices: choices.map((value) => ({ title: value, value })),
       });
     }
   }
@@ -166,8 +166,8 @@ async function createTag() {
 
   const autoCreateTag = getConfig()?.publish?.autoCreateTag;
   if (!autoCreateTag && !options.tag) {
-    tagName = await prompt(t('PUBLISH_CREATE_NAME'), { default: curVersion });
-    desc = await prompt(t('PUBLISH_CREATE_DESC'), { default: curVersion });
+    tagName = await prompt(t('PUBLISH_CREATE_NAME'), { initial: curVersion });
+    desc = await prompt(t('PUBLISH_CREATE_DESC'), { initial: curVersion });
   }
 
   await exec(`git tag -a ${tagName} -m ${desc}`);
@@ -180,7 +180,7 @@ async function publishAfter() {
   if (autoCreateTag) {
     await createTag();
   } else {
-    let isCreateTag = await prompt(t('PUBLISH_CREATE_TAG'), { type: 'confirm' });
+    let isCreateTag = await prompt(t('PUBLISH_CREATE_TAG'), { type: 'confirm', initial: true });
     if (isCreateTag) await createTag();
   }
 }

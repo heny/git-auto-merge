@@ -1,4 +1,4 @@
-import inquirer from 'inquirer';
+import prompts from 'prompts';
 import shelljs, { ShellString } from 'shelljs';
 import dayjs from 'dayjs';
 import { existsSync } from 'fs';
@@ -94,19 +94,12 @@ export function exec(cmd: string, options: ExecOptions = {}): Promise<ShellStrin
   });
 }
 
-export async function prompt(
-  message: string,
-  options: inquirer.Question & {
-    choices?: any[];
-  } = {}
-) {
-  const { commit } = await inquirer.prompt([
-    {
-      type: 'input',
-      message,
-      name: 'commit',
-      ...options,
-    },
-  ]);
+export async function prompt(message: string, options?: Partial<prompts.PromptObject>) {
+  const { commit } = await prompts({
+    type: 'text',
+    name: 'commit',
+    message,
+    ...options,
+  });
   return commit;
 }

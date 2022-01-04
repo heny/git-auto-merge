@@ -18,17 +18,17 @@ export enum STATUS {
 }
 
 export const COMMIT_OPTS = [
-  { name: t('CHANGE_TYPE_FEAT'), value: 'feat' },
-  { name: t('CHANGE_TYPE_FIX'), value: 'fix' },
-  { name: t('CHANGE_TYPE_DOCS'), value: 'docs' },
-  { name: t('CHANGE_TYPE_STYLE'), value: 'style' },
-  { name: t('CHANGE_TYPE_REFACTOR'), value: 'refactor' },
-  { name: t('CHANGE_TYPE_PERF'), value: 'perf' },
-  { name: t('CHANGE_TYPE_TEST'), value: 'test' },
-  { name: t('CHANGE_TYPE_BUILD'), value: 'build' },
-  { name: t('CHANGE_TYPE_CI'), value: 'ci' },
-  { name: t('CHANGE_TYPE_CHORE'), value: 'chore' },
-  { name: t('CHANGE_TYPE_REVERT'), value: 'revert' },
+  { title: 'feat', description: t('CHANGE_TYPE_FEAT'), value: 'feat' },
+  { title: 'fix', description: t('CHANGE_TYPE_FIX'), value: 'fix' },
+  { title: 'docs', description: t('CHANGE_TYPE_DOCS'), value: 'docs' },
+  { title: 'style', description: t('CHANGE_TYPE_STYLE'), value: 'style' },
+  { title: 'refactor', description: t('CHANGE_TYPE_REFACTOR'), value: 'refactor' },
+  { title: 'perf', description: t('CHANGE_TYPE_PERF'), value: 'perf' },
+  { title: 'test', description: t('CHANGE_TYPE_TEST'), value: 'test' },
+  { title: 'build', description: t('CHANGE_TYPE_BUILD'), value: 'build' },
+  { title: 'ci', description: t('CHANGE_TYPE_CI'), value: 'ci' },
+  { title: 'chore', description: t('CHANGE_TYPE_CHORE'), value: 'chore' },
+  { title: 'revert', description: t('CHANGE_TYPE_REVERT'), value: 'revert' },
 ];
 
 export enum Colors {
