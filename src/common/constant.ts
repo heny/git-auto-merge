@@ -5,17 +5,25 @@ export const PACKAGE_JSON_PATH = path.resolve(process.cwd(), 'package.json');
 
 export enum STATUS {
   /** Need to add commit */
-  COMMIT = 'git add',
+  COMMIT = 'commit',
 
   /** Direct push */
-  PUSH = 'to publish your local commits',
+  PUSH = 'push',
 
   /** Content is the latest */
-  UPDATED = 'nothing to commit, working tree clean',
+  UPDATED = 'update',
 
   /** Current branch distal does not exist */
   NONE = 'none',
 }
+
+export const STATUS_VAL = {
+  // 修改和删除都是 Changes, 但是有新增的文件是 Untracked
+  [STATUS.COMMIT]: ['Changes', 'Untracked'],
+  [STATUS.PUSH]: 'to publish your local commits',
+  [STATUS.UPDATED]: 'nothing to commit, working tree clean',
+  [STATUS.NONE]: 'none',
+};
 
 export const COMMIT_OPTS = [
   { title: 'feat', description: t('CHANGE_TYPE_FEAT'), value: 'feat' },

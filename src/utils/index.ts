@@ -95,11 +95,14 @@ export function exec(cmd: string, options: ExecOptions = {}): Promise<ShellStrin
 }
 
 export async function prompt(message: string, options?: Partial<prompts.PromptObject>) {
-  const { commit } = await prompts({
-    type: 'text',
-    name: 'commit',
-    message,
-    ...options,
-  });
+  const { commit } = await prompts(
+    {
+      type: 'text',
+      name: 'commit',
+      message,
+      ...options,
+    },
+    { onCancel: () => process.exit(0) }
+  );
   return commit;
 }

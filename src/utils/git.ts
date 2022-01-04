@@ -1,6 +1,6 @@
 import t from '../../locale';
 import shelljs, { ExecOutputReturnValue } from 'shelljs';
-import { STATUS } from '../common/constant';
+import { STATUS, STATUS_VAL } from '../common/constant';
 import { exec, preLog } from './';
 
 export async function getCurrentBranch() {
@@ -80,13 +80,13 @@ export async function checkHasUpstream(branch: string) {
 export function checkStatus(): Promise<STATUS> {
   return new Promise(async (resolve) => {
     let result: string = await exec('git status', { silent: true, log: false });
-    if (result.includes(STATUS.COMMIT)) {
+    if (STATUS_VAL[STATUS.COMMIT].some((v) => result.includes(v))) {
       resolve(STATUS.COMMIT);
     }
-    if (result.includes(STATUS.PUSH)) {
+    if (result.includes(STATUS_VAL[STATUS.PUSH])) {
       resolve(STATUS.PUSH);
     }
-    if (result.includes(STATUS.UPDATED)) {
+    if (result.includes(STATUS_VAL[STATUS.UPDATED])) {
       resolve(STATUS.UPDATED);
     }
     resolve(STATUS.NONE);
