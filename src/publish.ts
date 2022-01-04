@@ -83,7 +83,7 @@ async function modifyVersion() {
       .map((value, i) => ({ title: `${versionType[i]} (${value})`, value }));
 
     json.version = await prompt(t('PUBLISH_SELECT_VERSION'), {
-      type: 'list',
+      type: 'select',
       choices: choices.concat({ title: t('PUBLISH_CUSTOM_VERSION'), value: 'custom' }),
     });
 
@@ -196,6 +196,8 @@ async function publish() {
     preLog(t('PUBLISH_SUCCESS'), 'green');
 
     await publishAfter();
+
+    return Promise.resolve();
   }, 'publish');
 }
 

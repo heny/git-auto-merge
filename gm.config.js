@@ -7,7 +7,7 @@ module.exports = {
   publish: {
     branch: 'master',
     autoCreateTag: true,
-    latest: true,
+    latest: false,
   },
   commitDefault: {
     type: 'feat',
