@@ -12,7 +12,7 @@ export interface Config {
     /** Publish branch */
     branch?: string;
     /** auto create Tag: v1.0.0 */
-    autoCreateTag?: boolean;
+    tag?: boolean;
     /** Automatic release of the latest patch version at release time */
     latest?: boolean;
   };

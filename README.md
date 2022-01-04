@@ -58,7 +58,7 @@ module.exports = {
     /** Publish branch */
     branch: 'master',
     /** auto create Tag: v1.0.0 */
-    autoCreateTag: true,
+    tag: true,
     /** Automatic release of the latest patch version at release time */
     latest: true
   },

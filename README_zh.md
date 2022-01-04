@@ -59,7 +59,7 @@ module.exports = {
     /** 发布的分支 */
     branch: '',
     /** 发布分支后自动创建tag */
-    autoCreateTag: true,
+    tag: true,
     /** 在发布时自动发布最新版本 */
     latest: true
   },

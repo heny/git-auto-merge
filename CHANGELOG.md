@@ -1,3 +1,6 @@
+## 0.1.1
+- publish tag字段调整
+
 ## 0.1.0 (2021-1-4)
 - 增加CHANGELOG ([9142fb6c](https://github.com/heny/git-auto-merge/commit/9142fb6c))
 - commit新增build、ci

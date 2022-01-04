@@ -97,7 +97,6 @@ async function modifyVersion() {
 
   writeFileSync(PACKAGE_JSON_PATH, JSON.stringify(json, null, 2));
   preLog(t('PUBLISH_CURRENT_VERSION', { version: json.version }));
-  return Promise.resolve();
 }
 
 async function publishBefore() {
@@ -164,8 +163,8 @@ async function createTag() {
   let tagName = typeof options.tag === 'string' ? options.tag : curVersion;
   let desc = curVersion;
 
-  const autoCreateTag = getConfig()?.publish?.autoCreateTag;
-  if (!autoCreateTag && !options.tag) {
+  const tag = getConfig()?.publish?.tag;
+  if (!tag && !options.tag) {
     tagName = await prompt(t('PUBLISH_CREATE_NAME'), { initial: curVersion });
     desc = await prompt(t('PUBLISH_CREATE_DESC'), { initial: curVersion });
   }
@@ -176,8 +175,8 @@ async function createTag() {
 }
 
 async function publishAfter() {
-  const autoCreateTag = getConfig()?.publish?.autoCreateTag;
-  if (autoCreateTag) {
+  const tag = getConfig()?.publish?.tag;
+  if (tag) {
     await createTag();
   } else {
     let isCreateTag = await prompt(t('PUBLISH_CREATE_TAG'), { type: 'confirm', initial: true });
@@ -196,8 +195,6 @@ async function publish() {
     preLog(t('PUBLISH_SUCCESS'), 'green');
 
     await publishAfter();
-
-    return Promise.resolve();
   }, 'publish');
 }
 

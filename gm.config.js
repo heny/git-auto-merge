@@ -6,7 +6,7 @@ module.exports = {
   },
   publish: {
     branch: 'master',
-    autoCreateTag: true,
+    tag: true,
     latest: false,
   },
   commitDefault: {
@@ -16,6 +16,7 @@ module.exports = {
   },
   callback: function (command) {
     if (command === 'publish') {
+      console.log('重新安装auto插件中...');
       shelljs.exec('npm -g i git-auto-merge');
     }
   },
