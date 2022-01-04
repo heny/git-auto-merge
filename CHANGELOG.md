@@ -1,7 +1,8 @@
-## 0.0.45
-- 增加CHANGELOG
-- 修复push状态
+## 0.1.0 (2021-1-4)
+- 增加CHANGELOG ([9142fb6c](https://github.com/heny/git-auto-merge/commit/9142fb6c))
 - commit新增build、ci
+- 修复检测文件变更状态 ([9ca5ffbf](https://github.com/heny/git-auto-merge/commit/9ca5ffbf))
+- prompts 工具更换 ([6d541a4d](https://github.com/heny/git-auto-merge/commit/6d541a4d))
 
 ## 0.0.44 (2021-1-2)
 - 回调函数增加当前执行命令参数

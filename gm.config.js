@@ -2,7 +2,7 @@ const shelljs = require('shelljs');
 module.exports = {
   merge: {
     branch: [],
-    default: [],
+    default: ['master'],
   },
   publish: {
     branch: 'master',
