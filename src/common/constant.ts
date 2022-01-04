@@ -5,13 +5,13 @@ export const PACKAGE_JSON_PATH = path.resolve(process.cwd(), 'package.json');
 
 export enum STATUS {
   /** Need to add commit */
-  COMMIT = 'Changes',
+  COMMIT = 'git add',
 
   /** Direct push */
   PUSH = 'to publish your local commits',
 
   /** Content is the latest */
-  UPDATED = 'branch is up to date',
+  UPDATED = 'nothing to commit, working tree clean',
 
   /** Current branch distal does not exist */
   NONE = 'none',
@@ -25,6 +25,8 @@ export const COMMIT_OPTS = [
   { name: t('CHANGE_TYPE_REFACTOR'), value: 'refactor' },
   { name: t('CHANGE_TYPE_PERF'), value: 'perf' },
   { name: t('CHANGE_TYPE_TEST'), value: 'test' },
+  { name: t('CHANGE_TYPE_BUILD'), value: 'build' },
+  { name: t('CHANGE_TYPE_CI'), value: 'ci' },
   { name: t('CHANGE_TYPE_CHORE'), value: 'chore' },
   { name: t('CHANGE_TYPE_REVERT'), value: 'revert' },
 ];

@@ -16,6 +16,8 @@ export default function (config: Options) {
     CHANGE_TYPE_TEST: 'test: Adding missing tests',
     CHANGE_TYPE_CHORE: 'chore: Changes to the build process or auxiliary tools and libraries',
     CHANGE_TYPE_REVERT: 'revert: Revert to a commit',
+    CHANGE_TYPE_BUILD: 'build: Build system or auxiliary tool changes',
+    CHANGE_TYPE_CI: 'ci: Changes to our CI configuration files and scripts',
     CUR_BRANCH_NOT_EXIST: 'Current branch does not exist, do you want to create it?',
     CUR_BRANCH_HAS_CHANGE: 'Current branch has new content, do you want to commit it?',
     CUR_BRANCH_START_PUSH:

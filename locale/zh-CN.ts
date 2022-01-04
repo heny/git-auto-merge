@@ -15,6 +15,8 @@ export default function (config: Options) {
     CHANGE_TYPE_TEST: 'test：单元测试',
     CHANGE_TYPE_CHORE: 'chore：构建过程或辅助工具的变动',
     CHANGE_TYPE_REVERT: 'revert：回滚',
+    CHANGE_TYPE_BUILD: 'build：依赖相关的内容',
+    CHANGE_TYPE_CI: 'ci：ci配置相关，例如对k8s, docker的配置文件的修改',
     CUR_BRANCH_NOT_EXIST: '当前分支不存在，是否立即创建？',
     CUR_BRANCH_HAS_CHANGE: '当前分支有新的内容，是否现在提交？',
     CUR_BRANCH_START_PUSH: '当前分支暂存区有内容，是否现在提交？',
@@ -49,6 +51,6 @@ export default function (config: Options) {
     PUBLISH_CALCULATING: '发布计算中...',
     INIT_SUCCESS: '初始化成功🎉🎉🎉',
     COMMANDER_ERROR_DESC: '添加 -h 或 --help 查看帮助信息',
-    CLI_HELP_DESC: '查看帮助'
+    CLI_HELP_DESC: '查看帮助',
   };
 }
