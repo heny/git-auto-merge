@@ -57,5 +57,6 @@ export default function (config: Options) {
     INIT_SUCCESS: 'Initialization successfully🎉🎉🎉',
     COMMANDER_ERROR_DESC: '(add -h or --help for additional information)',
     CLI_HELP_DESC: 'Display help information',
+    PUSH_BRANCH_CHECK: 'Push branch check...',
   };
 }

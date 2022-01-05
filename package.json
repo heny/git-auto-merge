@@ -34,16 +34,16 @@
   },
   "homepage": "https://github.com/heny/git-auto-merge#readme",
   "dependencies": {
-    "@types/prompts": "^2.0.14",
     "commander": "^8.3.0",
     "dayjs": "^1.10.7",
-    "inquirer": "^8.2.0",
+    "debug": "^4.3.3",
     "os-locale": "5.0.0",
     "prompts": "^2.4.2",
     "shelljs": "^0.8.4"
   },
   "devDependencies": {
-    "@types/inquirer": "^8.1.3",
+    "@types/debug": "^4.1.7",
+    "@types/prompts": "^2.0.14",
     "@types/shelljs": "^0.8.10",
     "typescript": "^4.5.4"
   }

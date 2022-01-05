@@ -52,5 +52,6 @@ export default function (config: Options) {
     INIT_SUCCESS: '初始化成功🎉🎉🎉',
     COMMANDER_ERROR_DESC: '添加 -h 或 --help 查看帮助信息',
     CLI_HELP_DESC: '查看帮助',
+    PUSH_BRANCH_CHECK: '分支检查中...',
   };
 }

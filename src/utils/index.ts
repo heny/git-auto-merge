@@ -7,6 +7,9 @@ import { Config, Types } from '../common/interface';
 import { ColorKey, ExecOptions, GmOptions, CommandName } from '../common/interface';
 import path from 'path';
 import { readFileSync } from 'fs';
+import debugs from 'debug';
+
+const debug = debugs('exec');
 
 /**
  * warn: wrapHandle must await, Nested functions with one less await will no longer wait
@@ -81,6 +84,7 @@ export function getExecTool() {
 
 export function exec(cmd: string, options: ExecOptions = {}): Promise<ShellString> {
   const { errCaptrue = false, log = true, ...rest } = options;
+  debug(cmd);
   if (log) preLog(cmd);
   return new Promise((resolve, reject) => {
     let result = shelljs.exec(cmd, rest);

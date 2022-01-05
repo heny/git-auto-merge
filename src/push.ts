@@ -11,6 +11,7 @@ import t from '../locale';
 import shelljs from 'shelljs';
 
 export async function pushStart() {
+  preLog(t('PUSH_BRANCH_CHECK'));
   const options = getGmOptions();
   const curBranch = await getCurrentBranch();
   let checkFlag = await checkBranchExist(curBranch);
