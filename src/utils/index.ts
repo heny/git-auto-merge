@@ -20,12 +20,12 @@ export async function wrapHandle(func: () => Promise<any>, command: CommandName)
 
   await func();
 
-  if (isCurrentCommand) getConfig().callback?.(command);
-
   if (isMeasureTime) {
     const time = (Date.now() - startTime) / 1000;
     console.log('Done in %ss.', time.toFixed(2));
   }
+
+  if (isCurrentCommand) getConfig().callback?.(command);
 }
 
 export function getConfig(): Config {
@@ -67,7 +67,7 @@ export function log(str: string, color: ColorKey = 'default') {
   return `\x1b[${num}m${str}\x1b[0m`;
 }
 
-export async function preLog(str: string, color: ColorKey = 'green') {
+export function preLog(str: string, color: ColorKey = 'green') {
   const config = getConfig();
   const logPrefix = config.logPrefix || `[${log('web')}/${log(dayjs().format('HH:mm:ss'))}]:`;
   console.log(logPrefix, log(str, color));
