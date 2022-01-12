@@ -6,7 +6,6 @@ import { exec, preLog } from './';
 export async function getCurrentBranch() {
   const curBranch = await exec('git rev-parse --abbrev-ref HEAD', {
     log: false,
-    silent: true,
   });
   return curBranch.trim();
 }
@@ -14,7 +13,6 @@ export async function getCurrentBranch() {
 export async function getOriginBranches() {
   let branches = await exec('git branch -r', {
     log: false,
-    silent: true,
   });
   let branchesBefore = branches
     .split('\n')
@@ -25,6 +23,14 @@ export async function getOriginBranches() {
     branchesBefore = branchesBefore.slice(1);
   }
   return branchesBefore;
+}
+
+export async function getChangeFiles() {
+  const status = await exec('git status -s', { log: false });
+  return status
+    .split('\n')
+    .map((v) => v.trim().split(' ').slice(-1)[0])
+    .filter(Boolean);
 }
 
 export function checkPull(result: ExecOutputReturnValue, message?: string): Promise<void> {
@@ -57,7 +63,6 @@ export async function checkBranchExist(branch: string): Promise<Boolean> {
   return new Promise(async (resolve) => {
     const result = await exec(`git rev-parse --verify "origin/${branch}"`, {
       errCaptrue: true,
-      silent: true,
       log: false,
     });
     if (result.code === 0) return resolve(true);
@@ -69,7 +74,6 @@ export async function checkHasUpstream(branch: string) {
   return new Promise(async (resolve) => {
     const result = await exec(`git rev-parse --abbrev-ref ${branch}@{upstream}`, {
       errCaptrue: true,
-      silent: true,
       log: false,
     });
     if (result.code === 0) return resolve(true);
@@ -79,7 +83,8 @@ export async function checkHasUpstream(branch: string) {
 
 export function checkStatus(): Promise<STATUS> {
   return new Promise(async (resolve) => {
-    let result: string = await exec('git status', { silent: true, log: false });
+    let result: string = await exec('git status', { log: false });
+    // 注意顺序
     if (STATUS_VAL[STATUS.COMMIT].some((v) => result.includes(v))) {
       resolve(STATUS.COMMIT);
     }

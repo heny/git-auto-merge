@@ -1,5 +1,6 @@
 ## 0.1.1
-- publish tag字段调整
+- publish tag字段调整，autoCreateTag --> tag
+- 添加 --part 支持提交部分文件
 
 ## 0.1.0 (2021-1-4)
 - 增加CHANGELOG ([9142fb6c](https://github.com/heny/git-auto-merge/commit/9142fb6c))

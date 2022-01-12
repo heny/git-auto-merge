@@ -85,7 +85,10 @@ export function getExecTool() {
 export function exec(cmd: string, options: ExecOptions = {}): Promise<ShellString> {
   const { errCaptrue = false, log = true, ...rest } = options;
   debug(cmd);
+
   if (log) preLog(cmd);
+  if (!log) Object.assign(rest, { silent: true });
+
   return new Promise((resolve, reject) => {
     let result = shelljs.exec(cmd, rest);
     if (errCaptrue) return resolve(result);

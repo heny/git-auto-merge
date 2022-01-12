@@ -43,7 +43,6 @@ async function checkVersionExist(version: string) {
   const json = getPackageJson();
   const isCurrentExist = await exec(`npm view ${json.name}@${version}`, {
     log: false,
-    silent: true,
     errCaptrue: true,
   });
   if (isCurrentExist.code !== 0) return false;
@@ -61,7 +60,7 @@ async function getLatestVersion() {
   const json = getPackageJson();
   const originInfo = await exec(
     `npm view ${json.name} --registry https://registry.npmjs.org/ --json`,
-    { log: false, silent: true, errCaptrue: true }
+    { log: false, errCaptrue: true }
   );
   if (originInfo.code !== 0) return '0.0.0';
   const info = JSON.parse(originInfo.stdout);
@@ -107,14 +106,14 @@ async function publishBefore() {
   }
 
   // check registry
-  let npmRegistry = await exec('npm config get registry', { log: false, silent: true });
+  let npmRegistry = await exec('npm config get registry', { log: false });
   if (npmRegistry.trim() !== 'https://registry.npmjs.org/') {
     preLog(t('PUBLISH_NPM_REGISTRY_ERROR'), 'red');
     process.exit(0);
   }
 
   // check login
-  let loginStatus = await exec('npm whoami', { log: false, silent: true, errCaptrue: true });
+  let loginStatus = await exec('npm whoami', { log: false, errCaptrue: true });
   if (loginStatus.code !== 0) {
     preLog(t('PUBLISH_NPM_LOGIN_ERROR'), 'red');
     process.exit(0);

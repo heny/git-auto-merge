@@ -37,6 +37,7 @@ export default function (config: Options) {
     CLI_FORCE_DESC: 'Automatically created when branch does not exist',
     CLI_PUBLISH_BRANCH_DESC: 'Fill in a branch name and publish to npm',
     CLI_PUBLISH_LATEST_DESC: 'Publish the latest patch version',
+    CLI_PUBLISH_PART_DESC: 'Partial submission of documents only',
     PUBLISH_SELECT_VERSION: 'Please select the version you want to publish:',
     PUBLISH_INPUT_VERSION: 'Please input the version you want to publish:',
     PUBLISH_CUSTOM_VERSION: 'Custom version number',
@@ -58,5 +59,6 @@ export default function (config: Options) {
     COMMANDER_ERROR_DESC: '(add -h or --help for additional information)',
     CLI_HELP_DESC: 'Display help information',
     PUSH_BRANCH_CHECK: 'Push branch check...',
+    PUSH_SELECT_PART_FILE: 'Please select the file you want to push:',
   };
 }

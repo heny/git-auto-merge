@@ -12,9 +12,10 @@ program
   .option('-m --commit <commit>', t('CLI_COMMIT_DESC'))
   .option('-b --branch <branch...>', t('CLI_BRANCH_DESC'))
   .option('-f --force', t('CLI_FORCE_DESC'))
-  .option('-l, --latest', t('CLI_PUBLISH_LATEST_DESC'))
+  .option('-l --latest', t('CLI_PUBLISH_LATEST_DESC'))
   .option('-p --publish-branch <publish-branch>', t('CLI_PUBLISH_BRANCH_DESC'))
   .option('-t --tag [tag-name]', t('CLI_PUBLISH_TAG_DESC'))
+  .option('--part', t('CLI_PUBLISH_PART_DESC'))
   .option('-h --help', t('CLI_HELP_DESC'));
 
 program

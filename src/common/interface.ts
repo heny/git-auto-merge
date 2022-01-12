@@ -42,13 +42,21 @@ export interface ExecOptions {
 export type CommandName = 'push' | 'merge' | 'publish';
 
 export interface GmOptions {
+  /** 需要提交的commit */
   commit?: string;
+  /** 需要合并的分支 */
   branch?: string[];
-  /** Branch does not exist, automatically created */
+  /** 分支不存在，自动创建 */
   force?: boolean;
+  /** 发布最新版本 */
   latest?: boolean;
+  /** 发布分支 */
   publishBranch?: string;
+  /** 是否添加标签 */
   tag?: boolean | string;
+  /** 只提交部分文件 */
+  part?: boolean;
+  /** 当前命令名字：push、publish、merge */
   commandName?: CommandName;
 }
 

@@ -33,6 +33,7 @@ export default function (config: Options) {
     CLI_FORCE_DESC: '当分支不存在时自动创建',
     CLI_PUBLISH_BRANCH_DESC: '填写一个分支名称，发布到npm',
     CLI_PUBLISH_LATEST_DESC: '发布最新的patch版本',
+    CLI_PUBLISH_PART_DESC: '只提交部分文件',
     PUBLISH_SELECT_VERSION: '请选择发布版本：',
     PUBLISH_INPUT_VERSION: '请输入版本号：',
     PUBLISH_CUSTOM_VERSION: '自定义版本号',
@@ -53,5 +54,6 @@ export default function (config: Options) {
     COMMANDER_ERROR_DESC: '添加 -h 或 --help 查看帮助信息',
     CLI_HELP_DESC: '查看帮助',
     PUSH_BRANCH_CHECK: '分支检查中...',
+    PUSH_SELECT_PART_FILE: '请选择要提交的文件：',
   };
 }

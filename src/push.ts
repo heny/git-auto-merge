@@ -5,6 +5,7 @@ import {
   checkStatus,
   checkHasUpstream,
   getCurrentBranch,
+  getChangeFiles,
 } from './utils/git';
 import { STATUS, COMMIT_OPTS } from './common/constant';
 import t from '../locale';
@@ -65,6 +66,14 @@ async function addCommit() {
   }
 }
 
+async function getPartFiles() {
+  let files = await getChangeFiles();
+  return prompt(t('PUSH_SELECT_PART_FILE'), {
+    type: 'multiselect',
+    choices: files.map((value) => ({ title: value, value })),
+  });
+}
+
 export async function pushHandle() {
   await wrapHandle(async function () {
     let statusResult = await checkStatus();
@@ -78,7 +87,13 @@ export async function pushHandle() {
       return pushStart();
     }
 
-    await exec('git add .');
+    let addFiles = ['.'];
+
+    if (getGmOptions().part) {
+      addFiles = await getPartFiles();
+    }
+
+    await exec(`git add ${addFiles.join(' ')}`);
 
     await addCommit();
 
