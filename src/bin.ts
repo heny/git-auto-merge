@@ -33,15 +33,15 @@ export function registerCommand() {
   program.name('git-auto').usage('<command> [options]');
 
   program
+    .option('-h, --help', t('CLI_HELP_DESC'), () => program.help())
     .option('-v, --version', t('CLI_VERSION_DESC'), showVersion)
-    .option('-m, --commit <commit>', t('CLI_COMMIT_DESC'))
-    .option('-b, --branch <branch...>', t('CLI_BRANCH_DESC'))
-    .option('-f, --force', t('CLI_FORCE_DESC'))
-    .option('-l, --latest', t('CLI_PUBLISH_LATEST_DESC'))
-    .option('-p, --publish-branch <publish-branch>', t('CLI_PUBLISH_BRANCH_DESC'))
-    .option('-t, --tag [tag-name]', t('CLI_PUBLISH_TAG_DESC'))
-    .option('--part', t('CLI_PUBLISH_PART_DESC'))
-    .option('-h, --help', t('CLI_HELP_DESC'))
+    .option('-m, --commit <commit>', `[push] ${t('CLI_COMMIT_DESC')}`)
+    .option('--part', `[push] ${t('CLI_PUBLISH_PART_DESC')}`)
+    .option('-f, --force', `[push] ${t('CLI_FORCE_DESC')}`)
+    .option('-b, --branch <branch...>', `[merge] ${t('CLI_BRANCH_DESC')}`)
+    .option('-l, --latest', `[publish] ${t('CLI_PUBLISH_LATEST_DESC')}`)
+    .option('-p, --publish-branch <publish-branch>', `[publish] ${t('CLI_PUBLISH_BRANCH_DESC')}`)
+    .option('-t, --tag [tag-name]', `[publish] ${t('CLI_PUBLISH_TAG_DESC')}`)
     .action(function () {}); // 防止打印 help 信息
 
   program
