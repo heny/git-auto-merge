@@ -1,4 +1,4 @@
-## 0.1.2
+## 0.1.2 (2021-1-13)
 - 添加输出版本 git-auto -v ([2b1be6fe](https://github.com/heny/git-auto-merge/commit/2b1be6fe))
 - 输出颜色工具变更 chalk ([2b1be6fe](https://github.com/heny/git-auto-merge/commit/2b1be6fe))
 - 调整别名引入 ([2b1be6fe](https://github.com/heny/git-auto-merge/commit/2b1be6fe))

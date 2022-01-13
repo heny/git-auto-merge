@@ -13,7 +13,7 @@ import t from '@src/locale';
 import shelljs from 'shelljs';
 
 export async function pushStart() {
-  preLog(chalk.cyan(t('PUSH_BRANCH_CHECK')));
+  // preLog(chalk.cyan(t('PUSH_BRANCH_CHECK')));
   const options = getGmOptions();
   const curBranch = await getCurrentBranch();
   let checkFlag = await checkBranchExist(curBranch);
