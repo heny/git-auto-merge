@@ -77,11 +77,6 @@ export function types(key: any): Types {
   return Object.prototype.toString.call(key).slice(8, -1) as Types;
 }
 
-// export function log(str: string, color: ColorKey = 'default') {
-//   const num = Colors[color];
-//   return `\x1b[${num}m${str}\x1b[0m`;
-// }
-
 export function preLog(str: string) {
   const config = getConfig();
   const logPrefix =
