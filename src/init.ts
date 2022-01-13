@@ -1,7 +1,8 @@
 import { writeFileSync } from 'fs';
 import { PACKAGE_JSON_PATH } from './common/constant';
 import { getPackageJson, preLog } from './utils';
-import t from '../locale';
+import chalk from 'chalk';
+import t from '@src/locale';
 
 function addScripts() {
   const json = getPackageJson();
@@ -21,7 +22,7 @@ function addScripts() {
       '  '
     )
   );
-  preLog(t('INIT_SUCCESS'));
+  preLog(chalk.cyan(t('INIT_SUCCESS')));
 }
 
 addScripts();

@@ -1,5 +1,3 @@
-import { Colors } from './constant';
-
 export interface Config {
   merge?: {
     /** Mergeable branches, read all branches if not written by default */
@@ -30,8 +28,6 @@ export interface Config {
     message?: string;
   };
 }
-
-export type ColorKey = keyof typeof Colors;
 
 export interface ExecOptions {
   errCaptrue?: boolean;

@@ -1,4 +1,4 @@
-import { Options } from './';
+import { Options } from '.';
 export default function (config: Options) {
   return {
     CUR_MERGE_BRANCH: `当前合并分支: ${config.branch}`,
@@ -31,6 +31,7 @@ export default function (config: Options) {
     CLI_COMMIT_DESC: '添加提交信息',
     CLI_BRANCH_DESC: '要合并的分支，多个用空格分隔',
     CLI_FORCE_DESC: '当分支不存在时自动创建',
+    CLI_VERSION_DESC: '输出当前版本号',
     CLI_PUBLISH_BRANCH_DESC: '填写一个分支名称，发布到npm',
     CLI_PUBLISH_LATEST_DESC: '发布最新的patch版本',
     CLI_PUBLISH_PART_DESC: '只提交部分文件',

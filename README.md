@@ -17,10 +17,10 @@ Can be installed locally or global:
 
 ```bash
 # yarn
-yarn add git-auto-merge
+yarn global add git-auto-merge
 
-# npm
-npm install git-auto-merge
+#npm
+npm install git-auto-merge -g
 ```
 
 ## Usage

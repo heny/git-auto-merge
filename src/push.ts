@@ -1,4 +1,4 @@
-import { exec, prompt, preLog, getConfig, getGmOptions, wrapHandle } from './utils';
+import { exec, prompt, preLog, getConfig, getGmOptions, wrapHandle } from '@src/utils';
 import {
   checkPull,
   checkBranchExist,
@@ -6,13 +6,14 @@ import {
   checkHasUpstream,
   getCurrentBranch,
   getChangeFiles,
-} from './utils/git';
-import { STATUS, COMMIT_OPTS } from './common/constant';
-import t from '../locale';
+} from '@src/utils/git';
+import chalk from 'chalk';
+import { STATUS, COMMIT_OPTS } from '@src/common/constant';
+import t from '@src/locale';
 import shelljs from 'shelljs';
 
 export async function pushStart() {
-  preLog(t('PUSH_BRANCH_CHECK'));
+  preLog(chalk.cyan(t('PUSH_BRANCH_CHECK')));
   const options = getGmOptions();
   const curBranch = await getCurrentBranch();
   let checkFlag = await checkBranchExist(curBranch);
@@ -79,7 +80,7 @@ export async function pushHandle() {
     let statusResult = await checkStatus();
 
     if (statusResult === STATUS.UPDATED) {
-      preLog(t('CONTENT_IS_UPTODATE'));
+      preLog(chalk(t('CONTENT_IS_UPTODATE')));
       return Promise.resolve();
     }
 

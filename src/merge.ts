@@ -7,12 +7,13 @@ import {
   getCurrentBranch,
 } from './utils/git';
 import { STATUS } from './common/constant';
+import chalk from 'chalk';
 import shelljs from 'shelljs';
 import { pushStart, pushHandle } from './push';
-import t from '../locale';
+import t from '@src/locale';
 
 async function mergeStart(branch: string, mergeBranch: string) {
-  preLog(t('CUR_MERGE_BRANCH', { branch }));
+  preLog(chalk.cyan(t('CUR_MERGE_BRANCH', { branch })));
   await exec(`git checkout ${branch}`);
 
   let hasUpstream = await checkHasUpstream(branch);
@@ -94,7 +95,7 @@ async function mergeBranch() {
 
   await exec(`git checkout ${curBranch}`);
 
-  preLog(t('MERGE_SUCCESS'), 'green');
+  preLog(chalk.green(t('MERGE_SUCCESS')));
 }
 
 async function _merge() {

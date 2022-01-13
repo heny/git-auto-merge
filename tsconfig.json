@@ -10,8 +10,13 @@
     "esModuleInterop": true,
     "lib": ["ESNext"],
     "outDir": "./dist",
+    "paths": {
+      "@locale": ["src/locale"],
+      "@src/*": ["src/*"],
+      "@root": ["*"]
+    },
     "types": ["node"]
   },
-  "include": ["src/**/*.ts", "locale/*.ts"],
+  "include": ["src/**/*.ts", "src/locale/*.ts"],
   "exclude": ["node_modules", "./dist"]
 }

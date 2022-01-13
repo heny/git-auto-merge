@@ -2,7 +2,6 @@
   "name": "git-auto-merge",
   "version": "0.1.1",
   "description": "git auto push and merge",
-  "main": "src/index.js",
   "bin": {
     "git-auto": "./bin/git-auto.js"
   },
@@ -34,9 +33,12 @@
   },
   "homepage": "https://github.com/heny/git-auto-merge#readme",
   "dependencies": {
+    "boxen": "5.1.2",
+    "chalk": "4.1.2",
     "commander": "^8.3.0",
     "dayjs": "^1.10.7",
     "debug": "^4.3.3",
+    "module-alias": "^2.2.2",
     "os-locale": "5.0.0",
     "prompts": "^2.4.2",
     "shelljs": "^0.8.4"

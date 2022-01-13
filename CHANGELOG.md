@@ -1,4 +1,9 @@
-## 0.1.1
+## 0.1.2
+- 添加输出版本 git-auto -v
+- 输出颜色工具变更 chalk
+- 调整别名引入
+
+## 0.1.1 (2021-1-12)
 - publish tag字段调整，autoCreateTag --> tag
 - 添加 --part 支持提交部分文件
 

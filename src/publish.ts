@@ -10,11 +10,13 @@ import {
   getPackageJson,
   getConfig,
   wrapHandle,
+  getLatestVersion,
 } from './utils';
+import chalk from 'chalk';
 import { getCurrentBranch, getOriginBranches } from './utils/git';
 import { VersionType } from './common/interface';
 import { PACKAGE_JSON_PATH } from './common/constant';
-import t from '../locale';
+import t from '@src/locale';
 
 /**
  * patch 0.0.*
@@ -56,17 +58,6 @@ async function reacquireVersion() {
   return version;
 }
 
-async function getLatestVersion() {
-  const json = getPackageJson();
-  const originInfo = await exec(
-    `npm view ${json.name} --registry https://registry.npmjs.org/ --json`,
-    { log: false, errCaptrue: true }
-  );
-  if (originInfo.code !== 0) return '0.0.0';
-  const info = JSON.parse(originInfo.stdout);
-  return info['dist-tags'].latest;
-}
-
 async function modifyVersion() {
   const options = getGmOptions();
   const config = getConfig();
@@ -95,27 +86,27 @@ async function modifyVersion() {
   }
 
   writeFileSync(PACKAGE_JSON_PATH, JSON.stringify(json, null, 2));
-  preLog(t('PUBLISH_CURRENT_VERSION', { version: json.version }));
+  preLog(chalk.cyan(t('PUBLISH_CURRENT_VERSION', { version: json.version })));
 }
 
 async function publishBefore() {
   // check command
   if (getExecTool() !== 'npm') {
-    preLog(t('PUBLISH_NOT_NPM'), 'red');
+    preLog(chalk.red(t('PUBLISH_NOT_NPM')));
     process.exit(0);
   }
 
   // check registry
   let npmRegistry = await exec('npm config get registry', { log: false });
   if (npmRegistry.trim() !== 'https://registry.npmjs.org/') {
-    preLog(t('PUBLISH_NPM_REGISTRY_ERROR'), 'red');
+    preLog(chalk.red(t('PUBLISH_NPM_REGISTRY_ERROR')));
     process.exit(0);
   }
 
   // check login
   let loginStatus = await exec('npm whoami', { log: false, errCaptrue: true });
   if (loginStatus.code !== 0) {
-    preLog(t('PUBLISH_NPM_LOGIN_ERROR'), 'red');
+    preLog(chalk.red(t('PUBLISH_NPM_LOGIN_ERROR')));
     process.exit(0);
   }
 }
@@ -170,7 +161,7 @@ async function createTag() {
 
   await exec(`git tag -a ${tagName} -m ${desc}`);
   await exec(`git push origin ${tagName}`);
-  preLog(t('PUBLISH_CREATE_TAG_SUCCESS', { tagName }));
+  preLog(chalk.cyan(t('PUBLISH_CREATE_TAG_SUCCESS', { tagName })));
 }
 
 async function publishAfter() {
@@ -185,13 +176,13 @@ async function publishAfter() {
 
 async function publish() {
   await wrapHandle(async function () {
-    preLog(t('PUBLISH_CALCULATING'));
+    preLog(chalk.cyan(t('PUBLISH_CALCULATING')));
     await publishBefore();
 
     await modifyVersion();
     await publishBranch();
 
-    preLog(t('PUBLISH_SUCCESS'), 'green');
+    preLog(chalk.green(t('PUBLISH_SUCCESS')));
 
     await publishAfter();
   }, 'publish');

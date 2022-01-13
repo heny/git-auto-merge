@@ -1,6 +1,7 @@
-import t from '../../locale';
+import t from '@src/locale';
 import shelljs, { ExecOutputReturnValue } from 'shelljs';
-import { STATUS, STATUS_VAL } from '../common/constant';
+import chalk from 'chalk';
+import { STATUS, STATUS_VAL } from '@src/common/constant';
 import { exec, preLog } from './';
 
 export async function getCurrentBranch() {
@@ -53,7 +54,7 @@ export function checkPull(result: ExecOutputReturnValue, message?: string): Prom
       info = t('NETWORK_FAIL');
     }
 
-    preLog(message || info, 'redBright');
+    preLog(chalk.redBright(message || info));
     reject();
     shelljs.exit(1);
   });

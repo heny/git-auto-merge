@@ -2,9 +2,10 @@ import prompts from 'prompts';
 import shelljs, { ShellString } from 'shelljs';
 import dayjs from 'dayjs';
 import { existsSync } from 'fs';
-import { Colors, PACKAGE_JSON_PATH } from '../common/constant';
-import { Config, Types } from '../common/interface';
-import { ColorKey, ExecOptions, GmOptions, CommandName } from '../common/interface';
+import chalk from 'chalk';
+import { PACKAGE_JSON_PATH } from '@src/common/constant';
+import { Config, Types } from '@src/common/interface';
+import { ExecOptions, GmOptions, CommandName } from '@src/common/interface';
 import path from 'path';
 import { readFileSync } from 'fs';
 import debugs from 'debug';
@@ -61,19 +62,32 @@ export function getPackageJson() {
   }
 }
 
+export async function getLatestVersion() {
+  const json = getPackageJson();
+  const originInfo = await exec(
+    `npm view ${json.name} --registry https://registry.npmjs.org/ --json`,
+    { log: false, errCaptrue: true }
+  );
+  if (originInfo.code !== 0) return '0.0.0';
+  const info = JSON.parse(originInfo.stdout);
+  return info['dist-tags'].latest;
+}
+
 export function types(key: any): Types {
   return Object.prototype.toString.call(key).slice(8, -1) as Types;
 }
 
-export function log(str: string, color: ColorKey = 'default') {
-  const num = Colors[color];
-  return `\x1b[${num}m${str}\x1b[0m`;
-}
+// export function log(str: string, color: ColorKey = 'default') {
+//   const num = Colors[color];
+//   return `\x1b[${num}m${str}\x1b[0m`;
+// }
 
-export function preLog(str: string, color: ColorKey = 'green') {
+export function preLog(str: string) {
   const config = getConfig();
-  const logPrefix = config.logPrefix || `[${log('web')}/${log(dayjs().format('HH:mm:ss'))}]:`;
-  console.log(logPrefix, log(str, color));
+  const logPrefix =
+    config.logPrefix ||
+    `[${chalk.blueBright('web')}/${chalk.blueBright(dayjs().format('HH:mm:ss'))}]:`;
+  console.log(logPrefix, str);
 }
 
 export function getExecTool() {
@@ -86,7 +100,7 @@ export function exec(cmd: string, options: ExecOptions = {}): Promise<ShellStrin
   const { errCaptrue = false, log = true, ...rest } = options;
   debug(cmd);
 
-  if (log) preLog(cmd);
+  if (log) preLog(chalk.cyan(cmd));
   if (!log) Object.assign(rest, { silent: true });
 
   return new Promise((resolve, reject) => {

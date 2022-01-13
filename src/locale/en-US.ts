@@ -1,4 +1,4 @@
-import { Options } from './';
+import { Options } from '.';
 export default function (config: Options) {
   return {
     CUR_MERGE_BRANCH: `The current merge branch is ${config.branch}`,
@@ -35,6 +35,7 @@ export default function (config: Options) {
     CLI_COMMIT_DESC: 'Add commit information',
     CLI_BRANCH_DESC: 'Branches to be merged, multiple separated by spaces',
     CLI_FORCE_DESC: 'Automatically created when branch does not exist',
+    CLI_VERSION_DESC: 'output the current version',
     CLI_PUBLISH_BRANCH_DESC: 'Fill in a branch name and publish to npm',
     CLI_PUBLISH_LATEST_DESC: 'Publish the latest patch version',
     CLI_PUBLISH_PART_DESC: 'Partial submission of documents only',
