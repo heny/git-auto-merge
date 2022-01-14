@@ -62,10 +62,11 @@ export function getPackageJson() {
   }
 }
 
-export async function getLatestVersion() {
-  const json = getPackageJson();
+// 获取当前项目的最新版本
+export async function getLatestVersion(packageName?: string) {
+  packageName = packageName || getPackageJson().name;
   const originInfo = await exec(
-    `npm view ${json.name} --registry https://registry.npmjs.org/ --json`,
+    `npm view ${packageName} --registry https://registry.npmjs.org/ --json`,
     { log: false, errCaptrue: true }
   );
   if (originInfo.code !== 0) return '0.0.0';

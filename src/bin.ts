@@ -4,6 +4,7 @@ import merge from './merge';
 import publish from './publish';
 import { pushHandle } from './push';
 import { getLatestVersion } from './utils';
+import { GIT_AUTO_PACKAGE_NAME } from '@src/common/constant';
 import chalk from 'chalk';
 import boxen from 'boxen';
 
@@ -11,7 +12,7 @@ const program = new Command();
 
 async function showVersion() {
   const { version } = require('@root/package.json');
-  let latestVersion = await getLatestVersion();
+  let latestVersion = await getLatestVersion(GIT_AUTO_PACKAGE_NAME);
 
   console.log(version);
   if (latestVersion) {

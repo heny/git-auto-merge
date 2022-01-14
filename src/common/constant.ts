@@ -2,6 +2,7 @@ import t from '@src/locale';
 import path from 'path';
 
 export const PACKAGE_JSON_PATH = path.resolve(process.cwd(), 'package.json');
+export const GIT_AUTO_PACKAGE_NAME = 'git-auto-merge';
 
 export enum STATUS {
   /** Need to add commit */

@@ -1,3 +1,9 @@
+## 0.1.4
+- 修复获取版本时，拿到的是当前项目的bug
+
+## 0.1.3 (2021-1-13)
+- 修复上传的dist文件不是最新的bug
+
 ## 0.1.2 (2021-1-13)
 - 添加输出版本 git-auto -v ([2b1be6fe](https://github.com/heny/git-auto-merge/commit/2b1be6fe))
 - 输出颜色工具变更 chalk ([2b1be6fe](https://github.com/heny/git-auto-merge/commit/2b1be6fe))
