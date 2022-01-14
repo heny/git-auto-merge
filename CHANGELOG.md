@@ -1,5 +1,6 @@
 ## 0.1.4
 - 修复获取版本时，拿到的是当前项目的bug ([b3c9287](https://github.com/heny/git-auto-merge/commit/b3c9287))
+- 本地不是最新再拉取代码 ([2dfd091](https://github.com/heny/git-auto-merge/commit/2dfd091))
 
 ## 0.1.3 (2021-1-13)
 - 修复上传的dist文件不是最新的bug
