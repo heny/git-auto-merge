@@ -6,6 +6,7 @@ import {
   checkHasUpstream,
   getCurrentBranch,
   getChangeFiles,
+  localIsLatest,
 } from '@src/utils/git';
 import chalk from 'chalk';
 import { STATUS, COMMIT_OPTS } from '@src/common/constant';
@@ -37,8 +38,11 @@ export async function pushStart() {
     return;
   }
 
-  const pullResult = await exec('git pull', { errCaptrue: true });
-  await checkPull(pullResult);
+  let isLatest = await localIsLatest();
+  if (!isLatest) {
+    const pullResult = await exec('git pull', { errCaptrue: true });
+    await checkPull(pullResult);
+  }
 
   await exec('git push');
 }

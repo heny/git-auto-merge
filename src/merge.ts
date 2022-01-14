@@ -5,6 +5,7 @@ import {
   checkHasUpstream,
   getOriginBranches,
   getCurrentBranch,
+  localIsLatest,
 } from './utils/git';
 import { STATUS } from './common/constant';
 import chalk from 'chalk';
@@ -23,8 +24,11 @@ async function mergeStart(branch: string, mergeBranch: string) {
     return;
   }
 
-  const pullResult = await exec('git pull', { errCaptrue: true });
-  await checkPull(pullResult);
+  let isLatest = await localIsLatest();
+  if (!isLatest) {
+    const pullResult = await exec('git pull', { errCaptrue: true });
+    await checkPull(pullResult);
+  }
 
   let mergeResult = await exec(`git merge origin/${mergeBranch}`, {
     errCaptrue: true,

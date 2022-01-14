@@ -11,6 +11,11 @@ export async function getCurrentBranch() {
   return curBranch.trim();
 }
 
+export async function localIsLatest() {
+  const resultCode = await exec('git rev-list --count --left-only @{u}...HEAD', { log: false });
+  return resultCode === '0';
+}
+
 export async function getOriginBranches() {
   let branches = await exec('git branch -r', {
     log: false,
