@@ -8,11 +8,11 @@ export async function getCurrentBranch() {
   const curBranch = await exec('git rev-parse --abbrev-ref HEAD', {
     log: false,
   });
-  return curBranch.trim();
+  return curBranch;
 }
 
 export async function localIsLatest() {
-  const resultCode = await exec('git rev-list --count --left-only @{u}...HEAD', { log: false });
+  let resultCode = await exec('git rev-list --count --left-only @{u}...HEAD', { log: false });
   return resultCode === '0';
 }
 

@@ -106,7 +106,7 @@ export function exec(cmd: string, options: ExecOptions = {}): Promise<ShellStrin
       reject();
       shelljs.exit(1);
     } else {
-      resolve(result.stdout as ShellString);
+      resolve(result.stdout.trim() as ShellString);
     }
   });
 }
