@@ -15,6 +15,7 @@ specifiers:
   prompts: ^2.4.2
   shelljs: ^0.8.4
   typescript: ^4.5.4
+  zen-observable: ^0.8.15
 
 dependencies:
   boxen: 5.1.2
@@ -22,11 +23,12 @@ dependencies:
   commander: 8.3.0
   dayjs: 1.10.7
   debug: 4.3.3
-  listr: 0.14.3
+  listr: 0.14.3_zen-observable@0.8.15
   module-alias: 2.2.2
   os-locale: 5.0.0
   prompts: 2.4.2
   shelljs: 0.8.4
+  zen-observable: 0.8.15
 
 devDependencies:
   '@types/debug': 4.1.7
@@ -36,7 +38,7 @@ devDependencies:
 
 packages:
 
-  /@samverschueren/stream-to-observable/0.3.1_rxjs@6.6.7:
+  /@samverschueren/stream-to-observable/0.3.1_rxjs@6.6.7+zen-observable@0.8.15:
     resolution: {integrity: sha512-c/qwwcHyafOQuVQJj0IlBjf5yYgBI7YPJ77k4fOJYesb41jio65eaJODRUmfYKhTOFBrIZ66kgvGPlNbjuoRdQ==}
     engines: {node: '>=6'}
     peerDependencies:
@@ -50,6 +52,7 @@ packages:
     dependencies:
       any-observable: 0.3.0
       rxjs: 6.6.7
+      zen-observable: 0.8.15
     dev: false
 
   /@types/debug/4.1.7:
@@ -489,7 +492,7 @@ packages:
       elegant-spinner: 1.0.1
       figures: 1.7.0
       indent-string: 3.2.0
-      listr: 0.14.3
+      listr: 0.14.3_zen-observable@0.8.15
       log-symbols: 1.0.2
       log-update: 2.3.0
       strip-ansi: 3.0.1
@@ -505,11 +508,11 @@ packages:
       figures: 2.0.0
     dev: false
 
-  /listr/0.14.3:
+  /listr/0.14.3_zen-observable@0.8.15:
     resolution: {integrity: sha512-RmAl7su35BFd/xoMamRjpIE4j3v+L28o8CT5YhAXQJm1fD+1l9ngXY8JAQRJ+tFK2i5njvi0iRUKV09vPwA0iA==}
     engines: {node: '>=6'}
     dependencies:
-      '@samverschueren/stream-to-observable': 0.3.1_rxjs@6.6.7
+      '@samverschueren/stream-to-observable': 0.3.1_rxjs@6.6.7+zen-observable@0.8.15
       is-observable: 1.1.0
       is-promise: 2.2.2
       is-stream: 1.1.0
@@ -868,4 +871,8 @@ packages:
 
   /wrappy/1.0.2:
     resolution: {integrity: sha1-tSQ9jz7BqjXxNkYFvA0QNuMKtp8=}
+    dev: false
+
+  /zen-observable/0.8.15:
+    resolution: {integrity: sha512-PQ2PC7R9rslx84ndNBZB/Dkv8V8fZEpk83RLgXtYd0fwUgEjseMn1Dgajh2x6S8QbZAFa9p2qVCEuYZNgve0dQ==}
     dev: false

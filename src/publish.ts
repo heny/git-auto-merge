@@ -28,10 +28,10 @@ function byTypeGetVersion(version: any, versionType: VersionType) {
   version = version.split('.');
   switch (versionType) {
     case 'minor':
-      version[1] = ++version[1];
+      version = [version[0], ++version[1], 0];
       break;
     case 'major':
-      version[0] = ++version[0];
+      version = [++version[0], 0, 0];
       break;
     case 'patch':
     default:
