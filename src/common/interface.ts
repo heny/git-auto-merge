@@ -70,4 +70,4 @@ export type Types =
   | 'Null'
   | 'Undefined';
 
-export type VersionType = 'patch' | 'minor' | 'major';
+// export type VersionType = 'patch' | 'minor' | 'major' | 'prerelease' | 'prepatch' | 'preminor' | 'premajor';

@@ -1,4 +1,5 @@
 import t from '@src/locale';
+import { ReleaseType } from 'semver';
 import path from 'path';
 
 export const PACKAGE_JSON_PATH = path.resolve(process.cwd(), 'package.json');
@@ -38,4 +39,14 @@ export const COMMIT_OPTS = [
   { title: 'ci', description: t('CHANGE_TYPE_CI'), value: 'ci' },
   { title: 'chore', description: t('CHANGE_TYPE_CHORE'), value: 'chore' },
   { title: 'revert', description: t('CHANGE_TYPE_REVERT'), value: 'revert' },
+];
+
+export const VERSION_TYPE: ReleaseType[] = [
+  'patch',
+  'minor',
+  'major',
+  'prepatch',
+  'preminor',
+  'premajor',
+  'prerelease',
 ];

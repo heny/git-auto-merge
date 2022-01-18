@@ -42,7 +42,7 @@ export default function (config: Options) {
     PUBLISH_SELECT_VERSION: 'Please select the version you want to publish:',
     PUBLISH_INPUT_VERSION: 'Please input the version you want to publish:',
     PUBLISH_CUSTOM_VERSION: 'Custom version number',
-    PUBLISH_VERSION_EXIST: 'The version number you entered exists or is empty, please re-enter: ',
+    PUBLISH_VERSION_EXIST: 'The version number you entered is incorrect, please re-enter:',
     PUBLISH_CURRENT_VERSION: `The current version is: ${config.version}`,
     PUBLISH_NOT_NPM: 'Please use npm to execute this command',
     PUBLISH_SUCCESS: 'Publish successfully🎉🎉🎉',

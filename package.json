@@ -1,6 +1,6 @@
 {
   "name": "git-auto-merge",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "git auto push and merge",
   "bin": {
     "git-auto": "./bin/git-auto.js"
@@ -41,11 +41,13 @@
     "module-alias": "^2.2.2",
     "os-locale": "5.0.0",
     "prompts": "^2.4.2",
+    "semver": "^7.3.5",
     "shelljs": "^0.8.4"
   },
   "devDependencies": {
     "@types/debug": "^4.1.7",
     "@types/prompts": "^2.0.14",
+    "@types/semver": "^7.3.9",
     "@types/shelljs": "^0.8.10",
     "typescript": "^4.5.4"
   }

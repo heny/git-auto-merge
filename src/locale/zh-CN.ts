@@ -38,7 +38,7 @@ export default function (config: Options) {
     PUBLISH_SELECT_VERSION: '请选择发布版本：',
     PUBLISH_INPUT_VERSION: '请输入版本号：',
     PUBLISH_CUSTOM_VERSION: '自定义版本号',
-    PUBLISH_VERSION_EXIST: '你输入的版本号存在或为空，请重新输入：',
+    PUBLISH_VERSION_EXIST: '你输入的版本号有误，请重新输入：',
     PUBLISH_CURRENT_VERSION: `当前发布版本：${config.version}`,
     PUBLISH_NOT_NPM: '请使用 npm 执行该命令',
     PUBLISH_SUCCESS: '发布成功🎉🎉🎉',
