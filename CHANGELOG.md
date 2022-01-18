@@ -1,4 +1,7 @@
-## 0.1.4 (2021-1-14)
+## 0.2.1 (2021-01-18)
+- 版本选择优化 ([731a7a5](https://github.com/heny/git-auto-merge/commit/731a7a5))
+
+## 0.2.0 (2021-1-14)
 - 修复获取版本时，拿到的是当前项目的bug ([b3c9287](https://github.com/heny/git-auto-merge/commit/b3c9287))
 - 本地不是最新再拉取代码 ([2dfd091](https://github.com/heny/git-auto-merge/commit/2dfd091))
 - 修复shell脚本输出带\n ([6436146](https://github.com/heny/git-auto-merge/commit/6436146))
