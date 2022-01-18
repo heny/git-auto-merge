@@ -103,15 +103,18 @@ async function publishBranch() {
 
   if (!publishBranch) {
     const choices = await getOriginBranches();
-    if (choices.length === 1) {
-      publishBranch = choices[0];
-    } else if (!choices.length) {
-      publishBranch = curBranch;
-    } else {
-      publishBranch = await prompt(t('PUBLISH_SELECT_BRANCH'), {
-        type: 'select',
-        choices: choices.map((value) => ({ title: value, value })),
-      });
+    switch (choices.length) {
+      case 0:
+        publishBranch = curBranch;
+        break;
+      case 1:
+        publishBranch = choices[0];
+        break;
+      default:
+        publishBranch = await prompt(t('PUBLISH_SELECT_BRANCH'), {
+          type: 'select',
+          choices: choices.map((value) => ({ title: value, value })),
+        });
     }
   }
 
