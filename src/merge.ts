@@ -1,13 +1,19 @@
-import { exec, prompt, preLog, getConfig, getGmOptions, wrapHandle } from './utils';
+import {
+  exec,
+  prompt,
+  preLog,
+  getConfig,
+  getGmOptions,
+  wrapHandle,
+} from './utils';
 import {
   checkPull,
-  checkStatus,
   checkHasUpstream,
   getOriginBranches,
   getCurrentBranch,
   localIsLatest,
+  gitStatus,
 } from './utils/git';
-import { STATUS } from './common/constant';
 import chalk from 'chalk';
 import shelljs from 'shelljs';
 import { pushStart, pushHandle } from './push';
@@ -40,9 +46,9 @@ async function mergeStart(branch: string, mergeBranch: string) {
 
 async function mergeBefore() {
   const options = getGmOptions();
-  let statusResult = await checkStatus();
+  let { needPush, isLastUpdate } = await gitStatus();
 
-  if (statusResult === STATUS.COMMIT) {
+  if (!isLastUpdate) {
     if (!options.commit) {
       let submitResult = await prompt(t('CUR_BRANCH_HAS_CHANGE'), {
         type: 'confirm',
@@ -53,7 +59,7 @@ async function mergeBefore() {
     await pushHandle();
   }
 
-  if (statusResult === STATUS.PUSH || statusResult === STATUS.NONE) {
+  if (needPush) {
     if (!options.commit) {
       let submitResult = await prompt(t('CUR_BRANCH_START_PUSH'), {
         type: 'confirm',
@@ -82,9 +88,13 @@ async function mergeBranch() {
     [];
 
   if (!mergeBranches.length) {
-    const filterBranchs = branches.filter((branch: string) => branch !== curBranch);
+    const filterBranchs = branches.filter(
+      (branch: string) => branch !== curBranch
+    );
 
-    const choices = mergeConfig.branch?.length ? mergeConfig.branch : filterBranchs;
+    const choices = mergeConfig.branch?.length
+      ? mergeConfig.branch
+      : filterBranchs;
 
     mergeBranches = await prompt(t('SELECT_MERGE_BRANCH'), {
       type: 'multiselect',
@@ -93,7 +103,8 @@ async function mergeBranch() {
   }
 
   await mergeBranches.reduce(
-    (promise: Promise<any>, branch: string) => promise.then(() => mergeStart(branch, curBranch)),
+    (promise: Promise<any>, branch: string) =>
+      promise.then(() => mergeStart(branch, curBranch)),
     Promise.resolve()
   );
 

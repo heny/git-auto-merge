@@ -6,18 +6,17 @@ import {
   getGmOptions,
   wrapHandle,
 } from '@src/utils';
-import simpleGit from 'simple-git';
 import {
   checkPull,
   checkBranchExist,
-  checkStatus,
   checkHasUpstream,
   getCurrentBranch,
   getChangeFiles,
   localIsLatest,
+  gitStatus,
 } from '@src/utils/git';
 import chalk from 'chalk';
-import { STATUS, COMMIT_OPTS } from '@src/common/constant';
+import { COMMIT_OPTS } from '@src/common/constant';
 import t from '@src/locale';
 import shelljs from 'shelljs';
 
@@ -94,24 +93,15 @@ async function getPartFiles() {
 
 export async function pushHandle() {
   await wrapHandle(async function () {
-    let statusRes = await simpleGit().status();
-    const isLastUpdate = !!statusRes.files.length;
-    const needPush = !!statusRes.ahead;
-
-    console.log(statusRes, 'statusRes');
-    console.log(isLastUpdate, 'isLastUpdate');
-    console.log(needPush, 'needPush');
+    let { needPush, isLastUpdate } = await gitStatus();
     return;
-    let statusResult = await checkStatus();
 
-    if (statusResult === STATUS.UPDATED) {
+    if (isLastUpdate) {
       preLog(chalk(t('CONTENT_IS_UPTODATE')));
       return Promise.resolve();
     }
 
-    if (statusResult === STATUS.PUSH || statusResult === STATUS.NONE) {
-      return pushStart();
-    }
+    if (needPush) return pushStart();
 
     let addFiles = ['.'];
 

@@ -1,8 +1,17 @@
 import t from '@src/locale';
 import shelljs, { ExecOutputReturnValue } from 'shelljs';
 import chalk from 'chalk';
-import { STATUS, STATUS_VAL } from '@src/common/constant';
 import { exec, preLog } from './';
+import simpleGit from 'simple-git';
+
+export async function gitStatus() {
+  const statusRes = await simpleGit().status();
+  const needPush = !!statusRes.ahead;
+  const isLastUpdate = !statusRes.files.length && !needPush;
+  console.log(statusRes, 'statusRes');
+  console.log(statusRes.isClean(), '是否是干净的');
+  return { needPush, isLastUpdate };
+}
 
 export async function getCurrentBranch() {
   const curBranch = await exec('git rev-parse --abbrev-ref HEAD', {
@@ -12,7 +21,9 @@ export async function getCurrentBranch() {
 }
 
 export async function localIsLatest() {
-  let resultCode = await exec('git rev-list --count --left-only @{u}...HEAD', { log: false });
+  let resultCode = await exec('git rev-list --count --left-only @{u}...HEAD', {
+    log: false,
+  });
   return resultCode === '0';
 }
 
@@ -39,7 +50,10 @@ export async function getChangeFiles() {
     .filter(Boolean);
 }
 
-export function checkPull(result: ExecOutputReturnValue, message?: string): Promise<void> {
+export function checkPull(
+  result: ExecOutputReturnValue,
+  message?: string
+): Promise<void> {
   return new Promise((resolve, reject) => {
     if (result.code === 0) return resolve();
 
@@ -78,28 +92,14 @@ export async function checkBranchExist(branch: string): Promise<Boolean> {
 
 export async function checkHasUpstream(branch: string) {
   return new Promise(async (resolve) => {
-    const result = await exec(`git rev-parse --abbrev-ref ${branch}@{upstream}`, {
-      errCaptrue: true,
-      log: false,
-    });
+    const result = await exec(
+      `git rev-parse --abbrev-ref ${branch}@{upstream}`,
+      {
+        errCaptrue: true,
+        log: false,
+      }
+    );
     if (result.code === 0) return resolve(true);
     resolve(false);
-  });
-}
-
-export function checkStatus(): Promise<STATUS> {
-  return new Promise(async (resolve) => {
-    let result: string = await exec('git status', { log: false });
-    // 注意顺序
-    if (STATUS_VAL[STATUS.COMMIT].some((v) => result.includes(v))) {
-      resolve(STATUS.COMMIT);
-    }
-    if (result.includes(STATUS_VAL[STATUS.PUSH])) {
-      resolve(STATUS.PUSH);
-    }
-    if (result.includes(STATUS_VAL[STATUS.UPDATED])) {
-      resolve(STATUS.UPDATED);
-    }
-    resolve(STATUS.NONE);
   });
 }

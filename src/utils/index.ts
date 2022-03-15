@@ -15,7 +15,10 @@ const debug = debugs('exec');
 /**
  * warn: wrapHandle must await, Nested functions with one less await will no longer wait
  */
-export async function wrapHandle(func: () => Promise<any>, command: CommandName): Promise<any> {
+export async function wrapHandle(
+  func: () => Promise<any>,
+  command: CommandName
+): Promise<any> {
   const options = getGmOptions();
   const isCurrentCommand = options.commandName === command;
   const isMeasureTime = isCurrentCommand && getExecTool() === 'npm';
@@ -82,7 +85,9 @@ export function preLog(str: string) {
   const config = getConfig();
   const logPrefix =
     config.logPrefix ||
-    `[${chalk.blueBright('web')}/${chalk.blueBright(dayjs().format('HH:mm:ss'))}]:`;
+    `[${chalk.blueBright('web')}/${chalk.blueBright(
+      dayjs().format('HH:mm:ss')
+    )}]:`;
   console.log(logPrefix, str);
 }
 
@@ -92,7 +97,10 @@ export function getExecTool() {
   return 'npm';
 }
 
-export function exec(cmd: string, options: ExecOptions = {}): Promise<ShellString> {
+export function exec(
+  cmd: string,
+  options: ExecOptions = {}
+): Promise<ShellString> {
   const { errCaptrue = false, log = true, ...rest } = options;
   debug(cmd);
 
@@ -111,7 +119,10 @@ export function exec(cmd: string, options: ExecOptions = {}): Promise<ShellStrin
   });
 }
 
-export async function prompt(message: string, options?: Partial<prompts.PromptObject>) {
+export async function prompt(
+  message: string,
+  options?: Partial<prompts.PromptObject>
+) {
   const { commit } = await prompts(
     {
       type: 'text',
