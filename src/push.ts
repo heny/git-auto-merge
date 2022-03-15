@@ -1,4 +1,12 @@
-import { exec, prompt, preLog, getConfig, getGmOptions, wrapHandle } from '@src/utils';
+import {
+  exec,
+  prompt,
+  preLog,
+  getConfig,
+  getGmOptions,
+  wrapHandle,
+} from '@src/utils';
+import simpleGit from 'simple-git';
 import {
   checkPull,
   checkBranchExist,
@@ -62,15 +70,15 @@ async function addCommit() {
     const module = await prompt(t('INPUT_CHANGE_MODULE'), {
       initial: commitDefault?.module || '',
       format: (value) => {
-        return value ? `(${value})` : ''
+        return value ? `(${value})` : '';
       },
-    })
+    });
 
     const message = await prompt(t('INPUT_CHANGE_MESSAGE'), {
       initial: commitDefault?.message || 'logic',
-    })
+    });
 
-    await exec(`git commit -m "${type}${module}: ${message}"`)
+    await exec(`git commit -m "${type}${module}: ${message}"`);
   } else {
     await exec(`git commit -m "${options.commit}"`);
   }
@@ -86,6 +94,14 @@ async function getPartFiles() {
 
 export async function pushHandle() {
   await wrapHandle(async function () {
+    let statusRes = await simpleGit().status();
+    const isLastUpdate = !!statusRes.files.length;
+    const needPush = !!statusRes.ahead;
+
+    console.log(statusRes, 'statusRes');
+    console.log(isLastUpdate, 'isLastUpdate');
+    console.log(needPush, 'needPush');
+    return;
     let statusResult = await checkStatus();
 
     if (statusResult === STATUS.UPDATED) {
