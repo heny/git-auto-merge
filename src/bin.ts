@@ -1,20 +1,20 @@
-import { Command } from 'commander';
-import t from '@src/locale';
-import merge from './merge';
-import publish from './publish';
-import { pushHandle } from './push';
-import { getLatestVersion } from './utils';
-import { GIT_AUTO_PACKAGE_NAME } from '@src/common/constant';
-import chalk from 'chalk';
-import boxen from 'boxen';
+import { Command } from 'commander'
+import t from '@src/locale'
+import merge from './merge'
+import publish from './publish'
+import { pushHandle } from './push'
+import { getLatestVersion } from './utils'
+import { GIT_AUTO_PACKAGE_NAME } from '@src/common/constant'
+import chalk from 'chalk'
+import boxen from 'boxen'
 
-const program = new Command();
+const program = new Command()
 
 async function showVersion() {
-  const { version } = require('@root/package.json');
-  let latestVersion = await getLatestVersion(GIT_AUTO_PACKAGE_NAME);
+  const { version } = require('@root/package.json')
+  let latestVersion = await getLatestVersion(GIT_AUTO_PACKAGE_NAME)
 
-  console.log(version);
+  console.log(version)
   if (latestVersion) {
     if (latestVersion !== version) {
       console.log(
@@ -25,13 +25,13 @@ async function showVersion() {
           title: 'Update',
           titleAlignment: 'center',
         })
-      );
+      )
     }
   }
 }
 
 export function registerCommand() {
-  program.name('git-auto').usage('<command> [options]');
+  program.name('git-auto').usage('<command> [options]')
 
   program
     .option('-h, --help', t('CLI_HELP_DESC'), () => program.help())
@@ -43,44 +43,52 @@ export function registerCommand() {
     .option('-l, --latest', `[publish] ${t('CLI_PUBLISH_LATEST_DESC')}`)
     .option('-p, --publish-branch <publish-branch>', `[publish] ${t('CLI_PUBLISH_BRANCH_DESC')}`)
     .option('-t, --tag [tag-name]', `[publish] ${t('CLI_PUBLISH_TAG_DESC')}`)
-    .action(function () {}); // 防止打印 help 信息
+    .action(function (_, { args }) {
+      if (!args.length) {
+        showVersion()
+      } else {
+        console.log(
+          `${chalk.bold.bgRed(chalk.hex('#000')(' ERROR '))} ${t('COMMANDER_ERROR_DESC')}`
+        )
+      }
+    }) // 防止打印 help 信息
 
   program
     .command('init')
     .description(t('CLI_INIT_DESC'))
     .action(() => {
-      require('../dist/src/init');
-    });
+      require('../dist/src/init')
+    })
 
   program
     .command('push')
     .description(t('CLI_PUSH_DESC'))
     .action(() => {
-      process.env.GM_OPTIONS = JSON.stringify({ ...program.opts(), commandName: 'push' });
-      pushHandle();
-    });
+      process.env.GM_OPTIONS = JSON.stringify({ ...program.opts(), commandName: 'push' })
+      pushHandle()
+    })
 
   program
     .command('merge')
     .description(t('CLI_MERGE_DESC'))
     .action(() => {
-      process.env.GM_OPTIONS = JSON.stringify({ ...program.opts(), commandName: 'merge' });
-      merge();
-    });
+      process.env.GM_OPTIONS = JSON.stringify({ ...program.opts(), commandName: 'merge' })
+      merge()
+    })
 
   program
     .command('publish')
     .description(t('CLI_PUBLISH_DESC'))
     .action(() => {
-      process.env.GM_OPTIONS = JSON.stringify({ ...program.opts(), commandName: 'publish' });
-      publish();
-    });
+      process.env.GM_OPTIONS = JSON.stringify({ ...program.opts(), commandName: 'publish' })
+      publish()
+    })
 
   program.showHelpAfterError(
     `${chalk.italic.bgGreen(chalk.black(' Tip '))} ${t('COMMANDER_ERROR_DESC')}`
-  );
+  )
 
-  program.parse(process.argv);
+  program.parse(process.argv)
 }
 
-registerCommand();
+registerCommand()
