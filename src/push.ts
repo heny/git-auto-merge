@@ -93,15 +93,14 @@ async function getPartFiles() {
 
 export async function pushHandle() {
   await wrapHandle(async function () {
-    let { needPush, isLastUpdate } = await gitStatus();
-    return;
+    let { needPush, isLastUpdate, hasChange } = await gitStatus();
 
     if (isLastUpdate) {
       preLog(chalk(t('CONTENT_IS_UPTODATE')));
       return Promise.resolve();
     }
 
-    if (needPush) return pushStart();
+    if (!hasChange && needPush) return pushStart();
 
     let addFiles = ['.'];
 

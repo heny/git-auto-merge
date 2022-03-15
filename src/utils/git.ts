@@ -7,10 +7,15 @@ import simpleGit from 'simple-git';
 export async function gitStatus() {
   const statusRes = await simpleGit().status();
   const needPush = !!statusRes.ahead;
+  const hasChange = !!statusRes.files.length;
   const isLastUpdate = !statusRes.files.length && !needPush;
-  console.log(statusRes, 'statusRes');
-  console.log(statusRes.isClean(), '是否是干净的');
-  return { needPush, isLastUpdate };
+  return {
+    needPush,
+    isLastUpdate,
+    hasChange,
+    currentBranch: statusRes.current,
+    isTracking: statusRes.tracking,
+  };
 }
 
 export async function getCurrentBranch() {
