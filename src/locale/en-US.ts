@@ -20,14 +20,11 @@ export default function (config: Options) {
     CHANGE_TYPE_CI: 'Changes to our CI configuration files and scripts',
     CUR_BRANCH_NOT_EXIST: 'Current branch does not exist, do you want to create it?',
     CUR_BRANCH_HAS_CHANGE: 'Current branch has new content, do you want to commit it?',
-    CUR_BRANCH_START_PUSH:
-      'There is content in the current branch staging area. Would you like to submit it now?',
+    CUR_BRANCH_START_PUSH: 'There is content in the current branch staging area. Would you like to submit it now?',
     SELECT_MERGE_BRANCH: 'Please select the branch you want to merge:',
     MERGE_SUCCESS: 'Merge successfully🎉🎉🎉',
-    MERGE_FAIL_CONFLICT:
-      'The merge branch failed. After resolving the conflict, execute the following command:',
-    NETWORK_FAIL:
-      'There is a problem with the network connection, please check the current network!',
+    MERGE_FAIL_CONFLICT: 'The merge branch failed. After resolving the conflict, execute the following command:',
+    NETWORK_FAIL: 'There is a problem with the network connection, please check the current network!',
     CLI_INIT_DESC: 'Add the script command under package.json',
     CLI_PUSH_DESC: 'Push the current branch to remote',
     CLI_MERGE_DESC: 'Merge the current branch to another remote branch',
@@ -39,6 +36,9 @@ export default function (config: Options) {
     CLI_PUBLISH_BRANCH_DESC: 'Fill in a branch name and publish to npm',
     CLI_PUBLISH_LATEST_DESC: 'Publish the latest patch version',
     CLI_PUBLISH_PART_DESC: 'Partial submission of documents only',
+    CLI_CURRENT_VERSION: 'Current version:',
+    CLI_VERSION_GET_LATEST: 'Get the latest version...',
+    CLI_VERSION_IS_LATEST: 'The current version is the latest version',
     PUBLISH_SELECT_VERSION: 'Please select the version you want to publish:',
     PUBLISH_INPUT_VERSION: 'Please input the version you want to publish:',
     PUBLISH_CUSTOM_VERSION: 'Custom version number',

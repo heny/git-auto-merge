@@ -8,6 +8,7 @@
   "scripts": {
     "rebuild": "rm -rf dist && tsc",
     "deploy": "rm -rf dist && tsc && node ./bin/git-auto publish",
+    "g": "yarn rebuild && node ./bin/git-auto",
     "gm": "npm run rebuild && node ./bin/git-auto merge",
     "gp": "npm run rebuild && node ./bin/git-auto push",
     "gpb": "npm run rebuild && node ./bin/git-auto publish"

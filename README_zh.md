@@ -22,6 +22,28 @@ yarn global add git-auto-merge
 npm install git-auto-merge -g
 ```
 
+## 文档
+```
+Usage: git-auto <command> [options]
+
+Options:
+  -h, --help                             查看帮助
+  -v, --version                          输出当前版本号
+  -m, --commit <commit>                  [push] 添加提交信息
+  --part                                 [push] 只提交部分文件
+  -f, --force                            [push] 当分支不存在时自动创建
+  -b, --branch <branch...>               [merge] 要合并的分支，多个用空格分隔
+  -l, --latest                           [publish] 发布最新的patch版本
+  -p, --publish-branch <publish-branch>  [publish] 填写一个分支名称，发布到npm
+  -t, --tag [tag-name]                   [publish] 发布时创建tag，可以空格写名称
+
+Commands:
+  init                                   在package.json下添加脚本命令
+  push                                   推送当前分支到远程仓库
+  merge                                  合并分支到当前其他分支
+  publish                                发布代码到npm
+```
+
 ## 使用
 代码推送: `git-auto push` or `git-auto push -m 'feat(src): logic'`
 

@@ -23,6 +23,28 @@ yarn global add git-auto-merge
 npm install git-auto-merge -g
 ```
 
+## DOCS
+```
+Usage: git-auto <command> [options]
+
+Options:
+  -h, --help                             Display help information
+  -v, --version                          output the current version
+  -m, --commit <commit>                  [push] Add commit information
+  --part                                 [push] Partial submission of documents only
+  -f, --force                            [push] Automatically created when branch does not exist
+  -b, --branch <branch...>               [merge] Branches to be merged, multiple separated by spaces
+  -l, --latest                           [publish] Publish the latest patch version
+  -p, --publish-branch <publish-branch>  [publish] Fill in a branch name and publish to npm
+  -t, --tag [tag-name]                   [publish] Create a tag when publishing, you can write the name after a space
+
+Commands:
+  init                                   Add the script command under package.json
+  push                                   Push the current branch to remote
+  merge                                  Merge the current branch to another remote branch
+  publish                                Publish code to npm
+```
+
 ## Usage
 Code Push: `git-auto push` or `git-auto push -m 'feat(src): logic'`
 
