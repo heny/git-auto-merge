@@ -1,11 +1,4 @@
-import {
-  exec,
-  prompt,
-  preLog,
-  getConfig,
-  getGmOptions,
-  wrapHandle,
-} from './utils';
+import { exec, prompt, preLog, getConfig, getGmOptions, wrapHandle } from './utils';
 import {
   checkPull,
   checkHasUpstream,
@@ -57,9 +50,7 @@ async function mergeBefore() {
       if (!submitResult) shelljs.exit(1);
     }
     await pushHandle();
-  }
-
-  if (needPush) {
+  } else if (needPush) {
     if (!options.commit) {
       let submitResult = await prompt(t('CUR_BRANCH_START_PUSH'), {
         type: 'confirm',
@@ -88,13 +79,9 @@ async function mergeBranch() {
     [];
 
   if (!mergeBranches.length) {
-    const filterBranchs = branches.filter(
-      (branch: string) => branch !== curBranch
-    );
+    const filterBranchs = branches.filter((branch: string) => branch !== curBranch);
 
-    const choices = mergeConfig.branch?.length
-      ? mergeConfig.branch
-      : filterBranchs;
+    const choices = mergeConfig.branch?.length ? mergeConfig.branch : filterBranchs;
 
     mergeBranches = await prompt(t('SELECT_MERGE_BRANCH'), {
       type: 'multiselect',
@@ -103,8 +90,7 @@ async function mergeBranch() {
   }
 
   await mergeBranches.reduce(
-    (promise: Promise<any>, branch: string) =>
-      promise.then(() => mergeStart(branch, curBranch)),
+    (promise: Promise<any>, branch: string) => promise.then(() => mergeStart(branch, curBranch)),
     Promise.resolve()
   );
 

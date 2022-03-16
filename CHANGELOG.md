@@ -1,3 +1,6 @@
+## 0.5.1 (2022-03-16)
+- 修复合并分支时两次push ([](https://github.com/heny/git-auto-merge/commit))
+
 ## 0.5.0 (2022-03-16)
 - 获取版本号调整 ([dc43d24](https://github.com/heny/git-auto-merge/commit/dc43d24))
 - 发布时，如果package里version不存在，则不再修改版本号 ([cf19004](https://github.com/heny/git-auto-merge/commit/cf19004))
