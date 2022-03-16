@@ -1,6 +1,6 @@
-## 0.4.1 (2022-03-16)
+## 0.5.0 (2022-03-16)
 - 获取版本号调整 ([dc43d24](https://github.com/heny/git-auto-merge/commit/dc43d24))
-- 发布时，如果package里version不存在，则不再修改版本号 ([](https://github.com/heny/git-auto-merge/commit/))
+- 发布时，如果package里version不存在，则不再修改版本号 ([cf19004](https://github.com/heny/git-auto-merge/commit/cf19004))
 
 ## 0.4.0 (2022-03-15)
 - status校验调整为simple-git插件 ([95db882](https://github.com/heny/git-auto-merge/commit/95db882))
