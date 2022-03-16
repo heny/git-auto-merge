@@ -18,9 +18,10 @@ import { PACKAGE_JSON_PATH, VERSION_TYPE } from './common/constant';
 import semver from 'semver';
 import t from '@src/locale';
 
-async function checkVersionExist(version: string) {
-  if (!version) return true;
+async function checkVersionExist(version?: string) {
   const json = getPackageJson();
+  version = version || json.version;
+
   const isCurrentExist = await exec(`npm view ${json.name}@${version}`, {
     log: false,
     errCaptrue: true,
@@ -165,7 +166,11 @@ async function publish() {
     preLog(chalk.cyan(t('PUBLISH_CALCULATING')));
     await publishBefore();
 
-    await modifyVersion();
+    // 版本存在再修改
+    if (await checkVersionExist()) {
+      await modifyVersion();
+    }
+
     await publishBranch();
 
     preLog(chalk.green(t('PUBLISH_SUCCESS')));
