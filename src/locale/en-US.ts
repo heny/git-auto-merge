@@ -20,11 +20,14 @@ export default function (config: Options) {
     CHANGE_TYPE_CI: 'Changes to our CI configuration files and scripts',
     CUR_BRANCH_NOT_EXIST: 'Current branch does not exist, do you want to create it?',
     CUR_BRANCH_HAS_CHANGE: 'Current branch has new content, do you want to commit it?',
-    CUR_BRANCH_START_PUSH: 'There is content in the current branch staging area. Would you like to submit it now?',
+    CUR_BRANCH_START_PUSH:
+      'There is content in the current branch staging area. Would you like to submit it now?',
     SELECT_MERGE_BRANCH: 'Please select the branch you want to merge:',
     MERGE_SUCCESS: 'Merge successfully🎉🎉🎉',
-    MERGE_FAIL_CONFLICT: 'The merge branch failed. After resolving the conflict, execute the following command:',
-    NETWORK_FAIL: 'There is a problem with the network connection, please check the current network!',
+    MERGE_FAIL_CONFLICT:
+      'The merge branch failed. After resolving the conflict, execute the following command:',
+    NETWORK_FAIL:
+      'There is a problem with the network connection, please check the current network!',
     CLI_INIT_DESC: 'Add the script command under package.json',
     CLI_PUSH_DESC: 'Push the current branch to remote',
     CLI_MERGE_DESC: 'Merge the current branch to another remote branch',
@@ -61,5 +64,6 @@ export default function (config: Options) {
     CLI_HELP_DESC: 'Display help information',
     PUSH_BRANCH_CHECK: 'Push branch check...',
     PUSH_SELECT_PART_FILE: 'Please select the file you want to push:',
+    PUSH_FAIL: 'Push failed, please check the current network!',
   };
 }

@@ -1,11 +1,4 @@
-import {
-  exec,
-  prompt,
-  preLog,
-  getConfig,
-  getGmOptions,
-  wrapHandle,
-} from '@src/utils';
+import { exec, prompt, preLog, getConfig, getGmOptions, wrapHandle } from '@src/utils';
 import {
   checkPull,
   checkBranchExist,
@@ -21,11 +14,10 @@ import t from '@src/locale';
 import shelljs from 'shelljs';
 
 export async function pushStart() {
-  // preLog(chalk.cyan(t('PUSH_BRANCH_CHECK')));
   const options = getGmOptions();
   const curBranch = await getCurrentBranch();
-  let checkFlag = await checkBranchExist(curBranch);
 
+  let checkFlag = await checkBranchExist(curBranch);
   if (!checkFlag) {
     if (!options.force) {
       let isCreateBranch = await prompt(t('CUR_BRANCH_NOT_EXIST'), {
@@ -39,7 +31,6 @@ export async function pushStart() {
   }
 
   let hasUpstream = await checkHasUpstream(curBranch);
-
   if (!hasUpstream) {
     await exec(`git push --set-upstream origin ${curBranch}`);
     return;
@@ -51,7 +42,10 @@ export async function pushStart() {
     await checkPull(pullResult);
   }
 
-  await exec('git push');
+  let pushResult = await exec('git push', { errCaptrue: true });
+  if (pushResult.code !== 0) {
+    preLog(chalk.redBright(t('PUSH_FAIL')));
+  }
 }
 
 async function addCommit() {

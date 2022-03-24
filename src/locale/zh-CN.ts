@@ -59,5 +59,6 @@ export default function (config: Options) {
     CLI_HELP_DESC: '查看帮助',
     PUSH_BRANCH_CHECK: '分支检查中...',
     PUSH_SELECT_PART_FILE: '请选择要提交的文件：',
+    PUSH_FAIL: '提交失败，请检查当前分支是否有冲突！',
   };
 }

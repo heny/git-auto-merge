@@ -47,7 +47,9 @@ export function registerCommand() {
     .option('-t, --tag [tag-name]', `[publish] ${t('CLI_PUBLISH_TAG_DESC')}`)
     .action(function (_, { args }) {
       if (args.length) {
-        console.log(`${chalk.bold.bgRed(chalk.hex('#000')(' ERROR '))} ${t('COMMANDER_ERROR_DESC')}`);
+        console.log(
+          `${chalk.bold.bgRed(chalk.hex('#000')(' ERROR '))} ${t('COMMANDER_ERROR_DESC')}`
+        );
       }
     }); // 防止打印 help 信息
 
@@ -82,7 +84,9 @@ export function registerCommand() {
       publish();
     });
 
-  program.showHelpAfterError(`${chalk.italic.bgGreen(chalk.black(' Tip '))} ${t('COMMANDER_ERROR_DESC')}`);
+  program.showHelpAfterError(
+    `${chalk.italic.bgGreen(chalk.black(' Tip '))} ${t('COMMANDER_ERROR_DESC')}`
+  );
 
   program.parse(process.argv);
 }

@@ -26,6 +26,7 @@ export async function getCurrentBranch() {
 }
 
 export async function localIsLatest() {
+  await exec('git fetch', { log: false });
   let resultCode = await exec('git rev-list --count --left-only @{u}...HEAD', {
     log: false,
   });
@@ -55,10 +56,7 @@ export async function getChangeFiles() {
     .filter(Boolean);
 }
 
-export function checkPull(
-  result: ExecOutputReturnValue,
-  message?: string
-): Promise<void> {
+export function checkPull(result: ExecOutputReturnValue, message?: string): Promise<void> {
   return new Promise((resolve, reject) => {
     if (result.code === 0) return resolve();
 
@@ -97,13 +95,10 @@ export async function checkBranchExist(branch: string): Promise<Boolean> {
 
 export async function checkHasUpstream(branch: string) {
   return new Promise(async (resolve) => {
-    const result = await exec(
-      `git rev-parse --abbrev-ref ${branch}@{upstream}`,
-      {
-        errCaptrue: true,
-        log: false,
-      }
-    );
+    const result = await exec(`git rev-parse --abbrev-ref ${branch}@{upstream}`, {
+      errCaptrue: true,
+      log: false,
+    });
     if (result.code === 0) return resolve(true);
     resolve(false);
   });
