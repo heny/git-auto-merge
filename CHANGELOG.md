@@ -1,3 +1,6 @@
+## 0.6.0 (2022-03-24)
+- push之前先fetch ([b8f4687](https://github.com/heny/git-auto-merge/commit/b8f4687))
+
 ## 0.5.1 (2022-03-16)
 - 修复合并分支时两次push ([3cb8970](https://github.com/heny/git-auto-merge/commit/3cb8970))
 

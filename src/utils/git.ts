@@ -26,7 +26,7 @@ export async function getCurrentBranch() {
 }
 
 export async function localIsLatest() {
-  await exec('git fetch', { log: false });
+  await exec('git fetch');
   let resultCode = await exec('git rev-list --count --left-only @{u}...HEAD', {
     log: false,
   });
