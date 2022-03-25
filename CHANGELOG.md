@@ -1,3 +1,6 @@
+## 0.6.1 (2022-03-25)
+- 添加--debug查看详细的输出信息 ([aa26f68](https://github.com/heny/git-auto-merge/commit/aa26f68))
+
 ## 0.6.0 (2022-03-25)
 - push之前先fetch ([b8f4687](https://github.com/heny/git-auto-merge/commit/b8f4687))
 - 调整拉取代码为merge  ([d187fc2](https://github.com/heny/git-auto-merge/commit/d187fc2))
