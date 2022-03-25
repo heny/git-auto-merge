@@ -1,3 +1,4 @@
+import { getGmOptions } from '@src/utils';
 import t from '@src/locale';
 import shelljs, { ExecOutputReturnValue } from 'shelljs';
 import chalk from 'chalk';
@@ -26,13 +27,19 @@ export async function getCurrentBranch() {
 }
 
 export async function getLastCode() {
-  let currentBranch = await getCurrentBranch();
-  await exec(`git fetch origin ${currentBranch} -q`);
-  let resultCode = await exec('git rev-list --count --left-only @{u}...HEAD', {
+  const options = getGmOptions();
+  const currentBranch = await getCurrentBranch();
+
+  const fetchCommand = ['git', 'fetch', 'origin', currentBranch];
+  if (!options.debug) fetchCommand.push('--quiet');
+
+  await exec(fetchCommand);
+
+  const resultCode = await exec('git rev-list --count --left-only @{u}...HEAD', {
     log: false,
   });
   if (+resultCode !== 0) {
-    let mergeResult = await exec('git merge', { errCaptrue: true });
+    const mergeResult = await exec('git merge', { errCaptrue: true });
     await checkMerge(mergeResult);
   }
 }
