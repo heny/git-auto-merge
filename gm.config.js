@@ -10,9 +10,9 @@ module.exports = {
     latest: false,
   },
   commitDefault: {
-    type: 'feat',
-    module: 'src',
-    message: 'logic',
+    type: 'build',
+    module: '',
+    message: 'update version',
   },
   callback: function (command) {
     if (command === 'publish') {

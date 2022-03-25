@@ -27,7 +27,7 @@ export async function getCurrentBranch() {
 
 export async function getLastCode() {
   let currentBranch = await getCurrentBranch();
-  await exec(`git fetch origin ${currentBranch}`);
+  await exec(`git fetch origin ${currentBranch} -q`);
   let resultCode = await exec('git rev-list --count --left-only @{u}...HEAD', {
     log: false,
   });

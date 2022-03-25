@@ -1,6 +1,7 @@
 ## 0.6.0 (2022-03-25)
 - push之前先fetch ([b8f4687](https://github.com/heny/git-auto-merge/commit/b8f4687))
 - 调整拉取代码为merge  ([d187fc2](https://github.com/heny/git-auto-merge/commit/d187fc2))
+- force参数改为强制提交  ([84487d4](https://github.com/heny/git-auto-merge/commit/84487d4))
 
 ## 0.5.1 (2022-03-16)
 - 修复合并分支时两次push ([3cb8970](https://github.com/heny/git-auto-merge/commit/3cb8970))
