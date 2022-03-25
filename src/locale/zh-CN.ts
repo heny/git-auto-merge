@@ -30,7 +30,7 @@ export default function (config: Options) {
     CLI_PUBLISH_DESC: '发布代码到npm',
     CLI_COMMIT_DESC: '添加提交信息',
     CLI_BRANCH_DESC: '要合并的分支，多个用空格分隔',
-    CLI_FORCE_DESC: '当分支不存在时自动创建',
+    CLI_FORCE_DESC: '强制提交',
     CLI_VERSION_DESC: '输出当前版本号',
     CLI_CURRENT_VERSION: '当前版本号：',
     CLI_VERSION_GET_LATEST: '获取最新版本号...',

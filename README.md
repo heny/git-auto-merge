@@ -32,7 +32,7 @@ Options:
   -v, --version                          output the current version
   -m, --commit <commit>                  [push] Add commit information
   --part                                 [push] Partial submission of documents only
-  -f, --force                            [push] Automatically created when branch does not exist
+  -f, --force                            [push] force update
   -b, --branch <branch...>               [merge] Branches to be merged, multiple separated by spaces
   -l, --latest                           [publish] Publish the latest patch version
   -p, --publish-branch <publish-branch>  [publish] Fill in a branch name and publish to npm
@@ -53,6 +53,7 @@ Code Merge: `git-auto merge` or `git-auto merge -m 'feat(src): logic' -b uat sit
 Code Publish: `git-auto publish` or `git-auto publish -m 'feat(src): logic' -b uat sit -p master -lt`
 
 View help: `git-auto -h`
+View Detail Input: `DEBUG=exec git-auto <option>`
 
 ## Optional
 ### Add Command

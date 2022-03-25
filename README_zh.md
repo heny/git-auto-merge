@@ -31,7 +31,7 @@ Options:
   -v, --version                          输出当前版本号
   -m, --commit <commit>                  [push] 添加提交信息
   --part                                 [push] 只提交部分文件
-  -f, --force                            [push] 当分支不存在时自动创建
+  -f, --force                            [push] 强制提交
   -b, --branch <branch...>               [merge] 要合并的分支，多个用空格分隔
   -l, --latest                           [publish] 发布最新的patch版本
   -p, --publish-branch <publish-branch>  [publish] 填写一个分支名称，发布到npm
@@ -52,6 +52,8 @@ Commands:
 代码发布: `git-auto publish` or `git-auto publish -m 'feat(src): logic' -b uat sit -p master -lt`
 
 查看帮助: `git-auto -h`
+
+查看更详细的输出: `DEBUG=exec git-auto <option>`
 
 ## 可选项
 ### 添加命令

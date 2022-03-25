@@ -34,7 +34,7 @@ export default function (config: Options) {
     CLI_PUBLISH_DESC: 'Publish code to npm',
     CLI_COMMIT_DESC: 'Add commit information',
     CLI_BRANCH_DESC: 'Branches to be merged, multiple separated by spaces',
-    CLI_FORCE_DESC: 'Automatically created when branch does not exist',
+    CLI_FORCE_DESC: 'force updates',
     CLI_VERSION_DESC: 'output the current version',
     CLI_PUBLISH_BRANCH_DESC: 'Fill in a branch name and publish to npm',
     CLI_PUBLISH_LATEST_DESC: 'Publish the latest patch version',

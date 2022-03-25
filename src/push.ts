@@ -37,7 +37,9 @@ export async function pushStart() {
 
   await getLastCode();
 
-  let pushResult = await exec('git push', { errCaptrue: true });
+  let pushCommands = ['git', 'push'];
+  if (options.force) pushCommands.push('--force');
+  let pushResult = await exec(pushCommands, { errCaptrue: true });
   if (pushResult.code !== 0) {
     preLog(chalk.redBright(t('PUSH_FAIL')));
   }

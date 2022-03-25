@@ -15,10 +15,7 @@ const debug = debugs('exec');
 /**
  * warn: wrapHandle must await, Nested functions with one less await will no longer wait
  */
-export async function wrapHandle(
-  func: () => Promise<any>,
-  command: CommandName
-): Promise<any> {
+export async function wrapHandle(func: () => Promise<any>, command: CommandName): Promise<any> {
   const options = getGmOptions();
   const isCurrentCommand = options.commandName === command;
   const isMeasureTime = isCurrentCommand && getExecTool() === 'npm';
@@ -85,9 +82,7 @@ export function preLog(str: string) {
   const config = getConfig();
   const logPrefix =
     config.logPrefix ||
-    `[${chalk.blueBright('web')}/${chalk.blueBright(
-      dayjs().format('HH:mm:ss')
-    )}]:`;
+    `[${chalk.blueBright('web')}/${chalk.blueBright(dayjs().format('HH:mm:ss'))}]:`;
   console.log(logPrefix, str);
 }
 
@@ -97,18 +92,16 @@ export function getExecTool() {
   return 'npm';
 }
 
-export function exec(
-  cmd: string,
-  options: ExecOptions = {}
-): Promise<ShellString> {
+export function exec(cmd: string | string[], options: ExecOptions = {}): Promise<ShellString> {
   const { errCaptrue = false, log = true, ...rest } = options;
+  cmd = Array.isArray(cmd) ? cmd.join(' ') : cmd;
   debug(cmd);
 
   if (log) preLog(chalk.cyan(cmd));
   if (!log) Object.assign(rest, { silent: true });
 
   return new Promise((resolve, reject) => {
-    let result = shelljs.exec(cmd, rest);
+    let result = shelljs.exec(cmd as string, rest);
     if (errCaptrue) return resolve(result);
     if (result.code !== 0) {
       reject();
@@ -119,10 +112,7 @@ export function exec(
   });
 }
 
-export async function prompt(
-  message: string,
-  options?: Partial<prompts.PromptObject>
-) {
+export async function prompt(message: string, options?: Partial<prompts.PromptObject>) {
   const { commit } = await prompts(
     {
       type: 'text',
