@@ -1,10 +1,10 @@
 import { exec, prompt, preLog, getConfig, getGmOptions, wrapHandle } from './utils';
 import {
-  checkPull,
+  checkMerge,
   checkHasUpstream,
   getOriginBranches,
   getCurrentBranch,
-  localIsLatest,
+  getLastCode,
   gitStatus,
 } from './utils/git';
 import chalk from 'chalk';
@@ -23,16 +23,12 @@ async function mergeStart(branch: string, mergeBranch: string) {
     return;
   }
 
-  let isLatest = await localIsLatest();
-  if (!isLatest) {
-    const pullResult = await exec('git pull', { errCaptrue: true });
-    await checkPull(pullResult);
-  }
+  await getLastCode();
 
   let mergeResult = await exec(`git merge origin/${mergeBranch}`, {
     errCaptrue: true,
   });
-  await checkPull(mergeResult);
+  await checkMerge(mergeResult);
 
   await exec('git push');
 }

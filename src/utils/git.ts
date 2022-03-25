@@ -25,12 +25,16 @@ export async function getCurrentBranch() {
   return curBranch;
 }
 
-export async function localIsLatest() {
-  await exec('git fetch');
+export async function getLastCode() {
+  let currentBranch = await getCurrentBranch();
+  await exec(`git fetch origin ${currentBranch}`);
   let resultCode = await exec('git rev-list --count --left-only @{u}...HEAD', {
     log: false,
   });
-  return resultCode === '0';
+  if (+resultCode !== 0) {
+    let mergeResult = await exec('git merge', { errCaptrue: true });
+    await checkMerge(mergeResult);
+  }
 }
 
 export async function getOriginBranches() {
@@ -56,7 +60,7 @@ export async function getChangeFiles() {
     .filter(Boolean);
 }
 
-export function checkPull(result: ExecOutputReturnValue, message?: string): Promise<void> {
+export function checkMerge(result: ExecOutputReturnValue, message?: string): Promise<void> {
   return new Promise((resolve, reject) => {
     if (result.code === 0) return resolve();
 

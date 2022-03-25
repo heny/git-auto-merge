@@ -1,11 +1,10 @@
 import { exec, prompt, preLog, getConfig, getGmOptions, wrapHandle } from '@src/utils';
 import {
-  checkPull,
   checkBranchExist,
   checkHasUpstream,
   getCurrentBranch,
   getChangeFiles,
-  localIsLatest,
+  getLastCode,
   gitStatus,
 } from '@src/utils/git';
 import chalk from 'chalk';
@@ -36,11 +35,7 @@ export async function pushStart() {
     return;
   }
 
-  let isLatest = await localIsLatest();
-  if (!isLatest) {
-    const pullResult = await exec('git pull', { errCaptrue: true });
-    await checkPull(pullResult);
-  }
+  await getLastCode();
 
   let pushResult = await exec('git push', { errCaptrue: true });
   if (pushResult.code !== 0) {
