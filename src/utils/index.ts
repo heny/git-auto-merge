@@ -95,10 +95,16 @@ export function getExecTool() {
 export function exec(cmd: string | string[], options: ExecOptions = {}): Promise<ShellString> {
   const { errCaptrue = false, log = true, ...rest } = options;
   cmd = Array.isArray(cmd) ? cmd.join(' ') : cmd;
-  debug(cmd);
+  const { debug: detailOutput } = getGmOptions();
 
-  if (log) preLog(chalk.cyan(cmd));
-  if (!log) Object.assign(rest, { silent: true });
+  if (detailOutput || log) {
+    preLog(chalk.cyan(cmd));
+  }
+  if (!detailOutput && !log) {
+    Object.assign(rest, { silent: true });
+  }
+
+  debug(cmd);
 
   return new Promise((resolve, reject) => {
     let result = shelljs.exec(cmd as string, rest);

@@ -29,6 +29,7 @@ Usage: git-auto <command> [options]
 Options:
   -h, --help                             查看帮助
   -v, --version                          输出当前版本号
+  --debug                                查看详细的输出信息
   -m, --commit <commit>                  [push] 添加提交信息
   --part                                 [push] 只提交部分文件
   -f, --force                            [push] 强制提交
@@ -52,8 +53,6 @@ Commands:
 代码发布: `git-auto publish` or `git-auto publish -m 'feat(src): logic' -b uat sit -p master -lt`
 
 查看帮助: `git-auto -h`
-
-查看更详细的输出: `DEBUG=exec git-auto <option>`
 
 ## 可选项
 ### 添加命令

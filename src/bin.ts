@@ -38,6 +38,7 @@ export function registerCommand() {
   program
     .option('-h, --help', t('CLI_HELP_DESC'), () => program.help())
     .option('-v, --version', t('CLI_VERSION_DESC'), showVersion)
+    .option('--debug', t('CLI_DEBUG_DESC'))
     .option('-m, --commit <commit>', `[push] ${t('CLI_COMMIT_DESC')}`)
     .option('--part', `[push] ${t('CLI_PUBLISH_PART_DESC')}`)
     .option('-f, --force', `[push] ${t('CLI_FORCE_DESC')}`)

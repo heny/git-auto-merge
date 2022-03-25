@@ -52,6 +52,8 @@ export interface GmOptions {
   tag?: boolean | string;
   /** 只提交部分文件 */
   part?: boolean;
+  /** 查看详细的描述信息 */
+  debug?: boolean;
   /** 当前命令名字：push、publish、merge */
   commandName?: CommandName;
 }

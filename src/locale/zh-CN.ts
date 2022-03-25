@@ -24,6 +24,7 @@ export default function (config: Options) {
     MERGE_SUCCESS: '合并成功🎉🎉🎉',
     MERGE_FAIL_CONFLICT: '合并分支失败，请解决冲突之后，执行以下命令：',
     NETWORK_FAIL: '网络连接异常，请检查当前网络！',
+    CLI_DEBUG_DESC: '查看详细的输出信息',
     CLI_INIT_DESC: '在package.json下添加脚本命令',
     CLI_PUSH_DESC: '推送当前分支到远程仓库',
     CLI_MERGE_DESC: '合并分支到当前其他分支',

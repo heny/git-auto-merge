@@ -28,6 +28,7 @@ export default function (config: Options) {
       'The merge branch failed. After resolving the conflict, execute the following command:',
     NETWORK_FAIL:
       'There is a problem with the network connection, please check the current network!',
+    CLI_DEBUG_DESC: 'View detailed output',
     CLI_INIT_DESC: 'Add the script command under package.json',
     CLI_PUSH_DESC: 'Push the current branch to remote',
     CLI_MERGE_DESC: 'Merge the current branch to another remote branch',

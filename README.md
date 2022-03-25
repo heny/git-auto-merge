@@ -30,6 +30,7 @@ Usage: git-auto <command> [options]
 Options:
   -h, --help                             Display help information
   -v, --version                          output the current version
+  --debug                                View detailed output
   -m, --commit <commit>                  [push] Add commit information
   --part                                 [push] Partial submission of documents only
   -f, --force                            [push] force update
@@ -53,7 +54,6 @@ Code Merge: `git-auto merge` or `git-auto merge -m 'feat(src): logic' -b uat sit
 Code Publish: `git-auto publish` or `git-auto publish -m 'feat(src): logic' -b uat sit -p master -lt`
 
 View help: `git-auto -h`
-View Detail Input: `DEBUG=exec git-auto <option>`
 
 ## Optional
 ### Add Command
