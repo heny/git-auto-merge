@@ -4,16 +4,20 @@ English | [中文文档](./README_zh.md)
 
 ### Push
 **Quick**
+
 ![git-auto-push-quick.gif](https://pic.peo.pw/a/2022/10/18/634d894cd74a1.gif)
 
 **with the option**
+
 ![git-auto-push.gif](https://pic.peo.pw/a/2022/10/18/634d894b00c30.gif)
 
 ### Merge
 **Quick**
+
 ![git-auto-merge-quick.gif](https://pic.peo.pw/a/2022/10/18/634d894b8bc2c.gif)
 
 **with the option**
+
 ![git-auto-merge.gif](https://pic.peo.pw/a/2022/10/18/634d894b899c4.gif)
 
 ## Introduction

@@ -3,16 +3,20 @@
 ## 示例
 ### 推送
 **快速合并**
+
 ![git-auto-push-quick.gif](https://pic.peo.pw/a/2022/10/18/634d894cd74a1.gif)
 
 **选择选项合并**
+
 ![git-auto-push.gif](https://pic.peo.pw/a/2022/10/18/634d894b00c30.gif)
 
 ### 合并
 **快速合并**
+
 ![git-auto-merge-quick.gif](https://pic.peo.pw/a/2022/10/18/634d894b8bc2c.gif)
 
 **选择选项合并**
+
 ![git-auto-merge.gif](https://pic.peo.pw/a/2022/10/18/634d894b899c4.gif)
 
 
