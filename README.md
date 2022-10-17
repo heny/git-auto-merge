@@ -2,11 +2,19 @@ English | [中文文档](./README_zh.md)
 
 ## Example
 
-### Code Push
-![img](https://s4.ax1x.com/2021/12/27/TBRXFO.gif)
+### Push
+**Quick**
+![git-auto-push-quick.gif](https://pic.peo.pw/a/2022/10/18/634d894cd74a1.gif)
 
-### Code Merge
-![img](https://s4.ax1x.com/2021/12/27/TBRol9.gif)
+**with the option**
+![git-auto-push.gif](https://pic.peo.pw/a/2022/10/18/634d894b00c30.gif)
+
+### Merge
+**Quick**
+![git-auto-merge-quick.gif](https://pic.peo.pw/a/2022/10/18/634d894b8bc2c.gif)
+
+**with the option**
+![git-auto-merge.gif](https://pic.peo.pw/a/2022/10/18/634d894b899c4.gif)
 
 ## Introduction
 1. Execute commands to automatically push code to remote servers, no more manual add, commit, push; 

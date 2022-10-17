@@ -1,11 +1,19 @@
 中文文档 | [English](README.md)
 
 ## 示例
-### 代码推送
-![img](https://s4.ax1x.com/2021/12/27/TBRXFO.gif)
+### 推送
+**快速合并**
+![git-auto-push-quick.gif](https://pic.peo.pw/a/2022/10/18/634d894cd74a1.gif)
 
-### 代码合并
-![img](https://s4.ax1x.com/2021/12/27/TBRol9.gif)
+**选择选项合并**
+![git-auto-push.gif](https://pic.peo.pw/a/2022/10/18/634d894b00c30.gif)
+
+### 合并
+**快速合并**
+![git-auto-merge-quick.gif](https://pic.peo.pw/a/2022/10/18/634d894b8bc2c.gif)
+
+**选择选项合并**
+![git-auto-merge.gif](https://pic.peo.pw/a/2022/10/18/634d894b899c4.gif)
 
 
 ## 简介
