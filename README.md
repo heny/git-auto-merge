@@ -5,20 +5,20 @@ English | [中文文档](./README_zh.md)
 ### Push
 **Quick**
 
-![git-auto-push-quick.gif](https://pic.peo.pw/a/2022/10/18/634d894cd74a1.gif)
+![git-auto-push-quick.gif](./assets/git-auto-push-quick.gif)
 
 **with the option**
 
-![git-auto-push.gif](https://pic.peo.pw/a/2022/10/18/634d894b00c30.gif)
+![git-auto-push.gif](./assets/auto-push.gif)
 
 ### Merge
 **Quick**
 
-![git-auto-merge-quick.gif](https://pic.peo.pw/a/2022/10/18/634d894b8bc2c.gif)
+![git-auto-merge-quick.gif](./assets/git-auto-merge-quick.gif)
 
 **with the option**
 
-![git-auto-merge.gif](https://pic.peo.pw/a/2022/10/18/634d894b899c4.gif)
+![git-auto-merge.gif](./assets/git-auto-merge.gif)
 
 ## Introduction
 1. Execute commands to automatically push code to remote servers, no more manual add, commit, push; 
