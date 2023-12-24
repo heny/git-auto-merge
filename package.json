@@ -1,6 +1,6 @@
 {
   "name": "git-auto-merge",
-  "version": "0.6.3",
+  "version": "0.6.2",
   "description": "git auto push and merge",
   "bin": {
     "git-auto": "./bin/git-auto.js"

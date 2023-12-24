@@ -11,7 +11,8 @@ import {
   getConfig,
   wrapHandle,
   getLatestVersion,
-  printInline
+  printInline,
+  isCommandAvailable
 } from './utils';
 import chalk from 'chalk';
 import { getCurrentBranch, getOriginBranches } from './utils/git';
@@ -20,15 +21,18 @@ import semver from 'semver';
 import t from '@src/locale';
 
 async function checkVersionExist(version?: string) {
-  const json = getPackageJson();
-  version = version || json.version;
+  return new Promise(async (resolve) => {
+    const json = getPackageJson();
+    version = version || json.version;
 
-  const isCurrentExist = await exec(`npm view ${json.name}@${version}`, {
-    log: false,
-    errCaptrue: true,
-  });
-  if (isCurrentExist.code !== 0) return false;
-  return isCurrentExist.stdout !== '';
+    const isCurrentExist = await exec(`npm view ${json.name}@${version}`, {
+      log: false,
+      errCaptrue: true,
+    });
+
+    if (isCurrentExist.code !== 0) resolve(false);
+    resolve(isCurrentExist.stdout !== '');
+  })
 }
 
 async function reacquireVersion() {
@@ -76,14 +80,14 @@ async function modifyVersion() {
 
 async function publishBefore() {
   // check command
-  printInline(chalk.cyan('校验包源'))
+  printInline(chalk.cyan(t('PUBLISH_CHECK_REGISTRY_TYPE')))
   if (getExecTool() !== 'npm') {
     preLog(chalk.red(t('PUBLISH_NOT_NPM')));
     process.exit(0);
   }
 
   // check registry
-  printInline(chalk.cyan('校验当前源'))
+  printInline(chalk.cyan(t('PUBLISH_CHECK_REGISTRY')))
   let npmRegistry = await exec('npm config get registry', { log: false });
   if (npmRegistry.trim() !== 'https://registry.npmjs.org/') {
     preLog(chalk.red(t('PUBLISH_NPM_REGISTRY_ERROR')));
@@ -91,7 +95,7 @@ async function publishBefore() {
   }
 
   // check login
-  printInline(chalk.cyan('校验当前登录状态'))
+  printInline(chalk.cyan(t('PUBLISH_CHECK_LOGIN')))
   let loginStatus = await exec('npm whoami', { log: false, errCaptrue: true });
   if (loginStatus.code !== 0) {
     preLog(chalk.red(t('PUBLISH_NPM_LOGIN_ERROR')));
@@ -165,16 +169,35 @@ async function publishAfter() {
   }
 }
 
+async function addChangeLog() {
+  const isChangeLog = await prompt(t('CLI_HAS_CHANGELOG'), {
+    type: 'confirm',
+    initial: true
+  })
+  if (!isChangeLog) return;
+  preLog(chalk.cyan(t('CLI_START_CHANGELOG')))
+
+  const hasAble = await isCommandAvailable('conventional-changelog --version')
+
+  if (!hasAble) {
+    console.log(chalk.red(t('CLI_COMMAND_CHANGELOG_NOT')))
+    process.exit(0)
+  }
+
+  await exec('conventional-changelog -p angular -i CHANGELOG.md -s', { log: false })
+}
+
 async function publish() {
   await wrapHandle(async function () {
     preLog(chalk.cyan(t('PUBLISH_CALCULATING')));
     await publishBefore();
 
-    // 版本存在再修改
-    preLog(chalk.cyan('获取服务器当前版本...'))
+    preLog(chalk.cyan(t('PUBLISH_START_ORIGIN_VERSION')))
     if (await checkVersionExist()) {
       await modifyVersion();
     }
+
+    await addChangeLog()
 
     await publishBranch();
 

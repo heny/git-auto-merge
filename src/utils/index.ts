@@ -9,6 +9,19 @@ import { ExecOptions, GmOptions, CommandName } from '@src/common/interface';
 import path from 'path';
 import { readFileSync } from 'fs';
 import debugs from 'debug';
+import { promisify } from 'util';
+import { exec as execCallback } from 'child_process';
+
+const originExec = promisify(execCallback);
+
+export async function isCommandAvailable(command: string) {
+  try {
+    await originExec(command);
+    return true;
+  } catch (error) {
+    return false;
+  }
+}
 
 const debug = debugs('exec');
 
