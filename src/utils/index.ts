@@ -92,7 +92,7 @@ export function printInline(message: string) {
 }
 
 export function preLog(str: string) {
-  process.stdout.write('\n');
+  process.stdout.write('\r');
   const log = getPrintPre()
   console.log(log, str);
 }
