@@ -78,12 +78,23 @@ export function types(key: any): Types {
   return Object.prototype.toString.call(key).slice(8, -1) as Types;
 }
 
-export function preLog(str: string) {
+export function getPrintPre() {
   const config = getConfig();
   const logPrefix =
     config.logPrefix ||
     `[${chalk.blueBright('web')}/${chalk.blueBright(dayjs().format('HH:mm:ss'))}]:`;
-  console.log(logPrefix, str);
+  return logPrefix;
+}
+
+export function printInline(message: string) {
+  message = getPrintPre() + ' ' + message
+  process.stdout.write(`\r${(message)}`);
+}
+
+export function preLog(str: string) {
+  process.stdout.write('\n');
+  const log = getPrintPre()
+  console.log(log, str);
 }
 
 export function getExecTool() {

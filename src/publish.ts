@@ -11,6 +11,7 @@ import {
   getConfig,
   wrapHandle,
   getLatestVersion,
+  printInline
 } from './utils';
 import chalk from 'chalk';
 import { getCurrentBranch, getOriginBranches } from './utils/git';
@@ -75,12 +76,14 @@ async function modifyVersion() {
 
 async function publishBefore() {
   // check command
+  printInline(chalk.cyan('校验包源'))
   if (getExecTool() !== 'npm') {
     preLog(chalk.red(t('PUBLISH_NOT_NPM')));
     process.exit(0);
   }
 
   // check registry
+  printInline(chalk.cyan('校验当前源'))
   let npmRegistry = await exec('npm config get registry', { log: false });
   if (npmRegistry.trim() !== 'https://registry.npmjs.org/') {
     preLog(chalk.red(t('PUBLISH_NPM_REGISTRY_ERROR')));
@@ -88,6 +91,7 @@ async function publishBefore() {
   }
 
   // check login
+  printInline(chalk.cyan('校验当前登录状态'))
   let loginStatus = await exec('npm whoami', { log: false, errCaptrue: true });
   if (loginStatus.code !== 0) {
     preLog(chalk.red(t('PUBLISH_NPM_LOGIN_ERROR')));
@@ -167,6 +171,7 @@ async function publish() {
     await publishBefore();
 
     // 版本存在再修改
+    preLog(chalk.cyan('获取服务器当前版本...'))
     if (await checkVersionExist()) {
       await modifyVersion();
     }

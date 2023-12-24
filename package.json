@@ -9,7 +9,7 @@
     "rebuild": "rm -rf dist && tsc",
     "deploy": "rm -rf dist && tsc && node ./bin/git-auto publish",
     "g": "yarn rebuild && node ./bin/git-auto",
-    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s && git add CHANGELOG.md",
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
     "gm": "npm run rebuild && node ./bin/git-auto merge",
     "gp": "npm run rebuild && node ./bin/git-auto push",
     "gpb": "npm run rebuild && node ./bin/git-auto publish"
