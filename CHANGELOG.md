@@ -1,3 +1,14 @@
+## [0.6.3](https://github.com/heny/git-auto-merge/compare/v0.6.2...v0.6.3) (2023-12-24)
+
+
+### Features
+
+* 添加单行输出 ([e8134a6](https://github.com/heny/git-auto-merge/commit/e8134a68150b7a123b57f52f62c8532fcc19506f))
+* 支持日志输出 ([0183e7b](https://github.com/heny/git-auto-merge/commit/0183e7bc9804cd26c3d6ea479e55e102eb8d7524))
+* prelog替换之前的单行输出 ([cad585d](https://github.com/heny/git-auto-merge/commit/cad585d17dddc19e2f3ed609eb94abe36b3890e4))
+
+
+
 ## [0.6.2](https://github.com/heny/git-auto-merge/compare/v0.6.1...v0.6.2) (2022-03-25)
 
 
