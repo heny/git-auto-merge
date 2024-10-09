@@ -2,7 +2,8 @@ import { Command } from 'commander';
 import t from '@src/locale';
 import merge from './merge';
 import publish from './publish';
-import { pushHandle } from './push';
+// 修改这一行
+import Push from './push';
 import { getLatestVersion } from './utils';
 import { GIT_AUTO_PACKAGE_NAME } from '@src/common/constant';
 import chalk from 'chalk';
@@ -66,7 +67,8 @@ export function registerCommand() {
     .description(t('CLI_PUSH_DESC'))
     .action(() => {
       process.env.GM_OPTIONS = JSON.stringify({ ...program.opts(), commandName: 'push' });
-      pushHandle();
+      // 修改这一行
+      Push.pushHandle();
     });
 
   program

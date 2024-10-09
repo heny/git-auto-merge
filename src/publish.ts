@@ -1,6 +1,7 @@
 import { writeFileSync } from 'fs';
 import merge from './merge';
-import { pushHandle } from './push';
+// 修改这一行
+import Push from './push';
 import {
   exec,
   preLog,
@@ -20,191 +21,193 @@ import { PACKAGE_JSON_PATH, VERSION_TYPE } from './common/constant';
 import semver from 'semver';
 import t from '@src/locale';
 
-async function checkVersionExist(version?: string) {
-  return new Promise(async (resolve) => {
+class Publish {
+  private async checkVersionExist(version?: string): Promise<boolean> {
+    return new Promise(async (resolve) => {
+      const json = getPackageJson();
+      version = version || json.version;
+
+      const isCurrentExist = await exec(`npm view ${json.name}@${version}`, {
+        log: false,
+        errCaptrue: true,
+      });
+
+      if (isCurrentExist.code !== 0) resolve(false);
+      resolve(isCurrentExist.stdout !== '');
+    });
+  }
+
+  private async reacquireVersion(): Promise<string> {
+    let version = await prompt(t('PUBLISH_VERSION_EXIST'));
+    if (!semver.valid(version) || (await this.checkVersionExist(version)))
+      version = await this.reacquireVersion();
+    return version;
+  }
+
+  private async modifyVersion(): Promise<void> {
+    const options = getGmOptions();
+    const config = getConfig();
     const json = getPackageJson();
-    version = version || json.version;
 
-    const isCurrentExist = await exec(`npm view ${json.name}@${version}`, {
-      log: false,
-      errCaptrue: true,
-    });
+    const latestVersion = await getLatestVersion();
+    if (options.latest || config?.publish?.latest) {
+      json.version = semver.inc(latestVersion, 'patch');
+    } else {
+      const choices = VERSION_TYPE.map((item) =>
+        semver.inc(latestVersion, item, item !== 'prerelease' ? 'alpha' : '')
+      ).map((value, i) => ({
+        title: `${VERSION_TYPE[i]} ${value}`,
+        value,
+      }));
 
-    if (isCurrentExist.code !== 0) resolve(false);
-    resolve(isCurrentExist.stdout !== '');
-  })
-}
+      json.version = await prompt(t('PUBLISH_SELECT_VERSION'), {
+        type: 'select',
+        choices: choices.concat({
+          title: 'custom',
+          value: 'custom',
+        }),
+      });
 
-async function reacquireVersion() {
-  let version = await prompt(t('PUBLISH_VERSION_EXIST'));
-  if (!semver.valid(version) || (await checkVersionExist(version)))
-    version = await reacquireVersion();
-  return version;
-}
+      if (json.version === 'custom') {
+        let version = await prompt(t('PUBLISH_INPUT_VERSION'));
+        if (!semver.valid(version) || (await this.checkVersionExist(version)))
+          version = await this.reacquireVersion();
+        json.version = version;
+      }
+    }
 
-async function modifyVersion() {
-  const options = getGmOptions();
-  const config = getConfig();
-  const json = getPackageJson();
+    writeFileSync(PACKAGE_JSON_PATH, JSON.stringify(json, null, 2));
+    preLog(chalk.cyan(t('PUBLISH_CURRENT_VERSION', { version: json.version })));
+  }
 
-  const latestVersion = await getLatestVersion();
-  if (options.latest || config?.publish?.latest) {
-    json.version = semver.inc(latestVersion, 'patch');
-  } else {
-    const choices = VERSION_TYPE.map((item) =>
-      semver.inc(latestVersion, item, item !== 'prerelease' ? 'alpha' : '')
-    ).map((value, i) => ({
-      title: `${VERSION_TYPE[i]} ${value}`,
-      value,
-    }));
+  private async publishBefore(): Promise<void> {
+    // 检查命令
+    printInline(chalk.cyan(t('PUBLISH_CHECK_REGISTRY_TYPE')))
+    if (getExecTool() !== 'npm') {
+      preLog(chalk.red(t('PUBLISH_NOT_NPM')));
+      process.exit(0);
+    }
 
-    json.version = await prompt(t('PUBLISH_SELECT_VERSION'), {
-      type: 'select',
-      choices: choices.concat({
-        title: 'custom',
-        value: 'custom',
-      }),
-    });
+    // 检查注册表
+    printInline(chalk.cyan(t('PUBLISH_CHECK_REGISTRY')))
+    let npmRegistry = await exec('npm config get registry', { log: false });
+    if (npmRegistry.trim() !== 'https://registry.npmjs.org/') {
+      preLog(chalk.red(t('PUBLISH_NPM_REGISTRY_ERROR')));
+      process.exit(0);
+    }
 
-    if (json.version === 'custom') {
-      let version = await prompt(t('PUBLISH_INPUT_VERSION'));
-      if (!semver.valid(version) || (await checkVersionExist(version)))
-        version = await reacquireVersion();
-      json.version = version;
+    // 检查登录状态
+    printInline(chalk.cyan(t('PUBLISH_CHECK_LOGIN')))
+    let loginStatus = await exec('npm whoami', { log: false, errCaptrue: true });
+    if (loginStatus.code !== 0) {
+      preLog(chalk.red(t('PUBLISH_NPM_LOGIN_ERROR')));
+      process.exit(0);
     }
   }
 
-  writeFileSync(PACKAGE_JSON_PATH, JSON.stringify(json, null, 2));
-  preLog(chalk.cyan(t('PUBLISH_CURRENT_VERSION', { version: json.version })));
-}
+  private async publishBranch(): Promise<void> {
+    const options = getGmOptions();
+    const config = getConfig();
 
-async function publishBefore() {
-  // check command
-  printInline(chalk.cyan(t('PUBLISH_CHECK_REGISTRY_TYPE')))
-  if (getExecTool() !== 'npm') {
-    preLog(chalk.red(t('PUBLISH_NOT_NPM')));
-    process.exit(0);
+    let publishBranch = options.publishBranch || config?.publish?.branch || '';
+    const curBranch = await getCurrentBranch();
+
+    if (!publishBranch) {
+      const choices = await getOriginBranches();
+      switch (choices.length) {
+        case 0:
+          publishBranch = curBranch;
+          break;
+        case 1:
+          publishBranch = choices[0];
+          break;
+        default:
+          publishBranch = await prompt(t('PUBLISH_SELECT_BRANCH'), {
+            type: 'select',
+            choices: choices.map((value) => ({ title: value, value })),
+          });
+      }
+    }
+
+    const isCurrentBranch = curBranch === publishBranch;
+
+    if (isCurrentBranch) {
+      await Push.pushHandle();
+    } else {
+      process.env.PUBLISH_BRANCH = publishBranch;
+      await merge();
+      await exec(`git checkout ${publishBranch}`);
+    }
+
+    await exec('npm publish');
+    if (!isCurrentBranch) await exec('git checkout ' + curBranch);
   }
 
-  // check registry
-  printInline(chalk.cyan(t('PUBLISH_CHECK_REGISTRY')))
-  let npmRegistry = await exec('npm config get registry', { log: false });
-  if (npmRegistry.trim() !== 'https://registry.npmjs.org/') {
-    preLog(chalk.red(t('PUBLISH_NPM_REGISTRY_ERROR')));
-    process.exit(0);
+  private async createTag(): Promise<void> {
+    const options = getGmOptions();
+
+    const curVersion = `v${getPackageJson().version}`;
+    let tagName = typeof options.tag === 'string' ? options.tag : curVersion;
+    let desc = curVersion;
+
+    const tag = getConfig()?.publish?.tag;
+    if (!tag && !options.tag) {
+      tagName = await prompt(t('PUBLISH_CREATE_NAME'), { initial: curVersion });
+      desc = await prompt(t('PUBLISH_CREATE_DESC'), { initial: curVersion });
+    }
+
+    await exec(`git tag -a ${tagName} -m ${desc}`);
+    await exec(`git push origin ${tagName}`);
+    preLog(chalk.cyan(t('PUBLISH_CREATE_TAG_SUCCESS', { tagName })));
   }
 
-  // check login
-  printInline(chalk.cyan(t('PUBLISH_CHECK_LOGIN')))
-  let loginStatus = await exec('npm whoami', { log: false, errCaptrue: true });
-  if (loginStatus.code !== 0) {
-    preLog(chalk.red(t('PUBLISH_NPM_LOGIN_ERROR')));
-    process.exit(0);
-  }
-}
-
-async function publishBranch() {
-  const options = getGmOptions();
-  const config = getConfig();
-
-  let publishBranch = options.publishBranch || config?.publish?.branch || '';
-  const curBranch = await getCurrentBranch();
-
-  if (!publishBranch) {
-    const choices = await getOriginBranches();
-    switch (choices.length) {
-      case 0:
-        publishBranch = curBranch;
-        break;
-      case 1:
-        publishBranch = choices[0];
-        break;
-      default:
-        publishBranch = await prompt(t('PUBLISH_SELECT_BRANCH'), {
-          type: 'select',
-          choices: choices.map((value) => ({ title: value, value })),
-        });
+  private async publishAfter(): Promise<void> {
+    const tag = getConfig()?.publish?.tag;
+    if (tag) {
+      await this.createTag();
+    } else {
+      let isCreateTag = await prompt(t('PUBLISH_CREATE_TAG'), { type: 'confirm', initial: true });
+      if (isCreateTag) await this.createTag();
     }
   }
 
-  const isCurrentBranch = curBranch === publishBranch;
+  private async addChangeLog(): Promise<void> {
+    const isChangeLog = await prompt(t('CLI_HAS_CHANGELOG'), {
+      type: 'confirm',
+      initial: true
+    })
+    if (!isChangeLog) return;
+    preLog(chalk.cyan(t('CLI_START_CHANGELOG')))
 
-  if (isCurrentBranch) {
-    await pushHandle();
-  } else {
-    process.env.PUBLISH_BRANCH = publishBranch;
-    await merge();
-    await exec(`git checkout ${publishBranch}`);
-  }
+    const hasAble = await isCommandAvailable('conventional-changelog --version')
 
-  await exec('npm publish');
-  if (!isCurrentBranch) await exec('git checkout ' + curBranch);
-}
-
-async function createTag() {
-  const options = getGmOptions();
-
-  const curVersion = `v${getPackageJson().version}`;
-  let tagName = typeof options.tag === 'string' ? options.tag : curVersion;
-  let desc = curVersion;
-
-  const tag = getConfig()?.publish?.tag;
-  if (!tag && !options.tag) {
-    tagName = await prompt(t('PUBLISH_CREATE_NAME'), { initial: curVersion });
-    desc = await prompt(t('PUBLISH_CREATE_DESC'), { initial: curVersion });
-  }
-
-  await exec(`git tag -a ${tagName} -m ${desc}`);
-  await exec(`git push origin ${tagName}`);
-  preLog(chalk.cyan(t('PUBLISH_CREATE_TAG_SUCCESS', { tagName })));
-}
-
-async function publishAfter() {
-  const tag = getConfig()?.publish?.tag;
-  if (tag) {
-    await createTag();
-  } else {
-    let isCreateTag = await prompt(t('PUBLISH_CREATE_TAG'), { type: 'confirm', initial: true });
-    if (isCreateTag) await createTag();
-  }
-}
-
-async function addChangeLog() {
-  const isChangeLog = await prompt(t('CLI_HAS_CHANGELOG'), {
-    type: 'confirm',
-    initial: true
-  })
-  if (!isChangeLog) return;
-  preLog(chalk.cyan(t('CLI_START_CHANGELOG')))
-
-  const hasAble = await isCommandAvailable('conventional-changelog --version')
-
-  if (!hasAble) {
-    console.log(chalk.red(t('CLI_COMMAND_CHANGELOG_NOT')))
-    process.exit(0)
-  }
-
-  await exec('conventional-changelog -p angular -i CHANGELOG.md -s', { log: false })
-}
-
-async function publish() {
-  await wrapHandle(async function () {
-    preLog(chalk.cyan(t('PUBLISH_CALCULATING')));
-    await publishBefore();
-
-    preLog(chalk.cyan(t('PUBLISH_START_ORIGIN_VERSION')))
-    if (await checkVersionExist()) {
-      await modifyVersion();
+    if (!hasAble) {
+      console.log(chalk.red(t('CLI_COMMAND_CHANGELOG_NOT')))
+      process.exit(0)
     }
 
-    await addChangeLog()
+    await exec('conventional-changelog -p angular -i CHANGELOG.md -s', { log: false })
+  }
 
-    await publishBranch();
+  public async publish(): Promise<void> {
+    await wrapHandle(async () => {
+      preLog(chalk.cyan(t('PUBLISH_CALCULATING')));
+      await this.publishBefore();
 
-    preLog(chalk.green(t('PUBLISH_SUCCESS')));
+      preLog(chalk.cyan(t('PUBLISH_START_ORIGIN_VERSION')))
+      if (await this.checkVersionExist()) {
+        await this.modifyVersion();
+      }
 
-    await publishAfter();
-  }, 'publish');
+      await this.addChangeLog()
+
+      await this.publishBranch();
+
+      preLog(chalk.green(t('PUBLISH_SUCCESS')));
+
+      await this.publishAfter();
+    }, 'publish');
+  }
 }
 
-export default publish;
+export default new Publish().publish;

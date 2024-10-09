@@ -49,6 +49,7 @@
   },
   "devDependencies": {
     "@types/debug": "^4.1.7",
+    "@types/node": "^22.7.5",
     "@types/prompts": "^2.0.14",
     "@types/semver": "^7.3.9",
     "@types/shelljs": "^0.8.10",
