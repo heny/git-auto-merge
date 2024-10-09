@@ -64,7 +64,9 @@ class GitUtils {
    */
   public async checkIfUpToDate(curBranch: string, targetBranch: string): Promise<boolean> {
     try {
-      const result = await exec(`git rev-list --count --left-right ${curBranch}...origin/${targetBranch}`);
+      const result = await exec(`git rev-list --count --left-right ${curBranch}...origin/${targetBranch}`, {
+        log: false
+      });
       const [ahead, behind] = result.trim().split('\t').map(Number);
       return ahead === 0 && behind === 0;
     } catch (error) {

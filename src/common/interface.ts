@@ -30,7 +30,13 @@ export interface Config {
 }
 
 export interface ExecOptions {
+  /**
+   * 是否捕获错误
+   */
   errCaptrue?: boolean;
+  /**
+   * 是否输出日志
+   */
   log?: boolean;
   [key: string]: any;
 }
