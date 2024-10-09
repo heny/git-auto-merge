@@ -1,6 +1,5 @@
 import { writeFileSync } from 'fs';
 import merge from './merge';
-// 修改这一行
 import Push from './push';
 import {
   exec,
@@ -16,7 +15,7 @@ import {
   isCommandAvailable
 } from './utils';
 import chalk from 'chalk';
-import { getCurrentBranch, getOriginBranches } from './utils/git';
+import GitUtils from './utils/git';
 import { PACKAGE_JSON_PATH, VERSION_TYPE } from './common/constant';
 import semver from 'semver';
 import t from '@src/locale';
@@ -110,10 +109,10 @@ class Publish {
     const config = getConfig();
 
     let publishBranch = options.publishBranch || config?.publish?.branch || '';
-    const curBranch = await getCurrentBranch();
+    const curBranch = await GitUtils.getCurrentBranch();
 
     if (!publishBranch) {
-      const choices = await getOriginBranches();
+      const choices = await GitUtils.getOriginBranches();
       switch (choices.length) {
         case 0:
           publishBranch = curBranch;
@@ -189,7 +188,7 @@ class Publish {
     await exec('conventional-changelog -p angular -i CHANGELOG.md -s', { log: false })
   }
 
-  public async publish(): Promise<void> {
+  public publish = async (): Promise<void> => {
     await wrapHandle(async () => {
       preLog(chalk.cyan(t('PUBLISH_CALCULATING')));
       await this.publishBefore();

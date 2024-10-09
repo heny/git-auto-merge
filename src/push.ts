@@ -1,12 +1,5 @@
 import { exec, prompt, preLog, getConfig, getGmOptions, wrapHandle } from '@src/utils';
-import {
-  checkBranchExist,
-  checkHasUpstream,
-  getCurrentBranch,
-  getChangeFiles,
-  getLastCode,
-  gitStatus,
-} from '@src/utils/git';
+import GitUtils from '@src/utils/git';
 import chalk from 'chalk';
 import { COMMIT_OPTS } from '@src/common/constant';
 import t from '@src/locale';
@@ -15,9 +8,9 @@ import shelljs from 'shelljs';
 class Push {
   public async pushStart() {
     const options = getGmOptions();
-    const curBranch = await getCurrentBranch();
+    const curBranch = await GitUtils.getCurrentBranch();
 
-    let checkFlag = await checkBranchExist(curBranch);
+    let checkFlag = await GitUtils.checkBranchExist(curBranch);
     if (!checkFlag) {
       if (!options.force) {
         let isCreateBranch = await prompt(t('CUR_BRANCH_NOT_EXIST'), {
@@ -30,13 +23,13 @@ class Push {
       return Promise.resolve();
     }
 
-    let hasUpstream = await checkHasUpstream(curBranch);
+    let hasUpstream = await GitUtils.checkHasUpstream(curBranch);
     if (!hasUpstream) {
       await exec(`git push --set-upstream origin ${curBranch}`);
       return;
     }
 
-    await getLastCode();
+    await GitUtils.pullLastCode();
 
     let pushCommands = ['git', 'push'];
     if (options.force) pushCommands.push('--force');
@@ -76,7 +69,7 @@ class Push {
   }
 
   private async getPartFiles() {
-    let files = await getChangeFiles();
+    let files = await GitUtils.getChangeFiles();
     return prompt(t('PUSH_SELECT_PART_FILE'), {
       type: 'multiselect',
       choices: files.map((value) => ({ title: value, value })),
@@ -85,7 +78,7 @@ class Push {
 
   public async pushHandle() {
     await wrapHandle(async () => {
-      let { needPush, isLastUpdate, hasChange } = await gitStatus();
+      let { needPush, isLastUpdate, hasChange } = await GitUtils.gitStatus();
 
       if (isLastUpdate) {
         preLog(chalk(t('CONTENT_IS_UPTODATE')));
