@@ -57,6 +57,22 @@ class GitUtils {
   }
 
   /**
+   * @name 检查分支是否是最新
+   * @param curBranch 当前分支
+   * @param targetBranch 目标分支
+   * @returns 是否是最新
+   */
+  public async checkIfUpToDate(curBranch: string, targetBranch: string): Promise<boolean> {
+    try {
+      const result = await exec(`git rev-list --count --left-right ${curBranch}...origin/${targetBranch}`);
+      const [ahead, behind] = result.trim().split('\t').map(Number);
+      return ahead === 0 && behind === 0;
+    } catch (error) {
+      return false;
+    }
+  }
+
+  /**
    * 获取远程分支
    * @returns 远程分支列表
    */

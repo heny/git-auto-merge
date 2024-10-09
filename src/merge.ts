@@ -31,7 +31,7 @@ class Merge {
 
     await GitUtils.pullLastCode();
 
-    await this.mergeCode([mergeBranch]);
+    await this.mergeCode([mergeBranch], branch);
   }
 
   /**
@@ -42,19 +42,25 @@ class Merge {
    *  2. 检查合并结果
    * @returns 
    */
-  private async mergeCode(mergeBranch: string[]) {
+  private async mergeCode(mergeBranch: string[], curBranch: string) {
+    let shouldPush = false;
     await mergeBranch.reduce(
       (promise: Promise<any>, branch: string) => promise.then(() => new Promise(async (resolve, reject) => {
+        let isUpToDate = await GitUtils.checkIfUpToDate(curBranch, branch);
+        if (isUpToDate) return resolve(void 0);
         let mergeResult = await exec(`git merge origin/${branch}`, {
           errCaptrue: true,
         });
         await GitUtils.checkMerge(mergeResult);
+        shouldPush = true;
         resolve(void 0);
       })),
       Promise.resolve()
     );
 
-    await exec('git push');
+    if (shouldPush) {
+      await exec('git push');
+    }
   }
 
   /**
@@ -155,7 +161,7 @@ class Merge {
    */
   private async mergeAfter(mergeBranches: string[], curBranch: string) {
     if (mergeBranches.length === 1) {
-      await this.mergeCode(mergeBranches);
+      await this.mergeCode(mergeBranches, curBranch);
       return;
     }
 
@@ -164,7 +170,7 @@ class Merge {
       choices: mergeBranches.map((value) => ({ title: value, value })),
     });
 
-    await this.mergeCode(mergeBranchs);
+    await this.mergeCode(mergeBranchs, curBranch);
   }
 
   public merge = () => {
