@@ -1,3 +1,15 @@
+# [0.7.0](https://github.com/heny/git-auto-merge/compare/0.6.3...0.7.0) (2024-10-09)
+
+
+### Features
+
+* 调整合并分支之后本地也合并 ([f8f81d2](https://github.com/heny/git-auto-merge/commit/f8f81d24a6cdf417a9daea9609a155c2257a6e8f))
+* 调整拉取远端时增加校验 ([ec1a5bb](https://github.com/heny/git-auto-merge/commit/ec1a5bb0af9596d872f00c9439d9b768a5195608))
+* 改成类文件 ([32baa82](https://github.com/heny/git-auto-merge/commit/32baa82d3d07e4f3d3c1788a9cf17e209923299d))
+* **merge:** 校验本地是否需要merge ([eb2f668](https://github.com/heny/git-auto-merge/commit/eb2f668df316d3e051a6af6d0dd34c814e88f507))
+
+
+
 ## [0.6.3](https://github.com/heny/git-auto-merge/compare/v0.6.2...v0.6.3) (2023-12-24)
 
 

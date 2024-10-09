@@ -55,6 +55,7 @@ export default function (config: Options) {
     PUBLISH_CHECK_REGISTRY: '校验当前源',
     PUBLISH_CHECK_LOGIN: '校验当前登录状态',
     PUBLISH_START_ORIGIN_VERSION: '开始获取服务器当前最新版本...',
+    PUBLISH_VERSION_CHECK_ERROR: '获取版本信息失败，请检查网络！',
     CLI_HAS_CHANGELOG: '是否需要更新日志',
     CLI_START_CHANGELOG: '开始更新CHANGELOG',
     CLI_COMMAND_CHANGELOG_NOT: '当前命令不可用，请执行 npm install -g conventional-changelog-cli 进行安装后再继续',

@@ -62,6 +62,7 @@ export default function (config: Options) {
     PUBLISH_CHECK_REGISTRY: 'Check current registry',
     PUBLISH_CHECK_LOGIN: 'Check current login status',
     PUBLISH_START_ORIGIN_VERSION: 'Start fetching the latest version from the server...',
+    PUBLISH_VERSION_CHECK_ERROR: 'Failed to get version information, please check the network!',
     CLI_HAS_CHANGELOG: 'Do you need to update the changelog?',
     CLI_START_CHANGELOG: 'Start updating CHANGELOG',
     CLI_COMMAND_CHANGELOG_NOT: 'The current command is not available. Please execute "npm install -g conventional-changelog-cli" to install it before continuing.',

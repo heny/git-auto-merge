@@ -19,6 +19,9 @@ import GitUtils from './utils/git';
 import { PACKAGE_JSON_PATH, VERSION_TYPE } from './common/constant';
 import semver from 'semver';
 import t from '@src/locale';
+import fs from 'fs';
+import os from 'os';
+import path from 'path';
 
 class Publish {
   private async checkVersionExist(version?: string): Promise<boolean> {
@@ -97,11 +100,21 @@ class Publish {
 
     // 检查登录状态
     printInline(chalk.cyan(t('PUBLISH_CHECK_LOGIN')))
-    let loginStatus = await exec('npm whoami', { log: false, errCaptrue: true });
-    if (loginStatus.code !== 0) {
+    if (!this.checkNpmLogin()) {
       preLog(chalk.red(t('PUBLISH_NPM_LOGIN_ERROR')));
       process.exit(0);
     }
+  }
+
+  private checkNpmLogin(): boolean {
+    const npmrcPath = path.join(os.homedir(), '.npmrc');
+    
+    if (!fs.existsSync(npmrcPath)) {
+      return false;
+    }
+
+    const npmrcContent = fs.readFileSync(npmrcPath, 'utf8');
+    return npmrcContent.includes('//registry.npmjs.org/:_authToken=');
   }
 
   private async publishBranch(): Promise<void> {
